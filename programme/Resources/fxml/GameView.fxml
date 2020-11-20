@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="654.0" prefWidth="490.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameView">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+          <GridPane gridLinesVisible="true">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+              </rowConstraints>
+          </GridPane>
+            <GridPane gridLinesVisible="true">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
