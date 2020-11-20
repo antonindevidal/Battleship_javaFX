@@ -1,4 +1,4 @@
-package Game;
+package game;
 
 public class Cell {
     private boolean hit;
@@ -15,6 +15,10 @@ public class Cell {
 
     public Ship getShip() {
         return ship;
+    }
+
+    public void setShip(Ship ship) {
+        this.ship=ship;
     }
 
     public boolean shoot()

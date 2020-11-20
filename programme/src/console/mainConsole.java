@@ -1,12 +1,13 @@
-package Console;
+package console;
 
-import Game.Board;
+import game.Board;
 
 public class mainConsole {
     public static void main(String[] args) {
-        System.out.println("test");
         Board b = new Board();
-        b.shoot(5,5);
+        System.out.println(b);
+        boolean test=b.placeShip(0,0,3,true);
+        b.placeShip(9,7,3,false);
         System.out.println(b);
     }
 
