@@ -400,7 +400,7 @@
 											"top": 181,
 											"width": 117.4443359375,
 											"height": 13,
-											"text": "+isDead(): Boolean",
+											"text": "+hasLost(): Boolean",
 											"horizontalAlignment": 0
 										}
 									],
@@ -614,7 +614,7 @@
 											"top": 157,
 											"width": 138.3916015625,
 											"height": 13,
-											"text": "+hasBeenHit(): Boolean",
+											"text": "+isHit(): Boolean",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1109,9 +1109,9 @@
 										"$ref": "AAAAAAF11lRiB5JAXFw="
 									},
 									"font": "Arial;13;0",
-									"left": 503,
+									"left": 502,
 									"top": 148,
-									"width": 5.05908203125,
+									"width": 6.5,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 25,
@@ -2515,7 +2515,8 @@
 							"_parent": {
 								"$ref": "AAAAAAF11kzegJA1+5U="
 							},
-							"name": "nbShip"
+							"name": "nbShip",
+							"type": ""
 						}
 					],
 					"operations": [
@@ -2525,7 +2526,7 @@
 							"_parent": {
 								"$ref": "AAAAAAF11kzegJA1+5U="
 							},
-							"name": "isDead",
+							"name": "hasLost",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -2627,7 +2628,7 @@
 							"_parent": {
 								"$ref": "AAAAAAF11lEkgpBr4zs="
 							},
-							"name": "hasBeenHit",
+							"name": "isHit",
 							"parameters": [
 								{
 									"_type": "UMLParameter",

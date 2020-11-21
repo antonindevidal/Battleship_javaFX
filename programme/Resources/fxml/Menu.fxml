@@ -9,7 +9,7 @@
    <children>
       <BorderPane AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
          <center>
-            <Button mnemonicParsing="false" text="PLAY" textAlignment="CENTER" BorderPane.alignment="CENTER">
+            <Button mnemonicParsing="false" text="PLAY" textAlignment="CENTER" BorderPane.alignment="CENTER" fx:id="playButton" onAction="#boutonClick">
                <font>
                   <Font size="24.0" />
                </font>

@@ -2,7 +2,7 @@ package game;
 
 public class Board {
 
-    private static final int gridSize = 10;
+    public static final int gridSize = 10;
     private Cell[][] grid = new Cell[10][10];
     private int nbShip;
 
@@ -19,14 +19,28 @@ public class Board {
         }
     }
 
+    public Cell getCell(int x, int y)
+    {
+        return grid[y][x];
+    }
     public boolean hasLost()
     {
+
         return nbShip<=0;
     }
 
-    public boolean shoot(int x, int y)
+    public Game.shootResult shoot(int x, int y)
     {
-        return grid[y][x].shoot();
+        Game.shootResult sR =grid[y][x].shoot();
+        if(sR == Game.shootResult.hit)
+        {
+            if(!grid[y][x].getShip().isAlive())
+            {
+                nbShip--;
+                return Game.shootResult.sink;
+            }
+        }
+        return sR;
     }
 
     public boolean canPlaceShip(int x,int y,int size,boolean horizontal)
@@ -35,12 +49,15 @@ public class Board {
         {
             for(int i=0;i<size;i++)
             {
-                if(x+i >= gridSize || grid[y+i][x].hasShip())
+                if(x+i >= gridSize )
+                {
+                    return false;
+                }
+                if (grid[y][x+i].hasShip())
                 {
                     return false;
                 }
             }
-            return true;
         }
         else {
             for(int i=0;i<size;i++)
@@ -50,8 +67,8 @@ public class Board {
                     return false;
                 }
             }
-            return true;
         }
+        return true;
 
     }
     public boolean placeShip(int x,int y,int size,boolean horizontal)

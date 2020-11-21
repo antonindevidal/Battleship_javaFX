@@ -1,14 +1,21 @@
 package controller;
 
+
+
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 
 public class Menu {
-    public Label texte;
-    public Button bouton;
+    public Button playButton;
 
-    public void boutonClick(ActionEvent actionEvent) {
-        texte.setText("ça marche");
+    private void boutonClick(ActionEvent actionEvent) {
+
     }
+
+
+
+
+
 }

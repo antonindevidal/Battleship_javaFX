@@ -21,25 +21,34 @@ public class Cell {
         this.ship=ship;
     }
 
-    public boolean shoot()
+
+    public Cell() {
+        this.hit = false;
+        this.ship = null;
+    }
+
+    //return false if boat already hit
+    //return true if shoot was good
+    public Game.shootResult shoot()
     {
         if (isHit())
-            return false;
+        {
+            //cell already hit
+            return Game.shootResult.alreadyHit;
+        }
         else
         {
             if (hasShip())
             {
                 ship.hit();
+                //hit shot
+                hit=true;
+                return Game.shootResult.hit;
             }
-            hit=true;
-
-            return true;
+            //miss shot
+            hit =true;
+            return Game.shootResult.miss;
         }
-    }
-
-    public Cell() {
-        this.hit = false;
-        this.ship = null;
     }
 
 
