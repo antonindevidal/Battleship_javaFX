@@ -30,6 +30,7 @@ public class GameView implements Initializable {
     private Game game;
 
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         for(int i=0;i<10;i++)
@@ -76,13 +77,23 @@ public class GameView implements Initializable {
     private void clickComputerGrid(MouseEvent mouseEvent) {
         if (game.getPartOfGame() == Game.jeu.joue)
         {
+            Thread threadComputer = new Thread(){
+                public void run()
+                {
+                    game.computerShoot();
+                    setPlayerColors(playerGrid.getChildren());
+                }
+            };
             int x= (int)floor(mouseEvent.getX()/computerGrid.getHeight()*10);
             int y= (int)floor(mouseEvent.getY()/computerGrid.getWidth()*10);
 
-            Game.shootResult sR =game.shoot(x, y);
+            Game.shootResult sR =game.playerShoot(x, y);
+            setComputerColors(computerGrid.getChildren());
+
             showPlayerShootResult(sR);
 
-            setComputerColors(computerGrid.getChildren());
+            threadComputer.start();
+
         }
 
     }
@@ -152,8 +163,7 @@ public class GameView implements Initializable {
                     stackPane.setStyle("-fx-background-color: #ff0000");
                 else if (c.isHit() && !c.hasShip())
                     stackPane.setStyle("-fx-background-color: #0022ff");
-                else if (!c.isHit() && c.hasShip())
-                    stackPane.setStyle("-fx-background-color: #26941e");
+
             }
         }
     }
