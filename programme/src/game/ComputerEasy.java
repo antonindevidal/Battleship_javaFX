@@ -42,7 +42,20 @@ public class ComputerEasy extends Computer {
 
 
     @Override
-    public void shoot() {
+    public Game.shootResult shoot(Board board) {
+        Random r = new Random();
+        int x=0,y=0;
 
+        Game.shootResult sR = Game.shootResult.alreadyHit;
+
+        while( sR == Game.shootResult.alreadyHit)
+        {
+            x=r.nextInt((board.gridSize-1) + 1) ;
+            y=r.nextInt((board.gridSize-1) + 1) ;
+
+            sR = board.shoot(x,y);
+        }
+
+        return sR;
     }
 }

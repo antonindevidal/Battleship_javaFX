@@ -78,30 +78,44 @@ public class Game {
 
         }
     }
-    public shootResult shoot(int x,int y)
+    public shootResult playerShoot(int x,int y)
     {
-        if(partOfGame == jeu.joue)
-        {
-            if(playerTurn)
-            {
-                shootResult shootResult= ordi.shoot(x,y);
-                if(shootResult != Game.shootResult.alreadyHit)
-                {
-                    if (ordi.hasLost())
-                    {
-                        partOfGame= jeu.fin;
-                        //Player won
-                    }
+        shootResult shootResult =null;
+
+        if (playerTurn) {
+            shootResult = ordi.shoot(x, y);
+            if (shootResult != Game.shootResult.alreadyHit) {
+                if (ordi.hasLost()) {
+                    partOfGame = jeu.fin;
+                    //Player won
+                }
+                if (shootResult == Game.shootResult.miss) {
                     playerTurn = false;
                 }
-                return shootResult;
             }
-            playerTurn=true;
+
         }
-        return null;
+        return shootResult;
 
     }
 
+    public void computerShoot()
+    {
+     while(!playerTurn)
+        {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            shootResult cR = computer.shoot(player);
+            if(cR == Game.shootResult.miss)
+            {
+                playerTurn = true;
+            }
+            else System.out.println("joue 2 fois");
+        }
+    }
 
 
 }
