@@ -1,6 +1,18 @@
 package game;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Board {
+    public static final Map<String,String> imagesBateaux= new HashMap<String, String>() {{
+        put("front","/images/frontBoat.png");
+        put("body","/images/boatChest.png");
+        put("target","/images/target.png");
+        put("redCross","/images/redCross.png");
+    }};
+
+
+
 
     public static final int gridSize = 10;
     private Cell[][] grid = new Cell[10][10];
@@ -34,11 +46,16 @@ public class Board {
         Game.shootResult sR =grid[y][x].shoot();
         if(sR == Game.shootResult.hit)
         {
+            grid[y][x].setBoatImage(imagesBateaux.get("target"));
             if(!grid[y][x].getShip().isAlive())
             {
                 nbShip--;
                 return Game.shootResult.sink;
             }
+        }
+        else
+        {
+            grid[y][x].setBoatImage(imagesBateaux.get("redCross"));
         }
         return sR;
     }
@@ -81,6 +98,21 @@ public class Board {
                 for (int i=0; i<size;i++)
                 {
                     grid[y][x+i].setShip(ship);
+                    grid[y][x+i].setImageRotation(90);
+                    if (i==0)
+                    {
+                        grid[y][x+i].setBoatImage(imagesBateaux.get("front"));
+                        grid[y][x+i].setImageRotation(270);
+                    }
+                    else if(i == size-1)
+                    {
+                        grid[y][x+i].setBoatImage(imagesBateaux.get("front"));
+
+                    }
+                    else
+                    {
+                        grid[y][x+i].setBoatImage(imagesBateaux.get("body"));
+                    }
                 }
                 return true;
             }
@@ -89,6 +121,19 @@ public class Board {
                 for (int i=0; i<size;i++)
                 {
                     grid[y+i][x].setShip(ship);
+                    if (i==0)
+                    {
+                        grid[y+i][x].setBoatImage(imagesBateaux.get("front"));
+                    }
+                    else if(i == size-1)
+                    {
+                        grid[y+i][x].setBoatImage(imagesBateaux.get("front"));
+                        grid[y+i][x].setImageRotation(180);
+                    }
+                    else
+                    {
+                        grid[y+i][x].setBoatImage(imagesBateaux.get("body"));
+                    }
                 }
                 return true;
             }

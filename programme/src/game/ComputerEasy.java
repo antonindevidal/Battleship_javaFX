@@ -29,7 +29,6 @@ public class ComputerEasy extends Computer {
                      h=true;
                  else
                      h=false;
-
                  placed=board.placeShip(x,y,boatToPlace.get(0),h);
 
 

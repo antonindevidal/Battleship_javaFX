@@ -10,10 +10,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Popup;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,12 +36,20 @@ public class GameView implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
         for(int i=0;i<10;i++)
         {
             for(int j=0;j<10;j++)
             {
-                playerGrid.add(new StackPane(),j,i);
-                computerGrid.add(new StackPane(),j,i);
+                ImageView iv = new ImageView();
+                iv.setFitHeight(30);
+                iv.setFitWidth(30);
+                playerGrid.add(iv,j,i);
+                ImageView iv2 = new ImageView();
+                iv2.setFitHeight(30);
+                iv2.setFitWidth(30);
+                computerGrid.add(iv2,j,i);
             }
         }
     }
@@ -140,14 +151,13 @@ public class GameView implements Initializable {
         {
             for(int y=0;y<10;y++)
             {
-                StackPane stackPane =(StackPane) children.get(y*10+x+1);
+                ImageView imageView =(ImageView)children.get(y*10+x+1);
                 Cell c =game.getPlayer().getCell(x,y);
-                if (c.isHit() && c.hasShip())
-                    stackPane.setStyle("-fx-background-color: #ff0000");
-                else if (c.isHit() && !c.hasShip())
-                    stackPane.setStyle("-fx-background-color: #0022ff");
-                else if (!c.isHit() && c.hasShip())
-                    stackPane.setStyle("-fx-background-color: #26941e");
+                if(c.getBoatImage() != null)
+                {
+                    imageView.setRotate(c.getImageRotation());
+                    imageView.setImage(new Image(c.getBoatImage()));
+                }
             }
         }
     }
@@ -157,12 +167,14 @@ public class GameView implements Initializable {
         {
             for(int y=0;y<10;y++)
             {
-                StackPane stackPane =(StackPane) children.get(y*10+x+1);
+                ImageView imageView =(ImageView)children.get(y*10+x+1);
                 Cell c =game.getOrdi().getCell(x,y);
-                if (c.isHit() && c.hasShip())
-                    stackPane.setStyle("-fx-background-color: #ff0000");
-                else if (c.isHit() && !c.hasShip())
-                    stackPane.setStyle("-fx-background-color: #0022ff");
+                if(c.getBoatImage() != null && c.getBoatImage()!=game.getPlayer().imagesBateaux.get("front")  && c.getBoatImage()!=game.getPlayer().imagesBateaux.get("body"))
+                {
+
+                    imageView.setRotate(c.getImageRotation());
+                    imageView.setImage(new Image(c.getBoatImage()));
+                }
 
             }
         }

@@ -3,6 +3,24 @@ package game;
 public class Cell {
     private boolean hit;
     private Ship ship;
+    private String boatImage = null;
+    private int imageRotation=0;
+
+    public String getBoatImage() {
+        return boatImage;
+    }
+
+    public void setBoatImage(String boatImage) {
+        this.boatImage = boatImage;
+    }
+
+    public int getImageRotation() {
+        return imageRotation;
+    }
+
+    public void setImageRotation(int imageRotation) {
+        this.imageRotation = imageRotation;
+    }
 
     public boolean isHit() {
         return hit;
