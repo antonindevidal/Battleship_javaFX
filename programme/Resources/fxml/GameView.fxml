@@ -16,7 +16,7 @@
                         <Font name="Calibri" size="32.0" />
                      </font>
                   </Label>
-                <GridPane fx:id="computerGrid" gridLinesVisible="true" onMousePressed="#clickComputerGrid">
+                <GridPane fx:id="computerGrid" gridLinesVisible="true" onMousePressed="#clickComputerGrid" style="-fx-background-color: #60acee;">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
@@ -50,7 +50,7 @@
                      <font>
                         <Font name="Calibri" size="32.0" />
                      </font></Label>
-                  <GridPane fx:id="playerGrid" gridLinesVisible="true" onMousePressed="#clickPlayerGrid">
+                  <GridPane fx:id="playerGrid" gridLinesVisible="true" onMousePressed="#clickPlayerGrid" style="-fx-background-color: #60acee;">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />

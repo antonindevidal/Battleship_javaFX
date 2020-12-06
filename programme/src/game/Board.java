@@ -53,11 +53,28 @@ public class Board {
                 return Game.shootResult.sink;
             }
         }
-        else
+        else if(sR == Game.shootResult.miss)
         {
             grid[y][x].setBoatImage(imagesBateaux.get("redCross"));
         }
         return sR;
+    }
+
+    private boolean checkCellsAround(int x,int y)
+    {
+        if (x <10 && y<10 &&!grid[y][x].hasShip() )
+        {
+            if(x+1 < 10 && grid[y][x+1].hasShip())
+                return false;
+            if(x-1 >= 0 && grid[y][x-1].hasShip())
+                return false;
+            if(y+1 < 10 && grid[y+1][x].hasShip())
+                return false;
+            if(y-1 >= 0 && grid[y-1][x].hasShip())
+                return false;
+            return true;
+        }
+        return false;
     }
 
     public boolean canPlaceShip(int x,int y,int size,boolean horizontal)
@@ -66,23 +83,15 @@ public class Board {
         {
             for(int i=0;i<size;i++)
             {
-                if(x+i >= gridSize )
-                {
+                if(!checkCellsAround(x+i,y))
                     return false;
-                }
-                if (grid[y][x+i].hasShip())
-                {
-                    return false;
-                }
             }
         }
         else {
             for(int i=0;i<size;i++)
             {
-                if(y+i >= gridSize || grid[y+i][x].hasShip())
-                {
+                if(!checkCellsAround(x,y+i))
                     return false;
-                }
             }
         }
         return true;
