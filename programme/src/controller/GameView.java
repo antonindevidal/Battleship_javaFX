@@ -2,12 +2,12 @@ package controller;
 
 import game.Cell;
 import game.Game;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -15,27 +15,54 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Popup;
 
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import static java.lang.Math.floor;
 
 public class GameView implements Initializable {
-    public GridPane playerGrid;
-    public GridPane computerGrid;
-    public Label hints;
-    public Label dialogu;
-    public Button restartButton;
+    @FXML
+    private GridPane playerGrid;
+    @FXML
+    private GridPane computerGrid;
+    @FXML
+    private Label hints;
+    @FXML
+    private Label dialogu;
+    @FXML
+    private Button restartButton;
 
     private Game game;
 
 
+    private StringProperty texte = new SimpleStringProperty("Orientation: Horizontal\n(right click to change)");
+        private String getTexte() {
+            return texte.get();
+        }
+        private StringProperty texteProperty() {
+            return texte;
+        }
+        private void setTexte(String texte) {
+            this.texte.set(texte);
+        }
+
+    private StringProperty hintsText = new SimpleStringProperty("Place your boats on the grid.5 boats left");
+        private String getHintsText() {
+            return hintsText.get();
+        }
+        private StringProperty hintsTextProperty() {
+            return hintsText;
+        }
+        private void setHintsText(String texte) {
+            this.hintsText.set(texte);
+        }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        dialogu.textProperty().bindBidirectional(texteProperty());
+        hints.textProperty().bindBidirectional(hintsTextProperty());
 
 
         for(int i=0;i<10;i++)
@@ -70,13 +97,13 @@ public class GameView implements Initializable {
             int y= (int)floor(mouseEvent.getY()/playerGrid.getWidth()*10);
 
             game.placeBoats(x, y, game.isHorizontal());
-            hints.setText("Place your boats on the grid."+game.getNbBoatToPlace()+" boats left");
+            setHintsText("Place your boats on the grid."+game.getNbBoatToPlace()+" boats left");
 
             setPlayerColors(playerGrid.getChildren());
 
             if(game.getNbBoatToPlace() <=0)
             {
-                hints.setText("The game started. Click on the top grid to shoot");
+                setHintsText("The game started. Click on the top grid to shoot");
             }
         }
 
@@ -112,16 +139,16 @@ public class GameView implements Initializable {
     private void showPlayerShootResult(Game.shootResult shootResult) {
 
         if(shootResult == Game.shootResult.alreadyHit)
-            hints.setText("You have already shoot this case, play again");
+            setHintsText("You have already shoot this case, play again");
         else if(shootResult == Game.shootResult.hit)
-            hints.setText("You have hit a ship! play again");
+            setHintsText("You have hit a ship! play again");
         else if(shootResult == Game.shootResult.miss)
-            hints.setText("You have missed your shot");
+            setHintsText("You have missed your shot");
         else if(shootResult == Game.shootResult.sink)
-            hints.setText("You have sinked a ship! play again");
+            setHintsText("You have sinked a ship! play again");
         if(game.getPartOfGame()== Game.jeu.fin)
         {
-            hints.setText("You win");
+            setHintsText("You win");
             restartButton.setVisible(true);
         }
 
@@ -137,10 +164,10 @@ public class GameView implements Initializable {
             game.setHorizontal(!game.isHorizontal());
             if (game.isHorizontal())
             {
-                dialogu.setText("Orientation: Horizontal\n(right click to change)");
+                setTexte("Orientation: Horizontal\n(right click to change)");
             }
             else
-                dialogu.setText("Orientation: Vertical\n (right click to change)");
+                setTexte("Orientation: Vertical\n (right click to change)");
         }
 
     }
@@ -195,7 +222,7 @@ public class GameView implements Initializable {
         restartButton.setVisible(false);
 
 
-        hints.setText("Place your boats on the grid."+game.getNbBoatToPlace()+" boats left");
+        setHintsText("Place your boats on the grid."+game.getNbBoatToPlace()+" boats left");
     }
 
     private void resetGridColor() {
