@@ -62,16 +62,12 @@ public class ComputerNormal extends Computer {
             {
                 case vertical:
                     shootVertical(board);
-                    System.out.println("hori");
                     break;
                 case horizontal:
                     shootHorizontal(board);
-                    System.out.println("verti");
-
                     break;
                 case neSaisPas:
                     adjaShoot(board,lastHit.getX(),lastHit.getY());
-                    System.out.println("adja x:" +lastHit.getX()+" y:"+lastHit.getY() + " traget:" + hasATarget);
 
                     if (lastShootResult == Game.shootResult.hit)
                         setLasthit(lastShoot.getX(),lastShoot.getY());
@@ -82,6 +78,9 @@ public class ComputerNormal extends Computer {
             {
                 hasATarget =false;
                 boatOrientation=orientation.neSaisPas;
+            }else if (lastShootResult == Game.shootResult.hit)
+            {
+                setLasthit(lastShoot.getX(),lastShoot.getY());
             }
 
         }
@@ -175,13 +174,23 @@ public class ComputerNormal extends Computer {
         paddingX =lastHit.getX() -boatFirstPos.getX() ;
         paddingY =lastHit.getY() -boatFirstPos.getY() ;
 
+
+
         if(paddingX != 0)
         {
             boatOrientation= orientation.horizontal;
+            if (paddingX >0)
+                findOnPositive=true;
+            else
+                findOnPositive=false;
         }
         else if(paddingY != 0)
         {
             boatOrientation= orientation.vertical;
+            if (paddingY >0)
+                findOnPositive=true;
+            else
+                findOnPositive=false;
         }
     }
 
@@ -193,14 +202,30 @@ public class ComputerNormal extends Computer {
             findOnPositive = !findOnPositive;
             setLasthit(boatFirstPos.getX(),boatFirstPos.getY());
         }
+        else if(findOnPositive && (nextX<9 &&board.getCell(nextX+1,lastHit.getY()).isHit()) || nextX ==9) {
+            findOnPositive = !findOnPositive;
+            setLasthit(boatFirstPos.getX(), boatFirstPos.getY());
+        }
+        else if(!findOnPositive && (nextX>0 && board.getCell(nextX-1,lastHit.getY()).isHit()) || nextX ==0)
+        {
+            findOnPositive = !findOnPositive;
+            setLasthit(boatFirstPos.getX(),boatFirstPos.getY());
+        }
+
 
         if (findOnPositive && nextX<9)
+        {
             nextX++;
+
+        }
         else if (!findOnPositive && nextX>0)
+        {
             nextX--;
+        }
 
 
         lastShootResult = board.shoot(nextX,lastHit.getY());
+        setLastShoot(nextX,lastHit.getY());
     }
 
     private void shootVertical(Board board)
@@ -219,6 +244,7 @@ public class ComputerNormal extends Computer {
 
 
         lastShootResult = board.shoot(lastHit.getX(),nextY);
+        setLastShoot(lastHit.getX(),nextY);
     }
 
 
