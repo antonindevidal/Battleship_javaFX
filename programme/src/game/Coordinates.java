@@ -1,6 +1,6 @@
 package game;
 
-public class coordinates {
+public class Coordinates {
 
     private int x;
     private int y;
@@ -21,8 +21,12 @@ public class coordinates {
         this.y = y;
     }
 
-    public coordinates(int x, int y) {
+    public Coordinates(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+    public Coordinates() {
+        this.x = 0;
+        this.y = 0;
     }
 }

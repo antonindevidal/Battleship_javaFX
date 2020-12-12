@@ -46,12 +46,15 @@ public class Game {
         return boatToPlace.size();
     }
 
+    public boolean isPlayerTurn() {
+        return playerTurn;
+    }
 
     public Game() {
         this.player = new Board();
         this.ordi = new Board();
 
-        computer = new ComputerEasy();
+        computer = new ComputerNormal();
 
         computer.placeBoats(ordi);
 
@@ -101,8 +104,6 @@ public class Game {
 
     public void computerShoot()
     {
-     while(!playerTurn)
-        {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -114,7 +115,7 @@ public class Game {
                 playerTurn = true;
             }
             else System.out.println("joue 2 fois");
-        }
+
     }
 
 

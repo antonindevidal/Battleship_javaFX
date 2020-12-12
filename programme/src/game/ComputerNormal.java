@@ -7,10 +7,11 @@ import java.util.Random;
 public class ComputerNormal extends Computer {
     private enum orientation{vertical,horizontal,neSaisPas}
 
-    private int lastShootX,lastShootY,lastHitx,lastHity;
+    private Coordinates lastShoot =new Coordinates(),lastHit=new Coordinates(), boatFirstPos=new Coordinates();
+
     private Game.shootResult lastShootResult = Game.shootResult.miss;
-    private boolean hasATarget;
-    private orientation ori=orientation.neSaisPas;
+    private boolean hasATarget, findOnPositive =true;
+    private orientation boatOrientation=orientation.neSaisPas;
 
 
     @Override
@@ -43,40 +44,49 @@ public class ComputerNormal extends Computer {
 
     @Override
     public Game.shootResult shoot(Board board) {
+
         Game.shootResult  res;
         if (!hasATarget)
         {
             res = randShoot(board);
             if(res == Game.shootResult.hit) {
                 hasATarget = true;
-                lastHitx = lastShootX;
-                lastHity = lastShootY;
+                setLasthit(lastShoot.getX(),lastShoot.getY());
+                setBoatFirstPos(lastShoot.getX(),lastShoot.getY());
             }
             return res;
         }
         else
         {
-            switch (ori)
+            switch (boatOrientation)
             {
                 case vertical:
+                    shootVertical(board);
+                    System.out.println("hori");
                     break;
                 case horizontal:
+                    shootHorizontal(board);
+                    System.out.println("verti");
+
                     break;
                 case neSaisPas:
-                    adjaShoot(board,lastHitx,lastHity);
+                    adjaShoot(board,lastHit.getX(),lastHit.getY());
+                    System.out.println("adja x:" +lastHit.getX()+" y:"+lastHit.getY() + " traget:" + hasATarget);
+
+                    if (lastShootResult == Game.shootResult.hit)
+                        setLasthit(lastShoot.getX(),lastShoot.getY());
+                        guessOrientation();
                     break;
-
             }
-
-
-
-
-
-
+            if (lastShootResult == Game.shootResult.sink)
+            {
+                hasATarget =false;
+                boatOrientation=orientation.neSaisPas;
+            }
 
         }
 
-        return null;
+        return lastShootResult;
     }
 
     private Game.shootResult randShoot(Board board)
@@ -93,19 +103,16 @@ public class ComputerNormal extends Computer {
 
             sR = board.shoot(x,y);
         }
-        setLastShoot(sR,x,y);
+        setLastShoot(x,y);
+        lastShootResult=sR;
         return sR;
     }
 
-    private Game.shootResult adjaShoot(Board board, int x, int y)
+    private void adjaShoot(Board board, int x, int y)
     {
         Random r = new Random();
         int cote,paddingx=0,paddingy=0;
 
-        if(allAdjacentHit(board,x,y))
-        {
-            goTootherSide(board);
-        }
 
         Game.shootResult sR = Game.shootResult.alreadyHit;
         while ( sR == Game.shootResult.alreadyHit)
@@ -114,30 +121,30 @@ public class ComputerNormal extends Computer {
             cote = r.nextInt((4-1) + 1);
             switch (cote){
                 case 0:
-                    if (x+1 >=10)
-                        break;
-                    paddingx=1;
+                    if (x+1 <10)
+                        paddingx=1;
+
                     break;
                 case 1:
-                    if (x-1 <0)
-                        break;
-                    paddingx=-1;
+                    if (x-1 >=0)
+                        paddingx=-1;
+
                     break;
                 case 2:
-                    if (y+1 >=10)
-                        break;
-                    paddingy=1;
+                    if (y+1 <10)
+                        paddingy=1;
                     break;
                 default:
-                    if (y-1 <0)
-                        break;
-                    paddingy=1;
+                    if (y-1 >=0)
+                        paddingy=-1;
+
                     break;
             }
             sR = board.shoot(x+paddingx,y+paddingy);
         }
-        setLastShoot(sR,x,y);
-        return sR;
+
+        setLastShoot(x+paddingx,y+paddingy);
+        lastShootResult=sR;
     }
 
     private boolean allAdjacentHit(Board board, int x, int y)
@@ -146,19 +153,73 @@ public class ComputerNormal extends Computer {
             return true;
         return false;
     }
-    private void setLastShoot(Game.shootResult sR,int x,int y)
+    private void setLastShoot(int x,int y)
     {
-        lastShootResult=sR;
-        lastShootX=x;
-        lastShootY=y;
+        lastShoot.setX(x);
+        lastShoot.setY(y);
+    }
+    private void setLasthit(int x,int y)
+    {
+        lastHit.setX(x);
+        lastHit.setY(y);
+    }
+    private void setBoatFirstPos(int x,int y)
+    {
+        boatFirstPos.setX(x);
+        boatFirstPos.setY(y);
     }
 
-    private void goTootherSide(Board board)
+    private void guessOrientation()
     {
-        int checkX=lastHitx,checkY=lastHity;
-        while(board.getCell(checkX,checkY).isHit())
-        {
+        int paddingX,paddingY;
+        paddingX =lastHit.getX() -boatFirstPos.getX() ;
+        paddingY =lastHit.getY() -boatFirstPos.getY() ;
 
+        if(paddingX != 0)
+        {
+            boatOrientation= orientation.horizontal;
+        }
+        else if(paddingY != 0)
+        {
+            boatOrientation= orientation.vertical;
         }
     }
+
+    private void shootHorizontal(Board board)
+    {
+        int nextX = lastHit.getX() ;
+        if(lastShootResult == Game.shootResult.miss)
+        {
+            findOnPositive = !findOnPositive;
+            setLasthit(boatFirstPos.getX(),boatFirstPos.getY());
+        }
+
+        if (findOnPositive && nextX<9)
+            nextX++;
+        else if (!findOnPositive && nextX>0)
+            nextX--;
+
+
+        lastShootResult = board.shoot(nextX,lastHit.getY());
+    }
+
+    private void shootVertical(Board board)
+    {
+        int nextY = lastHit.getY() ;
+        if(lastShootResult == Game.shootResult.miss)
+        {
+            findOnPositive = !findOnPositive;
+            setLasthit(boatFirstPos.getX(),boatFirstPos.getY());
+        }
+
+        if (findOnPositive && nextY <9)
+            nextY++;
+        else if(!findOnPositive && nextY>0)
+            nextY--;
+
+
+        lastShootResult = board.shoot(lastHit.getX(),nextY);
+    }
+
+
 }

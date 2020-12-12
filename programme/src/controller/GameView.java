@@ -118,8 +118,11 @@ public class GameView implements Initializable {
             Thread threadComputer = new Thread(){
                 public void run()
                 {
-                    game.computerShoot();
-                    setPlayerColors(playerGrid.getChildren());
+                    while(!game.isPlayerTurn())
+                    {
+                        game.computerShoot();
+                        setPlayerColors(playerGrid.getChildren());
+                    }
                 }
             };
             int x= (int)floor(mouseEvent.getX()/computerGrid.getHeight()*10);
