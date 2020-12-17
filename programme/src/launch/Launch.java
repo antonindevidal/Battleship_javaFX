@@ -15,13 +15,20 @@ public class Launch extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/GameView.fxml"));
-        stage.getIcons().add(new Image("images/ph.gif"));
-        stage.setHeight(900);
-        stage.setWidth(1000);
-        stage.setTitle("Battleship");
-        stage.setScene(new Scene(root,1000,1000));
-        stage.show();
+        try
+        {
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/Menu.fxml"));
+            stage.getIcons().add(new Image("images/ph.gif"));
+            stage.setHeight(300);
+            stage.setWidth(300);
+            stage.setTitle("Battleship");
+            stage.setScene(new Scene(root,200,200));
+            stage.show();
+        }catch (Exception e)
+        {
+            System.out.println(e);
+        }
+
 
 
 

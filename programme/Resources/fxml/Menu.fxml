@@ -1,27 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<?import javafx.scene.Group?>
 <AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Menu">
    <children>
       <BorderPane AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
-         <center>
-            <Button mnemonicParsing="false" text="PLAY" textAlignment="CENTER" BorderPane.alignment="CENTER" fx:id="playButton" onAction="#boutonClick">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Button>
-         </center>
          <top>
             <Label text="Battleship" BorderPane.alignment="CENTER">
                <font>
-                  <Font size="40.0" name="Roboto"/>
+                  <Font name="Roboto" size="40.0" />
                </font>
             </Label>
          </top>
+         <center>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <fx:define>
+                           <ToggleGroup fx:id="difficulte"></ToggleGroup>
+                        </fx:define>
+                        <RadioButton mnemonicParsing="false" text="Facile" fx:id="RBfacile">
+                           <HBox.margin>
+                              <Insets left="25.0" right="25.0" />
+                           </HBox.margin>
+                        </RadioButton>
+                        <RadioButton mnemonicParsing="false" text="Moyen" fx:id="RBmoyen">
+                           <HBox.margin>
+                              <Insets left="25.0" right="25.0" />
+                           </HBox.margin>
+                        </RadioButton>
+                     </children>
+                  </HBox>
+                  <Button fx:id="playButton" mnemonicParsing="false" onAction="#boutonClick" text="PLAY" textAlignment="CENTER">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </center>
       </BorderPane>
    </children>
 

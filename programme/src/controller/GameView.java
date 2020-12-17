@@ -65,20 +65,7 @@ public class GameView implements Initializable {
         hints.textProperty().bindBidirectional(hintsTextProperty());
 
 
-        for(int i=0;i<10;i++)
-        {
-            for(int j=0;j<10;j++)
-            {
-                ImageView iv = new ImageView();
-                iv.setFitHeight(30);
-                iv.setFitWidth(30);
-                playerGrid.add(iv,j,i);
-                ImageView iv2 = new ImageView();
-                iv2.setFitHeight(30);
-                iv2.setFitWidth(30);
-                computerGrid.add(iv2,j,i);
-            }
-        }
+        setBoards();
     }
 
     public GameView() {
@@ -99,7 +86,7 @@ public class GameView implements Initializable {
             game.placeBoats(x, y, game.isHorizontal());
             setHintsText("Place your boats on the grid."+game.getNbBoatToPlace()+" boats left");
 
-            setPlayerColors(playerGrid.getChildren());
+            setPlayerColors();
 
             if(game.getNbBoatToPlace() <=0)
             {
@@ -121,7 +108,7 @@ public class GameView implements Initializable {
                     while(!game.isPlayerTurn())
                     {
                         game.computerShoot();
-                        setPlayerColors(playerGrid.getChildren());
+                        setPlayerColors();
                     }
                 }
             };
@@ -129,7 +116,7 @@ public class GameView implements Initializable {
             int y= (int)floor(mouseEvent.getY()/computerGrid.getWidth()*10);
 
             Game.shootResult sR =game.playerShoot(x, y);
-            setComputerColors(computerGrid.getChildren());
+            setComputerColors();
 
             showPlayerShootResult(sR);
 
@@ -151,7 +138,16 @@ public class GameView implements Initializable {
             setHintsText("You have sinked a ship! play again");
         if(game.getPartOfGame()== Game.jeu.fin)
         {
-            setHintsText("You win");
+
+            if (game.getOrdi().hasLost())
+            {
+                setTexte("You win");
+            }
+            else if (game.getOrdi().hasLost())
+            {
+                setTexte("You lose");
+            }
+
             restartButton.setVisible(true);
         }
 
@@ -176,7 +172,9 @@ public class GameView implements Initializable {
     }
 
 
-    private void setPlayerColors(ObservableList<Node> children) {
+    private void setPlayerColors() {
+        ObservableList<Node> children = playerGrid.getChildren();
+
         for(int x=0;x<10;x++)
         {
             for(int y=0;y<10;y++)
@@ -192,7 +190,8 @@ public class GameView implements Initializable {
         }
     }
 
-    private void setComputerColors(ObservableList<Node> children) {
+    private void setComputerColors() {
+        ObservableList<Node> children = computerGrid.getChildren();
         for(int x=0;x<10;x++)
         {
             for(int y=0;y<10;y++)
@@ -211,34 +210,34 @@ public class GameView implements Initializable {
     }
 
 
-    public void restartAGame(MouseEvent mouseEvent) {
+    @FXML
+    private void restartAGame(MouseEvent mouseEvent) {
         game = new Game();
+        setBoards();
+        setComputerColors();
+        setPlayerColors();
+        restartButton.setVisible(false);
+
+
+        setHintsText("Place your boats on the grid. "+game.getNbBoatToPlace()+" boats left");
+    }
+
+    private void setBoards()
+    {
         for(int i=0;i<10;i++)
         {
             for(int j=0;j<10;j++)
             {
-                playerGrid.add(new StackPane(),j,i);
-                computerGrid.add(new StackPane(),j,i);
-            }
-        }
-        resetGridColor();
-        restartButton.setVisible(false);
-
-
-        setHintsText("Place your boats on the grid."+game.getNbBoatToPlace()+" boats left");
-    }
-
-    private void resetGridColor() {
-        StackPane stackPane;
-        for(int x=0;x<10;x++)
-        {
-            for(int y=0;y<10;y++)
-            {
-                stackPane =(StackPane) computerGrid.getChildren().get(y*10+x+1);
-                stackPane.setStyle(null);
-                stackPane = (StackPane) playerGrid.getChildren().get(y*10+x+1);
-                stackPane.setStyle(null);
+                ImageView iv = new ImageView();
+                iv.setFitHeight(30);
+                iv.setFitWidth(30);
+                playerGrid.add(iv,j,i);
+                ImageView iv2 = new ImageView();
+                iv2.setFitHeight(30);
+                iv2.setFitWidth(30);
+                computerGrid.add(iv2,j,i);
             }
         }
     }
+
 }

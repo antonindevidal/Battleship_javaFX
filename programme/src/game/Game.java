@@ -1,6 +1,9 @@
 package game;
 
 
+import game.Computer.Computer;
+import game.Computer.ComputerNormal;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,7 +93,11 @@ public class Game {
             if (shootResult != Game.shootResult.alreadyHit) {
                 if (ordi.hasLost()) {
                     partOfGame = jeu.fin;
-                    //Player won
+                    //Le joueur à gagné
+                }
+                else if (player.hasLost()) {
+                    partOfGame = jeu.fin;
+                    // L'ordinateur à gagné
                 }
                 if (shootResult == Game.shootResult.miss) {
                     playerTurn = false;
@@ -115,6 +122,11 @@ public class Game {
                 playerTurn = true;
             }
 
+    }
+    public void cleanBoards()
+    {
+        player.cleanBoard();
+        ordi.cleanBoard();
     }
 
 

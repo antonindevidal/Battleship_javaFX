@@ -1,10 +1,10 @@
 package game;
 
 public class Cell {
-    private boolean hit;
-    private Ship ship;
-    private String boatImage = null;
-    private int imageRotation=0;
+    private boolean hit; // Vrai si la cellule à déja été touchée
+    private Ship ship; // Le bateau associé à la case ou null si il n'y en a pas
+    private String boatImage = null; // Image pour la cellule
+    private int imageRotation=0; // Rotation de l'image
 
     public String getBoatImage() {
         return boatImage;
@@ -45,25 +45,22 @@ public class Cell {
         this.ship = null;
     }
 
-    //return false if boat already hit
-    //return true if shoot was good
+
     public Game.shootResult shoot()
     {
-        if (isHit())
+        if (isHit())// Si la cellule a déjà été touchée
         {
-            //cell already hit
-            return Game.shootResult.alreadyHit;
+            return Game.shootResult.alreadyHit; // Retourne la valeur "déjà touché"
         }
         else
         {
-            if (hasShip())
+            if (hasShip()) // Si la cellule à un bateau
             {
-                ship.hit();
-                //hit shot
+                ship.hit(); // On hit le  bateau
                 hit=true;
                 return Game.shootResult.hit;
             }
-            //miss shot
+            // Le tire est manqué ( pas de bateau sur la cellule
             hit =true;
             return Game.shootResult.miss;
         }
