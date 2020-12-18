@@ -1,9 +1,13 @@
 package controller;
 
 import game.Cell;
+import game.Computer.Computer;
+import game.Computer.ComputerEasy;
+import game.Computer.ComputerNormal;
 import game.Game;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,7 +37,7 @@ public class GameView implements Initializable {
     @FXML
     private Button restartButton;
 
-    private Game game;
+    private Game game = new Game();
 
 
     private StringProperty texte = new SimpleStringProperty("Orientation: Horizontal\n(right click to change)");
@@ -63,15 +67,41 @@ public class GameView implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         dialogu.textProperty().bindBidirectional(texteProperty());
         hints.textProperty().bindBidirectional(hintsTextProperty());
-
-
         setBoards();
+
+
+        //game.getOrdi().getGrid()
+
+        ObservableList<Node> children = playerGrid.getChildren();
+        for(int x=0;x<10;x++)
+        {
+            for(int y=0;y<10;y++)
+            {
+                ImageView imageView =(ImageView)children.get(y*10+x+1);
+                imageView.imageProperty().bindBidirectional();
+            }
+        }
+
+
+
+
     }
 
-    public GameView() {
-        game = new Game();
 
-
+    public void setDifficulty(String difficulty)
+    {
+        switch (difficulty)
+        {
+            case "Facile":
+                game.setComputer(new ComputerEasy());;
+                break;
+            case "Moyen":
+                game.setComputer(new ComputerNormal());;
+                break;
+            default:
+                game.setComputer(new ComputerEasy());;
+                break;
+        }
     }
 
     @FXML

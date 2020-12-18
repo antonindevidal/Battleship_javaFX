@@ -2,6 +2,11 @@ package controller;
 
 
 
+import game.Computer.Computer;
+import game.Computer.ComputerEasy;
+import game.Computer.ComputerNormal;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -32,11 +37,18 @@ public class Menu implements Initializable {
     @FXML
     private ToggleGroup difficulte;
 
+
+    private StringProperty buttonText = new SimpleStringProperty("Play");
+        public String getButtonText() { return buttonText.get(); }
+        public StringProperty buttonTextProperty() { return buttonText; }
+        public void setButtonText(String buttonText) { this.buttonText.set(buttonText); }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         RBfacile.setToggleGroup(difficulte);
         RBmoyen.setToggleGroup(difficulte);
 
+        playButton.textProperty().bindBidirectional(buttonText);
 
         difficulte.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             @Override
@@ -45,7 +57,7 @@ public class Menu implements Initializable {
                 if (difficulte.getSelectedToggle() != null) {
                     RadioButton rb = (RadioButton)difficulte.getSelectedToggle();
 
-                    playButton.setText(rb.getText());
+                    setButtonText(rb.getText());
                 }
             }
         });
@@ -53,25 +65,27 @@ public class Menu implements Initializable {
 
     @FXML
     private void boutonClick(ActionEvent actionEvent) throws Exception {
-
+        RadioButton rb = (RadioButton)difficulte.getSelectedToggle();
 
         try {
-            Parent p = FXMLLoader.load(getClass().getResource("/fxml/GameView.fxml"));
-            
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameView.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Battleship");
             stage.setHeight(900);
             stage.setWidth(1000);
-            stage.setScene(new Scene(p));
+
+            stage.setScene(new Scene(loader.load()));
+            GameView gv = loader.getController();
+            gv.setDifficulty(rb.getText() );
             stage.show();
             ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
+
         }catch (Exception e)
         {
             System.out.println(e);
         }
 
     }
-
 
 
 

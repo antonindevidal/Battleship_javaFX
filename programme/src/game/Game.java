@@ -2,6 +2,7 @@ package game;
 
 
 import game.Computer.Computer;
+import game.Computer.ComputerEasy;
 import game.Computer.ComputerNormal;
 
 import java.util.ArrayList;
@@ -21,8 +22,7 @@ public class Game {
     private List<Integer> boatToPlace=new ArrayList<Integer>();
     private Computer computer;
 
-
-
+    public void setComputer(Computer computer) { this.computer = computer; }
 
     public boolean isHorizontal() {
         return horizontal;
@@ -57,7 +57,7 @@ public class Game {
         this.player = new Board();
         this.ordi = new Board();
 
-        computer = new ComputerNormal();
+        computer = new ComputerEasy();
 
         computer.placeBoats(ordi);
 
@@ -66,6 +66,10 @@ public class Game {
         boatToPlace.add(3);
         boatToPlace.add(3);
         boatToPlace.add(2);
+    }
+    public Game(Computer c) {
+        this();
+        computer = c;
     }
 
     public void placeBoats(int x, int y,boolean horizontal)
