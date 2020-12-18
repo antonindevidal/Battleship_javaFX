@@ -49,7 +49,7 @@ public class ComputerNormal extends Computer {
                 y=r.nextInt((board.gridSize-1) + 1) ;
                 h=r.nextBoolean();
 
-                placed=board.placeShip(x,y,boatToPlace.get(0),h);
+                placed=board.placeShip(x,y,boatToPlace.get(0),h,false);
             }
             placed=false;
             boatToPlace.remove(0);

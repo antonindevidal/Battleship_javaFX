@@ -69,7 +69,7 @@ public class Board {
         Game.shootResult sR =gridList.get(y).get(x).shoot(); //Tire sur la cellule
         if(sR == Game.shootResult.hit) // Si le tire a touché
         {
-            gridList.get(y).get(x).setBoatImage(imagesBateaux.get("target")); // On change l'image
+            setImage(x,y,"target"); // On change l'image
             if(!gridList.get(y).get(x).getShip().isAlive())// Si le bateau touché  est coulé
             {
                 nbShip--; // Retire un bateau
@@ -78,7 +78,7 @@ public class Board {
         }
         else if(sR == Game.shootResult.miss) // Si on a loupé le tire
         {
-            gridList.get(y).get(x).setBoatImage(imagesBateaux.get("redCross")); // On change l'image
+            setImage(x,y,"redCross");
         }
         return sR;
     }
@@ -87,13 +87,13 @@ public class Board {
     {
         if (x <10 && y<10 &&!gridList.get(y).get(x).hasShip() )
         {
-            if(x+1 < 10 && gridList.get(y).get(x).hasShip())
+            if(x+1 < 10 && gridList.get(y).get(x+1).hasShip())
                 return false;
-            if(x-1 >= 0 && gridList.get(y).get(x).hasShip())
+            if(x-1 >= 0 && gridList.get(y).get(x-1).hasShip())
                 return false;
-            if(y+1 < 10 && gridList.get(y).get(x).hasShip())
+            if(y+1 < 10 && gridList.get(y+1).get(x).hasShip())
                 return false;
-            if(y-1 >= 0 && gridList.get(y).get(x).hasShip())
+            if(y-1 >= 0 && gridList.get(y-1).get(x).hasShip())
                 return false;
             return true;
         }
@@ -137,7 +137,7 @@ public class Board {
         return true;
 
     }
-    public boolean placeShip(int x,int y,int size,boolean horizontal) // Placer un bateau en fonction des coordonés et de l'orientation
+    public boolean placeShip(int x,int y,int size,boolean horizontal,boolean showBoat) // Placer un bateau en fonction des coordonés et de l'orientation
     {
         if (canPlaceShip(x,y,size,horizontal)) // Si on peut placer le bateau
         {
@@ -147,21 +147,24 @@ public class Board {
                 for (int i=0; i<size;i++) // Pour la taille du bateau on va l'ajouter dans chaque cellules
                 {
                     gridList.get(y).get(x+i).setShip(ship); // On met le bateau dans la cellule
-                    gridList.get(y).get(x+i).setImageRotation(90); // rotation de l'image necessaire pour l'affichage
-                    if (i==0)
+                    if(showBoat)
                     {
-                        gridList.get(y).get(x+i).setBoatImage(imagesBateaux.get("front")); // On place un des bord du bateau
-                        gridList.get(y).get(x+i).setImageRotation(270);
+                        gridList.get(y).get(x+i).setImageRotation(90); // rotation de l'image necessaire pour l'affichage
+                        if (i==0)
+                        {
+                            gridList.get(y).get(x+i).setImageRotation(270);
+                            setImage(x+i,y,"front");// On place un des bord du bateau
+                        }
+                        else if(i == size-1)
+                        {
+                            setImage(x+i,y,"front"); // On met l'autre bord du bateau
+                        }
+                        else
+                        {
+                            setImage(x+i,y,"body");// On met l'image de corp du bateau
+                        }
                     }
-                    else if(i == size-1)
-                    {
-                        gridList.get(y).get(x+i).setBoatImage(imagesBateaux.get("front")); // On met l'autre bord du bateau
 
-                    }
-                    else
-                    {
-                        gridList.get(y).get(x+i).setBoatImage(imagesBateaux.get("body")); // On met l'image de corp du bateau
-                    }
                 }
                 return true;
             }
@@ -170,19 +173,23 @@ public class Board {
                 for (int i=0; i<size;i++)
                 {
                     gridList.get(y+i).get(x).setShip(ship);
-                    if (i==0)
+                    if (showBoat)
                     {
-                        gridList.get(y+i).get(x).setBoatImage(imagesBateaux.get("front"));
+                        if (i==0)
+                        {
+                            setImage(x,y+i,"front");
+                        }
+                        else if(i == size-1)
+                        {
+                            gridList.get(y+i).get(x).setImageRotation(180);
+                            setImage(x,y+i,"front");
+                        }
+                        else
+                        {
+                            setImage(x,y+i,"body");
+                        }
                     }
-                    else if(i == size-1)
-                    {
-                        gridList.get(y+i).get(x).setBoatImage(imagesBateaux.get("front"));
-                        gridList.get(y+i).get(x).setImageRotation(180);
-                    }
-                    else
-                    {
-                        gridList.get(y+i).get(x).setBoatImage(imagesBateaux.get("body"));
-                    }
+
                 }
                 return true;
             }
@@ -190,17 +197,12 @@ public class Board {
         }
         return false;
     }
-
-    public void cleanBoard()
+    private void setImage(int x, int y, String img)
     {
-        for (int i = 0; i<10 ; i++)
-        {
-            for (int j = 0; j<10 ; j++)
-            {
-                gridList.get(j).get(i).setBoatImage(imagesBateaux.get(null));
-            }
-        }
+        gridList.get(y).get(x).setBoatImage(imagesBateaux.get(img));
     }
+
+
 
     @Override
     public String toString() {

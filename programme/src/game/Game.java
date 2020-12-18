@@ -76,7 +76,7 @@ public class Game {
     {
         if (partOfGame ==jeu.place && boatToPlace.size()>0)
         {
-            boolean marche =player.placeShip(x,y,boatToPlace.get(0),horizontal);
+            boolean marche =player.placeShip(x,y,boatToPlace.get(0),horizontal,true);
             if (marche)
             {
                 boatToPlace.remove(0);
@@ -95,13 +95,9 @@ public class Game {
         if (playerTurn) {
             shootResult = ordi.shoot(x, y);
             if (shootResult != Game.shootResult.alreadyHit) {
-                if (ordi.hasLost()) {
+                if (ordi.hasLost() || player.hasLost()) {
                     partOfGame = jeu.fin;
                     //Le joueur à gagné
-                }
-                else if (player.hasLost()) {
-                    partOfGame = jeu.fin;
-                    // L'ordinateur à gagné
                 }
                 if (shootResult == Game.shootResult.miss) {
                     playerTurn = false;
@@ -126,11 +122,6 @@ public class Game {
                 playerTurn = true;
             }
 
-    }
-    public void cleanBoards()
-    {
-        player.cleanBoard();
-        ordi.cleanBoard();
     }
 
 

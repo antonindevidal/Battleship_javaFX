@@ -38,7 +38,7 @@ public class ComputerEasy extends Computer {
                      h=true;
                  else
                      h=false;
-                 placed=board.placeShip(x,y,boatToPlace.get(0),h); // On tente de placer le bateau ici
+                 placed=board.placeShip(x,y,boatToPlace.get(0),h,false); // On tente de placer le bateau ici
 
 
             }

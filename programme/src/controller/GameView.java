@@ -1,10 +1,13 @@
 package controller;
 
+import game.Board;
 import game.Cell;
 import game.Computer.Computer;
 import game.Computer.ComputerEasy;
 import game.Computer.ComputerNormal;
 import game.Game;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
@@ -22,7 +25,10 @@ import javafx.scene.layout.StackPane;
 
 
 import java.net.URL;
+import java.nio.file.FileSystemAlreadyExistsException;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
+
 import static java.lang.Math.floor;
 
 public class GameView implements Initializable {
@@ -69,22 +75,23 @@ public class GameView implements Initializable {
         hints.textProperty().bindBidirectional(hintsTextProperty());
         setBoards();
 
+        bindGrid(playerGrid,game.getPlayer());
+        bindGrid(computerGrid,game.getOrdi());
 
-        //game.getOrdi().getGrid()
+    }
 
-        ObservableList<Node> children = playerGrid.getChildren();
+    private void bindGrid(GridPane gp, Board b)
+    {
+        ObservableList<Node> children = gp.getChildren();
         for(int x=0;x<10;x++)
         {
             for(int y=0;y<10;y++)
             {
                 ImageView imageView =(ImageView)children.get(y*10+x+1);
-                imageView.imageProperty().bindBidirectional();
+                imageView.imageProperty().bindBidirectional(b.getCell(x,y).imgProperty());
+                imageView.rotateProperty().bindBidirectional(b.getCell(x,y).imageRotationProperty());
             }
         }
-
-
-
-
     }
 
 
@@ -116,7 +123,7 @@ public class GameView implements Initializable {
             game.placeBoats(x, y, game.isHorizontal());
             setHintsText("Place your boats on the grid."+game.getNbBoatToPlace()+" boats left");
 
-            setPlayerColors();
+            //setPlayerColors();
 
             if(game.getNbBoatToPlace() <=0)
             {
@@ -138,7 +145,6 @@ public class GameView implements Initializable {
                     while(!game.isPlayerTurn())
                     {
                         game.computerShoot();
-                        setPlayerColors();
                     }
                 }
             };
@@ -146,11 +152,25 @@ public class GameView implements Initializable {
             int y= (int)floor(mouseEvent.getY()/computerGrid.getWidth()*10);
 
             Game.shootResult sR =game.playerShoot(x, y);
-            setComputerColors();
 
             showPlayerShootResult(sR);
 
             threadComputer.start();
+
+            if(game.getPartOfGame()== Game.jeu.fin)
+            {
+
+                if (game.getOrdi().hasLost())
+                {
+                    setTexte("You win");
+                }
+                else if (game.getOrdi().hasLost())
+                {
+                    setTexte("You lose");
+                }
+
+                restartButton.setVisible(true);
+            }
 
         }
 
@@ -166,20 +186,7 @@ public class GameView implements Initializable {
             setHintsText("You have missed your shot");
         else if(shootResult == Game.shootResult.sink)
             setHintsText("You have sinked a ship! play again");
-        if(game.getPartOfGame()== Game.jeu.fin)
-        {
 
-            if (game.getOrdi().hasLost())
-            {
-                setTexte("You win");
-            }
-            else if (game.getOrdi().hasLost())
-            {
-                setTexte("You lose");
-            }
-
-            restartButton.setVisible(true);
-        }
 
 
     }
@@ -202,50 +209,13 @@ public class GameView implements Initializable {
     }
 
 
-    private void setPlayerColors() {
-        ObservableList<Node> children = playerGrid.getChildren();
-
-        for(int x=0;x<10;x++)
-        {
-            for(int y=0;y<10;y++)
-            {
-                ImageView imageView =(ImageView)children.get(y*10+x+1);
-                Cell c =game.getPlayer().getCell(x,y);
-                if(c.getBoatImage() != null)
-                {
-                    imageView.setRotate(c.getImageRotation());
-                    imageView.setImage(new Image(c.getBoatImage()));
-                }
-            }
-        }
-    }
-
-    private void setComputerColors() {
-        ObservableList<Node> children = computerGrid.getChildren();
-        for(int x=0;x<10;x++)
-        {
-            for(int y=0;y<10;y++)
-            {
-                ImageView imageView =(ImageView)children.get(y*10+x+1);
-                Cell c =game.getOrdi().getCell(x,y);
-                if(c.getBoatImage() != null && c.getBoatImage()!=game.getPlayer().imagesBateaux.get("front")  && c.getBoatImage()!=game.getPlayer().imagesBateaux.get("body"))
-                {
-
-                    imageView.setRotate(c.getImageRotation());
-                    imageView.setImage(new Image(c.getBoatImage()));
-                }
-
-            }
-        }
-    }
-
 
     @FXML
     private void restartAGame(MouseEvent mouseEvent) {
         game = new Game();
         setBoards();
-        setComputerColors();
-        setPlayerColors();
+        bindGrid(playerGrid,game.getPlayer());
+        bindGrid(computerGrid,game.getOrdi());
         restartButton.setVisible(false);
 
 
