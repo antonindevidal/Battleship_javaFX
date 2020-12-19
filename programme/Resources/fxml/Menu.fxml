@@ -24,7 +24,7 @@
                         <fx:define>
                            <ToggleGroup fx:id="difficulte"></ToggleGroup>
                         </fx:define>
-                        <RadioButton mnemonicParsing="false" text="Facile" fx:id="RBfacile">
+                        <RadioButton mnemonicParsing="false" text="Facile" fx:id="RBfacile" selected="true">
                            <HBox.margin>
                               <Insets left="25.0" right="25.0" />
                            </HBox.margin>

@@ -19,11 +19,12 @@ public class Launch extends Application {
         {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/Menu.fxml"));
             stage.getIcons().add(new Image("images/ph.gif"));
-            stage.setHeight(300);
-            stage.setWidth(300);
+            Scene sc =new Scene(root);
             stage.setTitle("Battleship");
-            stage.setScene(new Scene(root,200,200));
+            stage.setScene(sc);
             stage.show();
+            stage.setHeight(sc.getHeight());
+            stage.setWidth(sc.getWidth());
         }catch (Exception e)
         {
             System.out.println(e);

@@ -98,7 +98,7 @@
                               <Font size="16.0" />
                            </font></Label>
 
-                          <Button text="Restart a new game" visible="false" fx:id="restartButton" onMousePressed="#restartAGame">
+                          <Button fx:id="restartButton" onMousePressed="#restartAGame" text="Main menu" visible="false">
                            <font>
                               <Font size="16.0" />
                            </font></Button>

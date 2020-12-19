@@ -20,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -71,13 +72,14 @@ public class Menu implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameView.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Battleship");
-            stage.setHeight(900);
-            stage.setWidth(1000);
-
-            stage.setScene(new Scene(loader.load()));
+            Scene sc = new Scene(loader.load());
+            stage.getIcons().add(new Image("images/ph.gif"));
+            stage.setScene(sc);
             GameView gv = loader.getController();
             gv.setDifficulty(rb.getText() );
             stage.show();
+            stage.setHeight(sc.getHeight());
+            stage.setWidth(sc.getWidth());
             ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
 
         }catch (Exception e)

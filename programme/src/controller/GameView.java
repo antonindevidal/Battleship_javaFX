@@ -6,6 +6,8 @@ import game.Computer.Computer;
 import game.Computer.ComputerEasy;
 import game.Computer.ComputerNormal;
 import game.Game;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -13,8 +15,11 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -22,6 +27,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 import java.net.URL;
@@ -127,7 +134,10 @@ public class GameView implements Initializable {
 
             if(game.getNbBoatToPlace() <=0)
             {
+                dialogu.setStyle("-fx-font: 24 arial;");
+
                 setHintsText("The game started. Click on the top grid to shoot");
+                setTexte("Your turn");
             }
         }
 
@@ -137,7 +147,7 @@ public class GameView implements Initializable {
 
     @FXML
     private void clickComputerGrid(MouseEvent mouseEvent) {
-        if (game.getPartOfGame() == Game.jeu.joue)
+        if (game.getPartOfGame() == Game.jeu.joue && game.isPlayerTurn())
         {
             Thread threadComputer = new Thread(){
                 public void run()
@@ -145,9 +155,18 @@ public class GameView implements Initializable {
                     while(!game.isPlayerTurn())
                     {
                         game.computerShoot();
+
                     }
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            setTexte("Your turn");
+                        }
+                    });
                 }
             };
+
+
             int x= (int)floor(mouseEvent.getX()/computerGrid.getHeight()*10);
             int y= (int)floor(mouseEvent.getY()/computerGrid.getWidth()*10);
 
@@ -155,6 +174,7 @@ public class GameView implements Initializable {
 
             showPlayerShootResult(sR);
 
+            setTexte("Computer turn");
             threadComputer.start();
 
             if(game.getPartOfGame()== Game.jeu.fin)
@@ -187,8 +207,6 @@ public class GameView implements Initializable {
         else if(shootResult == Game.shootResult.sink)
             setHintsText("You have sinked a ship! play again");
 
-
-
     }
 
     @FXML
@@ -212,14 +230,23 @@ public class GameView implements Initializable {
 
     @FXML
     private void restartAGame(MouseEvent mouseEvent) {
-        game = new Game();
-        setBoards();
-        bindGrid(playerGrid,game.getPlayer());
-        bindGrid(computerGrid,game.getOrdi());
-        restartButton.setVisible(false);
+        try
+        {
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/Menu.fxml"));
+            Stage stage = new Stage();
+            stage.getIcons().add(new Image("images/ph.gif"));
+            Scene sc =new Scene(root);
+            stage.setTitle("Battleship");
+            stage.setScene(sc);
+            stage.show();
+            stage.setHeight(sc.getHeight());
+            stage.setWidth(sc.getWidth());
+            ((Node)(mouseEvent.getSource())).getScene().getWindow().hide();
 
-
-        setHintsText("Place your boats on the grid. "+game.getNbBoatToPlace()+" boats left");
+        }catch (Exception e)
+        {
+            System.out.println(e);
+        }
     }
 
     private void setBoards()
