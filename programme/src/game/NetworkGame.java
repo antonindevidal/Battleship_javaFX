@@ -5,6 +5,8 @@ import game.Computer.ComputerEasy;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,12 @@ public class NetworkGame {
     private boolean playerTurn = true;
     private List<Integer> boatToPlace=new ArrayList<Integer>();
     private int playerNumber;
+
+    private Button restartbutton;
+
+    public void setRestartbutton(Button restartbutton) {
+        this.restartbutton = restartbutton;
+    }
 
     private StringProperty texte1 = new SimpleStringProperty("Orientation: Horizontal\n(right click to change)");
         public String getTexte1() { return texte1.get(); }
@@ -156,12 +164,14 @@ public class NetworkGame {
 
     public boolean isEnding()
     {
+
         if(myBoard.hasLost())
         {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
                     setTexte1("Opponent won");
+                    restartbutton.setVisible(true);
                 }
             });
             partOfGame = Game.jeu.fin;
@@ -173,6 +183,7 @@ public class NetworkGame {
                 @Override
                 public void run() {
                     setTexte1("You win");
+                    restartbutton.setVisible(true);
                 }
             });
             partOfGame = Game.jeu.fin;

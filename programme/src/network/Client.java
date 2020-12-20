@@ -42,8 +42,10 @@ public class Client {
         return playerId;
     }
 
-    public Client() {
+    public Client(String address, int port) {
 
+        ipAdress = address;
+        this.port = port;
         System.out.println("-----------Client------------");
         try {
             socket = new Socket(ipAdress, port);

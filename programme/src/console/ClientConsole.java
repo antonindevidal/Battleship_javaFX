@@ -25,7 +25,7 @@ public class ClientConsole extends Application {
         primaryStage.setScene(new Scene(root, 300, 250));
         primaryStage.show();
 
-        Client c = new Client();
+        Client c = new Client("localhost",4444);
         c.receiveCoordinates();
         c.sendCoordinates();
     }

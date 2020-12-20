@@ -5,10 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<?import javafx.scene.Group?>
-<AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Menu">
+<AnchorPane prefHeight="457.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Menu">
    <children>
-      <BorderPane AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+      <BorderPane AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
          <top>
             <Label text="Battleship" BorderPane.alignment="CENTER">
                <font>
@@ -19,17 +18,18 @@
          <center>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="73.0" prefWidth="500.0">
                      <children>
+                        <Label text="Play against Computer" />
                         <fx:define>
-                           <ToggleGroup fx:id="difficulte"></ToggleGroup>
+                           <ToggleGroup fx:id="difficulte" />
                         </fx:define>
-                        <RadioButton mnemonicParsing="false" text="Facile" fx:id="RBfacile" selected="true">
+                        <RadioButton fx:id="RBfacile" mnemonicParsing="false" selected="true" text="Facile">
                            <HBox.margin>
                               <Insets left="25.0" right="25.0" />
                            </HBox.margin>
                         </RadioButton>
-                        <RadioButton mnemonicParsing="false" text="Moyen" fx:id="RBmoyen">
+                        <RadioButton fx:id="RBmoyen" mnemonicParsing="false" text="Moyen">
                            <HBox.margin>
                               <Insets left="25.0" right="25.0" />
                            </HBox.margin>
@@ -44,6 +44,42 @@
                </children>
             </VBox>
          </center>
+         <bottom>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="TOP_CENTER">
+               <children>
+                  <Label text="Create local game" />
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Your IP address: No Ip adress" fx:id="createIp"/>
+                        <TextField fx:id="createPort">
+                           <HBox.margin>
+                              <Insets left="50.0" right="50.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button mnemonicParsing="false" text="Create" fx:id="createServer" onAction="#clickCreateeServer" />
+                     </children>
+                  </HBox>
+                  <Label text="Join a local game" />
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="IP address:"/>
+                        <TextField  fx:id="joinIp" />
+                        <Label text="Port:" >
+                           <HBox.margin>
+                              <Insets left="50.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField prefHeight="26.0" prefWidth="81.0" fx:id="joinPort">
+                           <HBox.margin>
+                              <Insets right="50.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button mnemonicParsing="false" text="Join"  fx:id="joinButton" onAction="#clickJoinButton"/>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </bottom>
       </BorderPane>
    </children>
 

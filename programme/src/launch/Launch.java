@@ -17,7 +17,7 @@ public class Launch extends Application {
     public void start(Stage stage) throws Exception {
         try
         {
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/GameViewV2.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/Menu.fxml"));
             stage.getIcons().add(new Image("images/ph.gif"));
             Scene sc =new Scene(root);
             stage.setTitle("Battleship");

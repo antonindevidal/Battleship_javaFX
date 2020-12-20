@@ -16,11 +16,12 @@ public class Server {
 
 
 
-    public Server()
+    public Server(int port)
     {
         System.out.println("--------Serveur---------");
 
         try {
+            this.port = port;
             ss = new ServerSocket(port);
 
         }catch (IOException e)

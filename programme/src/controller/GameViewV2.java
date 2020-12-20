@@ -60,15 +60,19 @@ public class GameViewV2 implements Initializable {
 
         setBoards();
 
-        c = new Client();
+
+    }
+    public void setC(Client c) {
+        this.c = c;
+
         c.receiveCoordinates();
         game = c.getGame();
+        game.setRestartbutton(restartButton);
         bindGrid(playerGrid,c.getGame().getMyBoard());
         bindGrid(computerGrid,c.getGame().getOtherPlayerBoard());
 
         dialogu.textProperty().bindBidirectional(game.texte1Property());
         hints.textProperty().bindBidirectional(game.texte2Property());
-
     }
 
     private void bindGrid(GridPane gp, Board b)
@@ -109,10 +113,8 @@ public class GameViewV2 implements Initializable {
             c.sendCoordinates(x,y,game.isHorizontal());
             game.iShoot(x,y);
 
-            if(game.isEnding())
-            {
-                restartButton.setVisible(true);
-            }
+            game.isEnding();
+
         }
     }
 
@@ -125,6 +127,10 @@ public class GameViewV2 implements Initializable {
         }
     }
 
+    public void setRestartButtonVisible(boolean visible)
+    {
+        restartButton.setVisible(visible);
+    }
 
 
     @FXML
