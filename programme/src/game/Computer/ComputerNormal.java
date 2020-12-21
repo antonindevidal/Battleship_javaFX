@@ -1,9 +1,8 @@
 package game.Computer;
 
 import game.Board;
-import game.Computer.Computer;
 import game.Coordinates;
-import game.Game;
+import game.Manager.ComputerManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ public class ComputerNormal extends Computer {
 
     private Coordinates lastShoot =new Coordinates(),lastHit=new Coordinates(), boatFirstPos=new Coordinates(); // Différents coordonnés qui servent de mémoire des dernières actions
 
-    private Game.shootResult lastShootResult = Game.shootResult.miss; // Dernier résultat de tire
+    private ComputerManager.shootResult lastShootResult = ComputerManager.shootResult.miss; // Dernier résultat de tire
     private boolean hasATarget; // vrai si l'ordinateur à une cible
     private boolean findOnPositive =true; // vrai si l'on doit chercher le bateau dans les positifs
     private orientation boatOrientation=orientation.neSaisPas; // Orientation du bateau que l'ordinateur à pour cible
@@ -57,13 +56,13 @@ public class ComputerNormal extends Computer {
     }
 
     @Override
-    public Game.shootResult shoot(Board board) {
+    public ComputerManager.shootResult shoot(Board board) {
 
-        Game.shootResult  res;
+        ComputerManager.shootResult  res;
         if (!hasATarget) // Si l'ordinateur n'a pas de cible on tire aléatoirement
         {
             res = randShoot(board);
-            if(res == Game.shootResult.hit) {
+            if(res == ComputerManager.shootResult.hit) {
                 hasATarget = true;
                 setLasthit(lastShoot.getX(),lastShoot.getY());
                 setBoatFirstPos(lastShoot.getX(),lastShoot.getY());
@@ -83,16 +82,16 @@ public class ComputerNormal extends Computer {
                 case neSaisPas:     // Si on ne connait pas l'orientation du bateau
                     adjaShoot(board,lastHit.getX(),lastHit.getY());
 
-                    if (lastShootResult == Game.shootResult.hit)
+                    if (lastShootResult == ComputerManager.shootResult.hit)
                         setLasthit(lastShoot.getX(),lastShoot.getY());
                         guessOrientation();
                     break;
             }
-            if (lastShootResult == Game.shootResult.sink) // Si l'ordinateur à coulé le bateau
+            if (lastShootResult == ComputerManager.shootResult.sink) // Si l'ordinateur à coulé le bateau
             {
                 hasATarget =false; // L'ordinateur n'a plus de cible
                 boatOrientation=orientation.neSaisPas;
-            }else if (lastShootResult == Game.shootResult.hit) // Si l'ordinateur à touché le bateau
+            }else if (lastShootResult == ComputerManager.shootResult.hit) // Si l'ordinateur à touché le bateau
             {
                 setLasthit(lastShoot.getX(),lastShoot.getY()); // On met le dernier tire dans la variable du dernier tire touché
             }
@@ -102,14 +101,14 @@ public class ComputerNormal extends Computer {
         return lastShootResult;
     }
 
-    private Game.shootResult randShoot(Board board) // Tire aléatoire
+    private ComputerManager.shootResult randShoot(Board board) // Tire aléatoire
     {
         Random r = new Random();
         int x=0,y=0;
 
-        Game.shootResult sR = Game.shootResult.alreadyHit;
+        ComputerManager.shootResult sR = ComputerManager.shootResult.alreadyHit;
 
-        while( sR == Game.shootResult.alreadyHit)
+        while( sR == ComputerManager.shootResult.alreadyHit)
         {
             x=r.nextInt((board.gridSize-1) + 1) ;
             y=r.nextInt((board.gridSize-1) + 1) ;
@@ -127,8 +126,8 @@ public class ComputerNormal extends Computer {
         int cote,paddingx=0,paddingy=0;
 
 
-        Game.shootResult sR = Game.shootResult.alreadyHit;
-        while ( sR == Game.shootResult.alreadyHit) // Tant que l'on a déjà touché le bateau
+        ComputerManager.shootResult sR = ComputerManager.shootResult.alreadyHit;
+        while ( sR == ComputerManager.shootResult.alreadyHit) // Tant que l'on a déjà touché le bateau
         {
             paddingx=0;paddingy=0;
             cote = r.nextInt((4-1) + 1); // On génère un nombre aléatoire entre 0 et 4 pour déterminer de quel coté on va tirer
@@ -208,7 +207,7 @@ public class ComputerNormal extends Computer {
     private void shootHorizontal(Board board)
     {
         int nextX = lastHit.getX() ;
-        if(lastShootResult == Game.shootResult.miss)
+        if(lastShootResult == ComputerManager.shootResult.miss)
         {
             findOnPositive = !findOnPositive;
             setLasthit(boatFirstPos.getX(),boatFirstPos.getY());
@@ -242,7 +241,7 @@ public class ComputerNormal extends Computer {
     private void shootVertical(Board board)
     {
         int nextY = lastHit.getY() ;
-        if(lastShootResult == Game.shootResult.miss)
+        if(lastShootResult == ComputerManager.shootResult.miss)
         {
             findOnPositive = !findOnPositive;
             setLasthit(boatFirstPos.getX(),boatFirstPos.getY());

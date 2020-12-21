@@ -1,5 +1,6 @@
 package game;
 
+import game.Manager.ComputerManager;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -57,11 +58,11 @@ public class Cell {
     }
 
 
-    public Game.shootResult shoot()
+    public ComputerManager.shootResult shoot()
     {
         if (isHit())// Si la cellule a déjà été touchée
         {
-            return Game.shootResult.alreadyHit; // Retourne la valeur "déjà touché"
+            return ComputerManager.shootResult.alreadyHit; // Retourne la valeur "déjà touché"
         }
         else
         {
@@ -69,11 +70,11 @@ public class Cell {
             {
                 ship.hit(); // On hit le  bateau
                 hit=true;
-                return Game.shootResult.hit;
+                return ComputerManager.shootResult.hit;
             }
             // Le tire est manqué ( pas de bateau sur la cellule
             hit =true;
-            return Game.shootResult.miss;
+            return ComputerManager.shootResult.miss;
         }
     }
 

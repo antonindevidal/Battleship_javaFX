@@ -1,12 +1,7 @@
 package network;
 
-import game.NetworkGame;
+import game.Manager.NetworkManager;
 import game.NetworkPackageCoordinates;
-import javafx.application.Application;
-import javafx.beans.property.IntegerProperty;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.Socket;
@@ -24,7 +19,7 @@ public class Client {
     private ObjectOutputStream objOutput;
 
     private int playerId;
-    private NetworkGame game;
+    private NetworkManager game;
 
     public DataInputStream getInput() {
         return input;
@@ -34,7 +29,7 @@ public class Client {
         return output;
     }
 
-    public NetworkGame getGame() {
+    public NetworkManager getGame() {
         return game;
     }
 
@@ -61,7 +56,7 @@ public class Client {
         } catch (IOException e) {
             System.out.println("Erreur connection client");
         }
-        game = new NetworkGame(playerId);
+        game = new NetworkManager(playerId);
 
     }
 

@@ -1,16 +1,8 @@
 package controller;
 
-import game.*;
-import game.Computer.Computer;
-import game.Computer.ComputerEasy;
-import game.Computer.ComputerNormal;
-import javafx.animation.PauseTransition;
-import javafx.application.Platform;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.collections.ListChangeListener;
+import game.Board;
+import game.Manager.ComputerManager;
+import game.Manager.NetworkManager;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,22 +14,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+import network.Client;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-import network.Client;
-
 
 import java.net.URL;
-import java.nio.file.FileSystemAlreadyExistsException;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
 
 import static java.lang.Math.floor;
 
-public class GameViewV2 implements Initializable {
+public class GameViewNetwork implements Initializable {
+
     @FXML
     private GridPane playerGrid;
     @FXML
@@ -48,32 +36,15 @@ public class GameViewV2 implements Initializable {
     private Label dialogu;
     @FXML
     private Button restartButton;
-
     private Client c;
-    private NetworkGame game;
+    private NetworkManager game;
 
 
-
-    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
         setBoards();
-
-
     }
-    public void setC(Client c) {
-        this.c = c;
 
-        c.receiveCoordinates();
-        game = c.getGame();
-        game.setRestartbutton(restartButton);
-        bindGrid(playerGrid,c.getGame().getMyBoard());
-        bindGrid(computerGrid,c.getGame().getOtherPlayerBoard());
 
-        dialogu.textProperty().bindBidirectional(game.texte1Property());
-        hints.textProperty().bindBidirectional(game.texte2Property());
-    }
 
     private void bindGrid(GridPane gp, Board b)
     {
@@ -90,9 +61,28 @@ public class GameViewV2 implements Initializable {
     }
 
     @FXML
-    private void clickPlayerGrid(MouseEvent mouseEvent) {
+    private void screenClick(MouseEvent mouseEvent) {
+        if (mouseEvent.isSecondaryButtonDown())
+        {
+            game.setHorizontal(!game.isHorizontal());
+        }
+    }
+    public void setC(Client c) {
+        this.c = c;
 
-        if( game.getPartOfGame()== Game.jeu.place && mouseEvent.isPrimaryButtonDown())
+        c.receiveCoordinates();
+        game = c.getGame();
+        game.setRestartbutton(restartButton);
+        bindGrid(playerGrid,c.getGame().getMyBoard());
+        bindGrid(computerGrid,c.getGame().getOtherPlayerBoard());
+
+        dialogu.textProperty().bindBidirectional(game.texte1Property());
+        hints.textProperty().bindBidirectional(game.texte2Property());
+    }
+
+    @FXML
+    private void clickPlayerGrid(MouseEvent mouseEvent) {
+        if( game.getPartOfGame()== ComputerManager.jeu.place && mouseEvent.isPrimaryButtonDown())
         {
             int x= (int)floor(mouseEvent.getX()/playerGrid.getHeight()*10);
             int y= (int)floor(mouseEvent.getY()/playerGrid.getWidth()*10);
@@ -102,36 +92,18 @@ public class GameViewV2 implements Initializable {
         }
 
     }
-
     @FXML
     private void clickComputerGrid(MouseEvent mouseEvent) {
-        if (game.getPartOfGame() == Game.jeu.joue && game.isPlayerTurn())
+        if (game.getPartOfGame() == ComputerManager.jeu.joue && game.isPlayerTurn())
         {
             int x= (int)floor(mouseEvent.getX()/computerGrid.getHeight()*10);
             int y= (int)floor(mouseEvent.getY()/computerGrid.getWidth()*10);
 
             c.sendCoordinates(x,y,game.isHorizontal());
             game.iShoot(x,y);
-
             game.isEnding();
-
         }
     }
-
-
-    @FXML
-    private void screenClick(MouseEvent mouseEvent) {
-        if (mouseEvent.isSecondaryButtonDown())
-        {
-            game.setHorizontal(!game.isHorizontal());
-        }
-    }
-
-    public void setRestartButtonVisible(boolean visible)
-    {
-        restartButton.setVisible(visible);
-    }
-
 
     @FXML
     private void restartAGame(MouseEvent mouseEvent) {
@@ -171,5 +143,8 @@ public class GameViewV2 implements Initializable {
             }
         }
     }
+
+
+
 
 }

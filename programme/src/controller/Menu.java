@@ -2,9 +2,6 @@ package controller;
 
 
 
-import game.Computer.Computer;
-import game.Computer.ComputerEasy;
-import game.Computer.ComputerNormal;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -14,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -22,9 +18,9 @@ import javafx.stage.Stage;
 import network.Client;
 import network.Server;
 
+import java.io.IOException;
 import java.net.*;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
 
 public class Menu implements Initializable {
     @FXML
@@ -90,10 +86,28 @@ public class Menu implements Initializable {
     @FXML
     private void boutonClick(ActionEvent actionEvent) throws Exception {
         RadioButton rb = (RadioButton)difficulte.getSelectedToggle();
+        //GameViewComputer gv = new GameViewComputer();
+        //FXMLLoader loader = loadView("Battleship","/fxml/GameViewV2.fxml",actionEvent);
+        //gv = loader.getController();
 
-        FXMLLoader loader = loadView("Battleship","/fxml/GameView.fxml",actionEvent);
-        GameView gv = loader.getController();
-        gv.setDifficulty(rb.getText() );
+        //gv.setDifficulty(rb.getText() );
+        try {
+            GameViewComputer gv = new GameViewComputer();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameViewV2.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Battleship");
+            loader.setController(gv);
+            Scene sc = new Scene(loader.load());
+            stage.getIcons().add(new Image("images/ph.gif"));
+            stage.setScene(sc);
+            stage.show();
+            stage.setHeight(sc.getHeight());
+            stage.setWidth(sc.getWidth());
+            ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
+            gv.setDifficulty(rb.getText() );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -101,14 +115,29 @@ public class Menu implements Initializable {
         int port = Integer.parseInt(joinPort.getText());
         if(port >1024 && port  < 49151)
         {
-            FXMLLoader loader = loadView("Battleship","/fxml/GameViewV2.fxml",actionEvent);
-            GameViewV2 gv = loader.getController();
-            gv.setC(new Client(joinIp.getText(),port));
+            try {
+                GameViewNetwork gv = new GameViewNetwork();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameViewV2.fxml"));
+                Stage stage = new Stage();
+                stage.setTitle("Battleship");
+                loader.setController(gv);
+                Scene sc = new Scene(loader.load());
+                stage.getIcons().add(new Image("images/ph.gif"));
+                stage.setScene(sc);
+                stage.show();
+                stage.setHeight(sc.getHeight());
+                stage.setWidth(sc.getWidth());
+                ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
+                gv = loader.getController();
+                gv.setC(new Client(ip,port));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
 
-    public void clickCreateeServer(ActionEvent actionEvent) {
+    public void clickCreateServer(ActionEvent actionEvent) {
         int port = Integer.parseInt(createPort.getText());
         if(port >1024 && port  < 49151)
         {
@@ -120,10 +149,25 @@ public class Menu implements Initializable {
                 }
             });
             t.start();
+            try {
+                GameViewNetwork gv = new GameViewNetwork();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameViewV2.fxml"));
+                Stage stage = new Stage();
+                stage.setTitle("Battleship");
+                loader.setController(gv);
+                Scene sc = new Scene(loader.load());
+                stage.getIcons().add(new Image("images/ph.gif"));
+                stage.setScene(sc);
+                stage.show();
+                stage.setHeight(sc.getHeight());
+                stage.setWidth(sc.getWidth());
+                ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
+                gv = loader.getController();
+                gv.setC(new Client(ip,port));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-            FXMLLoader loader = loadView("Battleship","/fxml/GameViewV2.fxml",actionEvent);
-            GameViewV2 gv = loader.getController();
-            gv.setC(new Client(ip,port));
         }
     }
 

@@ -56,7 +56,7 @@
                               <Insets left="50.0" right="50.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button mnemonicParsing="false" text="Create" fx:id="createServer" onAction="#clickCreateeServer" />
+                        <Button mnemonicParsing="false" text="Create" fx:id="createServer" onAction="#clickCreateServer" />
                      </children>
                   </HBox>
                   <Label text="Join a local game" />

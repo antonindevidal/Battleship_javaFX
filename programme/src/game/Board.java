@@ -1,5 +1,6 @@
 package game;
 
+import game.Manager.ComputerManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -64,19 +65,19 @@ public class Board {
         return nbShip<=0;
     }
 
-    public Game.shootResult shoot(int x, int y) // Tire  à partir de coordonnés
+    public ComputerManager.shootResult shoot(int x, int y) // Tire  à partir de coordonnés
     {
-        Game.shootResult sR =gridList.get(y).get(x).shoot(); //Tire sur la cellule
-        if(sR == Game.shootResult.hit) // Si le tire a touché
+        ComputerManager.shootResult sR =gridList.get(y).get(x).shoot(); //Tire sur la cellule
+        if(sR == ComputerManager.shootResult.hit) // Si le tire a touché
         {
             setImage(x,y,"target"); // On change l'image
             if(!gridList.get(y).get(x).getShip().isAlive())// Si le bateau touché  est coulé
             {
                 nbShip--; // Retire un bateau
-                return Game.shootResult.sink; // On retourne le résultat d'n bateau coulé
+                return ComputerManager.shootResult.sink; // On retourne le résultat d'n bateau coulé
             }
         }
-        else if(sR == Game.shootResult.miss) // Si on a loupé le tire
+        else if(sR == ComputerManager.shootResult.miss) // Si on a loupé le tire
         {
             setImage(x,y,"redCross");
         }

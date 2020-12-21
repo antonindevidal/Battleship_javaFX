@@ -1,8 +1,7 @@
 package game.Computer;
 
 import game.Board;
-import game.Computer.Computer;
-import game.Game;
+import game.Manager.ComputerManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,13 +49,13 @@ public class ComputerEasy extends Computer {
 
 
     @Override
-    public Game.shootResult shoot(Board board) {
+    public ComputerManager.shootResult shoot(Board board) {
         Random r = new Random();
         int x=0,y=0;
 
-        Game.shootResult sR = Game.shootResult.alreadyHit;
+        ComputerManager.shootResult sR = ComputerManager.shootResult.alreadyHit;
 
-        while( sR == Game.shootResult.alreadyHit) // tant que l'on a déjà tiré sur la case en question
+        while( sR == ComputerManager.shootResult.alreadyHit) // tant que l'on a déjà tiré sur la case en question
         {
             // On tire un x et y aléatoire
             x=r.nextInt((board.gridSize-1) + 1) ;

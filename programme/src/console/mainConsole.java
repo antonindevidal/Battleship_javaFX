@@ -1,11 +1,7 @@
 package console;
 
-import game.Board;
 import game.NetworkPackageCoordinates;
-import game.Game;
-import javafx.beans.property.IntegerProperty;
 
-import java.util.Random;
 import java.util.Scanner;
 
 public class mainConsole {
