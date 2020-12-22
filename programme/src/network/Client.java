@@ -155,7 +155,8 @@ public class Client {
                     try {
                         c = (NetworkPackageCoordinates) objInput.readObject();
                     } catch (IOException | ClassNotFoundException e) {
-                        e.printStackTrace();
+                        System.out.println("Erreur de connexion avec l'adversaire");
+                        break;
                     }
                     if (c != null)
                     {

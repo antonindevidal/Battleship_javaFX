@@ -52,10 +52,12 @@ public class ServerConnection implements Runnable{
                 }
                 NetworkPackageCoordinates c = null;
 
+
                 try {
                     c = (NetworkPackageCoordinates) objInput.readObject();
                 } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
+                    System.out.println("Déconnexion d'un des clients");
+                    break;
                 }
                 if (c != null)
                 {
@@ -88,7 +90,7 @@ public class ServerConnection implements Runnable{
             otherPlayer.objOutput.writeObject(c);
             otherPlayer.objOutput.flush();
         } catch (Exception e) {
-            System.out.println("Exceptionnel" +e);
+            e.printStackTrace();
         }
 
     }

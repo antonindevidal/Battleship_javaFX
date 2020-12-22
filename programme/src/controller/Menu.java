@@ -145,29 +145,7 @@ public class Menu implements Initializable {
         }
 
 
-        try {
-            System.out.println(ip + " port "+ port);
-            GameViewNetwork gv = new GameViewNetwork();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameViewV2.fxml"));
-            Stage stage = new Stage();
-            stage.setTitle("Battleship");
-            loader.setController(gv);
-            Scene sc = new Scene(loader.load());
-            stage.getIcons().add(new Image("images/ph.gif"));
-            stage.setScene(sc);
-            stage.show();
-            stage.setHeight(sc.getHeight());
-            stage.setWidth(sc.getWidth());
-            ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
-            gv = loader.getController();
-            gv.setC(c);
-        }
-        catch (Exception e)
-        {
-            System.out.println(e);
-        }
-
-
+        loadNetworkView("Battleship",actionEvent,c);
     }
 
     public void clickCreateServer(ActionEvent actionEvent) {
@@ -189,22 +167,29 @@ public class Menu implements Initializable {
             return;
         }
 
+
+        String ipSliced = ip.substring(10);
+        String title = "Battleship game Number: "+ipSliced+""+port;
+        loadNetworkView(title,actionEvent,c);
+    }
+
+    private void loadNetworkView(String title, ActionEvent actionEvent,Client c) {
         try {
             GameViewNetwork gv = new GameViewNetwork();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameViewV2.fxml"));
             Stage stage = new Stage();
-
-            String ipSliced = ip.substring(10);
-            stage.setTitle("Battleship game Number: "+ipSliced+""+port);
+            stage.setTitle(title);
             loader.setController(gv);
             Scene sc = new Scene(loader.load());
             stage.getIcons().add(new Image("images/ph.gif"));
             stage.setScene(sc);
-            gv = loader.getController();
-            gv.setC(c);
             stage.show();
             stage.setHeight(sc.getHeight());
             stage.setWidth(sc.getWidth());
+            Stage s = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();
+            s.close();
+            gv = loader.getController();
+            gv.setC(c);
 
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
@@ -213,36 +198,8 @@ public class Menu implements Initializable {
                     System.exit(0);
                 }
             });
-
-            Stage s = (Stage)((Node)(actionEvent.getSource())).getScene().getWindow();
-            s.close();
-
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    private FXMLLoader loadView(String title, String view, ActionEvent actionEvent)
-    {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(view));
-            Stage stage = new Stage();
-            stage.setTitle(title);
-            Scene sc = new Scene(loader.load());
-            stage.getIcons().add(new Image("images/ph.gif"));
-            stage.setScene(sc);
-            stage.show();
-            stage.setHeight(sc.getHeight());
-            stage.setWidth(sc.getWidth());
-            ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
-            return loader;
-
-        }catch (Exception e)
-        {
             System.out.println(e);
         }
-        return null;
     }
 }
