@@ -9,9 +9,9 @@
     <children>
         <HBox prefHeight="100.0" prefWidth="200.0">
             <children>
-                <VBox prefHeight="694.0" prefWidth="300.0">
+                <VBox prefHeight="812.0" prefWidth="230.0">
                     <children>
-                        <Label text="Computer grid">
+                        <Label text="Opponent grid">
                             <font>
                                 <Font name="Calibri" size="32.0" />
                             </font>
@@ -82,7 +82,7 @@
                         </GridPane>
                     </children>
                     <padding>
-                        <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+                        <Insets bottom="50.0" left="20.0" right="50.0" top="20.0" />
                     </padding>
                 </VBox>
                 <BorderPane minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0">
@@ -93,16 +93,24 @@
                                     <font>
                                         <Font size="16.0" />
                                     </font></Label>
-                                <Label fx:id="dialogu" prefHeight="73.0" prefWidth="200.0" text="Orientation: Horizontal (right click to change)" textAlignment="CENTER" wrapText="true">
+                                <Label fx:id="dialogu" alignment="CENTER" prefHeight="73.0" prefWidth="200.0" text="Your turn" textAlignment="CENTER" textFill="RED" wrapText="true">
                                     <font>
-                                        <Font size="16.0" />
+                                        <Font size="26.0" />
                                     </font></Label>
+                                <Label fx:id="orientation" text="Orientation: Horizontal (right click to change)" textAlignment="CENTER" wrapText="true">
+                                   <font>
+                                      <Font size="16.0" />
+                                   </font>
+                                </Label>
 
                                 <Button fx:id="restartButton" onMousePressed="#restartAGame" text="Main menu" visible="false">
                                     <font>
                                         <Font size="16.0" />
                                     </font></Button>
                             </children>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
                         </VBox>
                     </center>
                 </BorderPane>

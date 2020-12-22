@@ -14,7 +14,10 @@ public class Server {
     private ServerConnection player1;
     private ServerConnection player2;
 
-
+    public int getServerPort()
+    {
+        return ss.getLocalPort();
+    }
 
     public Server(int port)
     {

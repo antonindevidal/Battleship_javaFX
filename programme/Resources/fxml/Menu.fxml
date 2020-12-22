@@ -50,33 +50,28 @@
                   <Label text="Create local game" />
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label text="Your IP address: No Ip adress" fx:id="createIp"/>
-                        <TextField fx:id="createPort">
-                           <HBox.margin>
-                              <Insets left="50.0" right="50.0" />
-                           </HBox.margin>
-                        </TextField>
-                        <Button mnemonicParsing="false" text="Create" fx:id="createServer" onAction="#clickCreateServer" />
+                        <Button fx:id="createServer" mnemonicParsing="false" onAction="#clickCreateServer" text="Create" />
                      </children>
                   </HBox>
                   <Label text="Join a local game" />
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label text="IP address:"/>
-                        <TextField  fx:id="joinIp" />
-                        <Label text="Port:" >
+                        <Label text="Code " textAlignment="CENTER" wrapText="true" />
+                        <TextField fx:id="joinIp" />
+                        <Label>
                            <HBox.margin>
                               <Insets left="50.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField prefHeight="26.0" prefWidth="81.0" fx:id="joinPort">
-                           <HBox.margin>
-                              <Insets right="50.0" />
-                           </HBox.margin>
-                        </TextField>
-                        <Button mnemonicParsing="false" text="Join"  fx:id="joinButton" onAction="#clickJoinButton"/>
+                        <Button fx:id="joinButton" mnemonicParsing="false" onAction="#clickJoinButton" text="Join" />
                      </children>
                   </HBox>
+                  <Label alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER" textFill="RED" fx:id="erreur">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label text="Le code pour rejoindre un serveur est situé en haut de la fenêtre du créateur du serveur" wrapText="true" />
                </children>
             </VBox>
          </bottom>

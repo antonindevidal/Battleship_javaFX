@@ -37,25 +37,23 @@ public class Client {
         return playerId;
     }
 
-    public Client(String address, int port) {
+    public Client(String address, int port) throws IOException { //throw an IOException -> can't connect to server
 
         ipAdress = address;
         this.port = port;
         System.out.println("-----------Client------------");
-        try {
-            socket = new Socket(ipAdress, port);
-            input = new DataInputStream(socket.getInputStream());
-            output = new DataOutputStream(socket.getOutputStream());
+
+        socket = new Socket(ipAdress, port);
+        input = new DataInputStream(socket.getInputStream());
+        output = new DataOutputStream(socket.getOutputStream());
 
 
-            objOutput = new ObjectOutputStream(socket.getOutputStream());
-            objInput = new ObjectInputStream(socket.getInputStream());
-            playerId = input.readInt();
+        objOutput = new ObjectOutputStream(socket.getOutputStream());
+        objInput = new ObjectInputStream(socket.getInputStream());
+        playerId = input.readInt();
 
-            System.out.println("You are player nb " + playerId);
-        } catch (IOException e) {
-            System.out.println("Erreur connection client");
-        }
+        System.out.println("You are player nb " + playerId);
+
         game = new NetworkManager(playerId);
 
     }
@@ -146,6 +144,13 @@ public class Client {
             @Override
             public void run() {
                 while (true) {
+                    if(Thread.interrupted())
+                    {
+                        System.out.println("Thread client terminé");
+                        return;
+                    }
+
+
                     NetworkPackageCoordinates c = null;
                     try {
                         c = (NetworkPackageCoordinates) objInput.readObject();

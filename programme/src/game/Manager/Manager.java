@@ -35,7 +35,14 @@ public class Manager {
 
     public void setHorizontal(boolean horizontal) {
         this.horizontal = horizontal;
+        if (isHorizontal())
+        {
+            setOrientationP("Orientation: Horizontal\n(right click to change)");
+        }
+        else
+            setOrientationP("Orientation: Vertical\n (right click to change)");
     }
+
 
 
     public Board getMyBoard() {
@@ -59,20 +66,28 @@ public class Manager {
         this.restartbutton = restartbutton;
 
     }
+    public int getNbBoatToPlace()
+    {
+        return boatToPlace.size();
+    }
 
 
 
 
-    protected StringProperty texte1 = new SimpleStringProperty("Orientation: Horizontal\n(right click to change)");
+    protected StringProperty texte1 = new SimpleStringProperty();
         public String getTexte1() { return texte1.get(); }
         public StringProperty texte1Property() { return texte1; }
         public void setTexte1(String texte1) { this.texte1.set(texte1); }
 
-    protected StringProperty texte2 = new SimpleStringProperty("Place your boats on the grid.5 boats left");
+    protected StringProperty texte2 = new SimpleStringProperty("Place your boats on the grid. 5 boats left");
         public String getTexte2() { return texte2.get(); }
         public StringProperty texte2Property() { return texte2; }
         public void setTexte2(String texte2) { this.texte2.set(texte2); }
 
+    protected StringProperty orientationP = new SimpleStringProperty("Orientation: Horizontal\n(right click to change)");
+        public String getOrientationP() { return orientationP.get(); }
+        public StringProperty orientationPProperty() { return orientationP; }
+        public void setOrientationP(String orientationP) { this.orientationP.set(orientationP); }
 
     public Manager() {
         this.myBoard = new Board();

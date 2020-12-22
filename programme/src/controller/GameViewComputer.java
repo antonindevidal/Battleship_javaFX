@@ -35,18 +35,23 @@ public class GameViewComputer implements Initializable {
     @FXML
     private Label dialogu;
     @FXML
+    private Label orientation;
+    @FXML
     private Button restartButton;
 
     private ComputerManager game  = new ComputerManager();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        dialogu.textProperty().bindBidirectional(game.texte2Property());
+        dialogu.textProperty().bindBidirectional(game.texte1Property());
         hints.textProperty().bindBidirectional(game.texte2Property());
         setBoards();
 
         bindGrid(playerGrid,game.getMyBoard());
         bindGrid(computerGrid,game.getOtherPlayerBoard());
+        orientation.textProperty().bindBidirectional(game.orientationPProperty());
+        game.setRestartbutton(restartButton);
+
     }
     public GameViewComputer() {
         super();
@@ -103,18 +108,11 @@ public class GameViewComputer implements Initializable {
                     while(!game.isPlayerTurn())
                     {
                         game.computerShoot();
-
+                        System.out.println();
+                        game.isEnding();
                     }
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            game.setTexte1("Your turn");
-                        }
-                    });
                 }
             };
-
-
             int x= (int)floor(mouseEvent.getX()/computerGrid.getHeight()*10);
             int y= (int)floor(mouseEvent.getY()/computerGrid.getWidth()*10);
 

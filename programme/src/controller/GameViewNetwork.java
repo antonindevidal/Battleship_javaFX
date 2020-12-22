@@ -35,7 +35,10 @@ public class GameViewNetwork implements Initializable {
     @FXML
     private Label dialogu;
     @FXML
+    private Label orientation;
+    @FXML
     private Button restartButton;
+
     private Client c;
     private NetworkManager game;
 
@@ -78,6 +81,7 @@ public class GameViewNetwork implements Initializable {
 
         dialogu.textProperty().bindBidirectional(game.texte1Property());
         hints.textProperty().bindBidirectional(game.texte2Property());
+        orientation.textProperty().bindBidirectional(game.orientationPProperty());
     }
 
     @FXML

@@ -46,6 +46,10 @@ public class ServerConnection implements Runnable{
             output.flush();
             while(true)
             {
+                if(Thread.interrupted())
+                {
+                    System.out.println("Arrêt serveur connection");
+                }
                 NetworkPackageCoordinates c = null;
 
                 try {
@@ -83,8 +87,8 @@ public class ServerConnection implements Runnable{
         try {
             otherPlayer.objOutput.writeObject(c);
             otherPlayer.objOutput.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Exceptionnel" +e);
         }
 
     }

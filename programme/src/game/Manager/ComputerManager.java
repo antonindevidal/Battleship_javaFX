@@ -4,6 +4,7 @@ package game.Manager;
 import game.Board;
 import game.Computer.Computer;
 import game.Computer.ComputerEasy;
+import javafx.application.Platform;
 
 public class ComputerManager extends Manager{
 
@@ -16,10 +17,6 @@ public class ComputerManager extends Manager{
 
 
 
-    public int getNbBoatToPlace()
-    {
-        return boatToPlace.size();
-    }
 
 
     public ComputerManager() {
@@ -32,6 +29,7 @@ public class ComputerManager extends Manager{
     public ComputerManager(Computer c) {
         this();
         computer = c;
+
     }
 
     public void placeBoats(int x, int y,boolean horizontal)
@@ -41,6 +39,7 @@ public class ComputerManager extends Manager{
             boolean marche =myBoard.placeShip(x,y,boatToPlace.get(0),horizontal,true);
             if (marche)
             {
+
                 boatToPlace.remove(0);
                 if(boatToPlace.size()<=0)
                 {
@@ -49,11 +48,13 @@ public class ComputerManager extends Manager{
             }
 
         }
+
         setTexte2("Place your boats on the grid."+getNbBoatToPlace()+" boats left");
         if(getNbBoatToPlace() <=0) {
             setTexte2("The game started. Click on the top grid to shoot");
-            setTexte1("Your turn");
+            setOrientationP("");
         }
+
 
     }
     public shootResult playerShoot(int x,int y)
@@ -62,42 +63,64 @@ public class ComputerManager extends Manager{
 
         if (playerTurn) {
             shootResult = otherPlayerBoard.shoot(x, y);
-            if (shootResult != ComputerManager.shootResult.alreadyHit) {
 
+            if(shootResult == ComputerManager.shootResult.miss)
+            {
                 playerTurn = false;
+                setTexte1("Opponent turn");
+                setTexte2("You've missed your shot");
+            }
+            else if (shootResult == shootResult.hit)
+            {
+                setTexte2("You hit a boat");
+            }
+            else if (shootResult == shootResult.sink)
+            {
+                setTexte2("You sinked a boat");
 
             }
 
         }
-        if(shootResult == ComputerManager.shootResult.alreadyHit)
-            setTexte2("You have already shoot this case, play again");
-        else if(shootResult == ComputerManager.shootResult.hit)
-            setTexte2("You have hit a ship! play again");
-        else if(shootResult == ComputerManager.shootResult.miss)
-        {
-            setTexte1("Computer turn");
-            setTexte2("You have missed your shot");
-        }
-        else if(shootResult == ComputerManager.shootResult.sink)
-            setTexte2("You have sinked a ship! play again");
+
 
         return shootResult;
 
     }
 
-    public void computerShoot()
-    {
+    public void computerShoot() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        shootResult cR = computer.shoot(myBoard);
+        if (cR == ComputerManager.shootResult.miss) {
+            playerTurn = true;
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    setTexte1("Your turn");
+                    setTexte2("Opponent missed");
+                }
+            });
 
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            shootResult cR = computer.shoot(myBoard);
-            if(cR == ComputerManager.shootResult.miss)
-            {
-                playerTurn = true;
-            }
+        } else if (cR == shootResult.hit) {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    setTexte2("You've been hit");
+                }
+            });
+
+        } else if (cR == shootResult.sink) {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    setTexte2("One of your boats have been sinked");
+                }
+            });
+
+        }
 
     }
 

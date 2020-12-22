@@ -2,6 +2,7 @@ package launch;
 
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -25,16 +26,21 @@ public class Launch extends Application {
             stage.show();
             stage.setHeight(sc.getHeight());
             stage.setWidth(sc.getWidth());
+
         }catch (Exception e)
         {
             System.out.println(e);
         }
 
 
-
-
     }
 
+    @Override
+    public void stop() throws Exception {
+        Platform.exit();
+        System.out.println("arrêt");
+        super.stop();
+    }
 
     public static void main(String[] args) {
         launch(args);
