@@ -25,6 +25,7 @@ public class ServerConnection implements Runnable{
         this.playerId = playerId;
 
         try {
+            //Create all input and output to communicate
             input = new DataInputStream(socket.getInputStream());
             output = new DataOutputStream(socket.getOutputStream());
             objOutput = new ObjectOutputStream(socket.getOutputStream());
@@ -40,29 +41,29 @@ public class ServerConnection implements Runnable{
     }
 
     @Override
-    public void run() {
+    public void run()  {
         try {
-            output.writeInt(playerId);
+            output.writeInt(playerId); // Send id to the client
             output.flush();
             while(true)
             {
                 if(Thread.interrupted())
                 {
-                    System.out.println("Arrêt serveur connection");
+                    System.out.println("ServerConnexion interrupted");
+                    break;
                 }
                 NetworkPackageCoordinates c = null;
 
 
                 try {
-                    c = (NetworkPackageCoordinates) objInput.readObject();
+                    c = (NetworkPackageCoordinates) objInput.readObject(); // Try to read on his object input what the client sent
                 } catch (IOException | ClassNotFoundException e) {
-                    System.out.println("Déconnexion d'un des clients");
+                    System.out.println("ServerConnection can't read in his object input");
                     break;
                 }
                 if (c != null)
                 {
-                    sendCoordinatesToOtherPlayer(c);
-                    System.out.println("Receive from player "+playerId+" : " + c);
+                    sendCoordinatesToOtherPlayer(c); // redirect the input to the other client
                     c=null;
                 }
             }
@@ -71,28 +72,30 @@ public class ServerConnection implements Runnable{
         {
             System.out.println("Exception in serverConnection of player "+ playerId);
         }
-    }
-
-
-    private void sendToOtherPlayer(int i)
-    {
-        try {
-            otherPlayer.output.writeInt(i);
-            otherPlayer.output.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
     }
+
+
+
     private void sendCoordinatesToOtherPlayer(NetworkPackageCoordinates c)
     {
         try {
-            otherPlayer.objOutput.writeObject(c);
+            otherPlayer.objOutput.writeObject(c); // send message to the other client
             otherPlayer.objOutput.flush();
         } catch (Exception e) {
-            e.printStackTrace();
+            endClient();
+            System.out.println("ServerConnexion can't send a message to the other player");
         }
 
+    }
+    private void endClient()
+    {
+        try {
+            objOutput.writeObject(new NetworkPackageCoordinates(-1,-1,false)); // send an end message
+        }catch (Exception e)
+        {
+            System.out.println("ServerConnection can't send the end message to his client");
+        }
     }
 
 }

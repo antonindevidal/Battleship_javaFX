@@ -18,7 +18,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import jdk.jshell.spi.ExecutionControl;
 import network.Client;
 import network.Server;
 
@@ -56,32 +55,35 @@ public class Menu implements Initializable {
         public StringProperty errorMessageProperty() { return errorMessage; }
         public void setErrorMessage(String errorMessage) { this.errorMessage.set(errorMessage); }
 
-    private StringProperty myIp= new SimpleStringProperty("Your IP address: No Ip adress");
-        public String getMyIp() { return myIp.get(); }
-        public StringProperty myIpProperty() { return myIp; }
-        public void setMyIp(String myIp) { this.myIp.set(myIp); }
-
     private StringProperty buttonText = new SimpleStringProperty("Play");
         public String getButtonText() { return buttonText.get(); }
         public StringProperty buttonTextProperty() { return buttonText; }
         public void setButtonText(String buttonText) { this.buttonText.set(buttonText); }
 
+
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        RBfacile.setToggleGroup(difficulte);
+        RBfacile.setToggleGroup(difficulte); // Set toogles button in the same group
         RBmoyen.setToggleGroup(difficulte);
 
-        playButton.textProperty().bindBidirectional(buttonText);
+        playButton.textProperty().bindBidirectional(buttonText);// Bind messages
         erreur.textProperty().bindBidirectional(errorMessage);
         ip="";
-        try(final DatagramSocket socket = new DatagramSocket()){
+
+
+        try(final DatagramSocket socket = new DatagramSocket()){  // get local ip address
             socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
             ip = socket.getLocalAddress().getHostAddress();
         } catch (UnknownHostException | SocketException e) {
             e.printStackTrace();
         }
-        setMyIp("Your IP address: "+ ip);
-        difficulte.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+
+
+
+        difficulte.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {  // Listen when change the radioButton
             @Override
             public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
                 // Has selection.
@@ -96,26 +98,24 @@ public class Menu implements Initializable {
 
     @FXML
     private void boutonClick(ActionEvent actionEvent) {
-        RadioButton rb = (RadioButton)difficulte.getSelectedToggle();
-        //GameViewComputer gv = new GameViewComputer();
-        //FXMLLoader loader = loadView("Battleship","/fxml/GameViewV2.fxml",actionEvent);
-        //gv = loader.getController();
+        RadioButton rb = (RadioButton)difficulte.getSelectedToggle(); // get the selected difficulty
 
-        //gv.setDifficulty(rb.getText() );
+
+
         try {
-            GameViewComputer gv = new GameViewComputer();
+            GameViewComputer gvc = new GameViewComputer(); // Create a controller
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameViewV2.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Battleship");
-            loader.setController(gv);
+            loader.setController(gvc); // Because we use different controller on the same view, we must set one
             Scene sc = new Scene(loader.load());
             stage.getIcons().add(new Image("images/ph.gif"));
             stage.setScene(sc);
             stage.show();
             stage.setHeight(sc.getHeight());
             stage.setWidth(sc.getWidth());
-            ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
-            gv.setDifficulty(rb.getText() );
+            closeThisWindow(actionEvent);
+            gvc.setDifficulty(rb.getText() ); // set the computer difficulty
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -124,28 +124,30 @@ public class Menu implements Initializable {
 
     public void clickJoinButton(ActionEvent actionEvent) {
         String code = joinIp.getText();
-        String ip = "192.168.1."+code.substring(0,2);
+        // Code: first two numbers are the end of the ip address and the others are the port of the server
+
+        String ip = "192.168.1."+code.substring(0,2); // First two numbers -> end of ip address
         Client c = null;
         int port;
         try {
-            port = Integer.parseInt(code.substring(2));
+            port = Integer.parseInt(code.substring(2)); //get the port from the code
         }catch (Exception e)
         {
-            setErrorMessage("Code invalide, le code est un nombre");
+            setErrorMessage("Invalid code, must be an integer");
             return;
         }
 
         try
         {
-            c = new Client(ip,port);
-        }catch (IOException e)
+            c = new Client(ip,port); // Create a client to the server from the code
+        }catch (Exception e)
         {
-            setErrorMessage("Code invalide");
+            setErrorMessage("Invalid code");
             return;
         }
 
 
-        loadNetworkView("Battleship",actionEvent,c);
+        loadNetworkView("Battleship",actionEvent,c); // Load the view
     }
 
     public void clickCreateServer(ActionEvent actionEvent) {
@@ -154,26 +156,27 @@ public class Menu implements Initializable {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                serveur.ClientConnection();
+                serveur.ClientConnection(); // Run the method that wait for clients
             }
         });
-        serveur = new Server(0); // 0 pour chercher automatiquement un port libre
+        serveur = new Server(0); // 0 checks for a free port and create a local server on the user computer
         int port = serveur.getServerPort();
         t.start();
         try {
-            c = new Client(ip, port);
+            c = new Client(ip, port); //create a client on the server
         }
         catch (IOException e) {
+            System.out.println("Can't connect to our own server");
             return;
         }
 
 
-        String ipSliced = ip.substring(10);
-        String title = "Battleship game Number: "+ipSliced+""+port;
-        loadNetworkView(title,actionEvent,c);
+        String ipSliced = ip.substring(10); // get the two last number of our ip to ccreate the game code
+        String title = "Battleship Code: "+ipSliced+""+port; // Code to join the server is in the window title
+        loadNetworkView(title,actionEvent,c); // Load the view
     }
 
-    private void loadNetworkView(String title, ActionEvent actionEvent,Client c) {
+    private void loadNetworkView(String title, ActionEvent actionEvent,Client c) { // Load the view with the network controller to play on LAN
         try {
             GameViewNetwork gv = new GameViewNetwork();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameViewV2.fxml"));
@@ -186,15 +189,17 @@ public class Menu implements Initializable {
             stage.show();
             stage.setHeight(sc.getHeight());
             stage.setWidth(sc.getWidth());
-            Stage s = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();
-            s.close();
+            closeThisWindow(actionEvent);
             gv = loader.getController();
+
             gv.setC(c);
 
-            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() { // When the user close the game window
                 @Override
                 public void handle(WindowEvent windowEvent) {
-                    Platform.exit();
+
+                    c.sendCoordinates(-1,-1,false); // Send to the other player the end of connexion message
+                    Platform.exit(); // Close window
                     System.exit(0);
                 }
             });
@@ -202,4 +207,11 @@ public class Menu implements Initializable {
             System.out.println(e);
         }
     }
+
+    private void closeThisWindow(ActionEvent actionEvent) // Close the current window
+    {
+        Stage s = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();
+        s.close();
+    }
+
 }

@@ -1,11 +1,6 @@
 package game.Manager;
 
-import game.Board;
 import javafx.application.Platform;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-
-import java.util.List;
 
 public class NetworkManager extends Manager{
 
@@ -167,6 +162,11 @@ public class NetworkManager extends Manager{
                 });
             }
         }
+    }
+
+    public void erreurConnexion()
+    {
+        setTexte1("Connexion lost");
     }
 
 

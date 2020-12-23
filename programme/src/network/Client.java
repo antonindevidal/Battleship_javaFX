@@ -2,6 +2,7 @@ package network;
 
 import game.Manager.NetworkManager;
 import game.NetworkPackageCoordinates;
+import javafx.application.Platform;
 
 import java.io.*;
 import java.net.Socket;
@@ -11,12 +12,16 @@ public class Client {
 
     private Socket socket;
     private String ipAdress = "localhost";
-    private int port = 4444;
+
     private DataInputStream input;
     private DataOutputStream output;
 
+    private int port;
+
     private ObjectInputStream objInput;
     private ObjectOutputStream objOutput;
+
+    private boolean canSendMessage = true;
 
     private int playerId;
     private NetworkManager game;
@@ -33,6 +38,7 @@ public class Client {
         return game;
     }
 
+
     public int getPlayerId() {
         return playerId;
     }
@@ -41,71 +47,38 @@ public class Client {
 
         ipAdress = address;
         this.port = port;
-        System.out.println("-----------Client------------");
 
-        socket = new Socket(ipAdress, port);
+
+        socket = new Socket(ipAdress, port); // socket to connect with client
+
+        // Create all input and output to talk
         input = new DataInputStream(socket.getInputStream());
         output = new DataOutputStream(socket.getOutputStream());
 
 
         objOutput = new ObjectOutputStream(socket.getOutputStream());
         objInput = new ObjectInputStream(socket.getInputStream());
-        playerId = input.readInt();
+        playerId = input.readInt(); // read from the ServerConnection, the player id (1 or 2)
 
-        System.out.println("You are player nb " + playerId);
 
         game = new NetworkManager(playerId);
 
     }
 
 
-    public void receiveNums() {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    int n = -1;
-                    try {
-                        n = input.readInt();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    if (n != -1)
-                        System.out.println("Receive from other player : " + n);
-                }
-            }
-        });
-        t.start();
-    }
 
-    public void sendNums() {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Scanner scanner = new Scanner(System.in);
 
-                while (true) {
-                    try {
-                        int n = scanner.nextInt();
-                        getOutput().writeInt(n);
-                        getOutput().flush();
-                        System.out.println("Player " + getPlayerId() + " sent " + n);
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-    }
-
+    ///
+    // Send coordinates with standard input
+    // coordinates must be on this pattern: "x y true/false" and x and y must be beetween 0 and 9 included
     public void sendCoordinates() {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
             try {
-                String str = scanner.nextLine();
-                String[] splited = str.split("\\s+");
+                String str = scanner.nextLine(); // Scan the standard input
+                String[] splited = str.split("\\s+"); // Split the message in 3 with spaces
 
                 if (splited.length == 3) {
                     NetworkPackageCoordinates c = new NetworkPackageCoordinates(Integer.parseInt(splited[0]), Integer.parseInt(splited[1]), Boolean.parseBoolean(splited[2]));
@@ -113,7 +86,6 @@ public class Client {
 
                     objOutput.writeObject(c);
                     objOutput.flush();
-                    System.out.println("Player " + getPlayerId() + " sent {x: " + splited[0] + ", y: " + splited[1] + "}");
                 }
 
 
@@ -122,20 +94,23 @@ public class Client {
             }
         }
     }
+
+
+    //Send coordinates  other player
     public void sendCoordinates(int x, int y, boolean horizontal)
     {
+        if (!canSendMessage) // cant send message
+            return;
         try {
 
             NetworkPackageCoordinates c = new NetworkPackageCoordinates(x,y,horizontal);
-            game.placeMyBoat(c.getX(),c.getY(),c.isHorizontal());
-            objOutput.writeObject(c);
-            objOutput.flush();
-            System.out.println("Player " + getPlayerId() + " sent {x: " + x + ", y: " + y + "} Horizontal: "+horizontal);
+            objOutput.writeObject(c); // write on the socket the package
+            objOutput.flush(); // flush output to avoid problems
 
 
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error when sending message to server");
         }
     }
 
@@ -144,34 +119,49 @@ public class Client {
             @Override
             public void run() {
                 while (true) {
-                    if(Thread.interrupted())
-                    {
-                        System.out.println("Thread client terminé");
-                        return;
-                    }
 
 
-                    NetworkPackageCoordinates c = null;
+                    NetworkPackageCoordinates npc = null;
                     try {
-                        c = (NetworkPackageCoordinates) objInput.readObject();
+                        npc = (NetworkPackageCoordinates) objInput.readObject();
                     } catch (IOException | ClassNotFoundException e) {
-                        System.out.println("Erreur de connexion avec l'adversaire");
+                        System.out.println("Cant read message from the server");
                         break;
                     }
-                    if (c != null)
+                    if (npc != null)
                     {
-                        System.out.println("Receive from other player : " + c);
-                        game.otherPlayerPlaceBoat(c.getX(),c.getY(),c.isHorizontal());
-                        game.otherPlayerShoot(c.getX(),c.getY());
-                        game.isEnding();
-                        c=null;
+
+                        if(npc.getX() == -1 && npc.getY() ==-1 && !npc.isHorizontal())
+                        {
+                            // Mesage from other player meaning end of connexion
+                            break; // End connexion
+                        }
+                        else
+                        {
+                            // Call game manager to perform action
+                            game.otherPlayerPlaceBoat(npc.getX(),npc.getY(),npc.isHorizontal());
+                            game.otherPlayerShoot(npc.getX(),npc.getY());
+                            game.isEnding();
+                        }
+
                     }
                 }
+                //End of connexion
+                canSendMessage = false;
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        game.erreurConnexion(); // Display error message
+                        game.setRestartbuttonVisible(true); //  Set menu button visible
+                    }
+                });
             }
         });
         t.start();
 
     }
+
+
 
 
 }

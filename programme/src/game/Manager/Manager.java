@@ -66,6 +66,10 @@ public class Manager {
         this.restartbutton = restartbutton;
 
     }
+    public void setRestartbuttonVisible(Boolean visible) {
+        this.restartbutton.setVisible(visible);
+
+    }
     public int getNbBoatToPlace()
     {
         return boatToPlace.size();
@@ -84,7 +88,7 @@ public class Manager {
         public StringProperty texte2Property() { return texte2; }
         public void setTexte2(String texte2) { this.texte2.set(texte2); }
 
-    protected StringProperty orientationP = new SimpleStringProperty("Orientation: Horizontal\n(right click to change)");
+    private StringProperty orientationP = new SimpleStringProperty("Orientation: Horizontal\n(right click to change)");
         public String getOrientationP() { return orientationP.get(); }
         public StringProperty orientationPProperty() { return orientationP; }
         public void setOrientationP(String orientationP) { this.orientationP.set(orientationP); }

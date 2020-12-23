@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import network.Client;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -47,7 +48,9 @@ public class GameViewNetwork implements Initializable {
         setBoards();
     }
 
-
+    public NetworkManager getGame() {
+        return game;
+    }
 
     private void bindGrid(GridPane gp, Board b)
     {
@@ -147,7 +150,6 @@ public class GameViewNetwork implements Initializable {
             }
         }
     }
-
 
 
 

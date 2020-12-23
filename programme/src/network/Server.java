@@ -21,7 +21,6 @@ public class Server {
 
     public Server(int port)
     {
-        System.out.println("--------Serveur---------");
 
         try {
             this.port = port;
@@ -29,21 +28,21 @@ public class Server {
 
         }catch (IOException e)
         {
-            System.out.println("Problème création serveur");
+            System.out.println("Server creation problem");
         }
     }
 
 
     public void ClientConnection()
     {
-        while (nbPlayer < 2)
+        while (nbPlayer < 2) // Waiting for 2 players connected
         {
             try {
-                Socket s = ss.accept();
+                Socket s = ss.accept(); // Wait for a player
                 nbPlayer++;
                 System.out.println("Player "+ nbPlayer+" is connected");
 
-                ServerConnection sc = new ServerConnection(s,nbPlayer);
+                ServerConnection sc = new ServerConnection(s,nbPlayer); //Create a connexion for the player
 
 
                 if(nbPlayer == 1) player1 = sc;
@@ -51,13 +50,14 @@ public class Server {
 
 
                 Thread  t = new Thread(sc);
-                t.start();
+                t.start(); // Run the connexion in a new thread to run in parallel
 
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Server can't connect a client");
             }
 
         }
+
         player1.setOtherPlayer(player2);
         player2.setOtherPlayer(player1);
     }
