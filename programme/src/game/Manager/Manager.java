@@ -33,6 +33,7 @@ public class Manager {
         return partOfGame;
     }
 
+    // Set if the boat is placed horizontaly or not and display that
     public void setHorizontal(boolean horizontal) {
         this.horizontal = horizontal;
         if (isHorizontal())
@@ -77,7 +78,7 @@ public class Manager {
 
 
 
-
+    // all the text to display (bind in the controller)
     protected StringProperty texte1 = new SimpleStringProperty();
         public String getTexte1() { return texte1.get(); }
         public StringProperty texte1Property() { return texte1; }
@@ -95,14 +96,17 @@ public class Manager {
 
     public Manager() {
         this.myBoard = new Board();
-        this.otherPlayerBoard = new Board();
+        this.otherPlayerBoard = new Board(); // Add all boats to place on the board (maybe there is a better way to do it...)
         boatToPlace.add(5);
         boatToPlace.add(4);
         boatToPlace.add(3);
         boatToPlace.add(3);
         boatToPlace.add(2);
     }
-    public boolean isEnding()
+
+
+
+    public boolean isEnding()// Check if one of the player has lost
     {
 
         if(myBoard.hasLost())

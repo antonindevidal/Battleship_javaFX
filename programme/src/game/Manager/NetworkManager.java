@@ -12,7 +12,7 @@ public class NetworkManager extends Manager{
     public NetworkManager(int playerNumber) {
         super();
 
-        if (playerNumber == 1)
+        if (playerNumber == 1) // Player 1 always move first
         {
             playerTurn = true;
             setTexte1("Your turn");
@@ -22,9 +22,6 @@ public class NetworkManager extends Manager{
             playerTurn = false;
             setTexte1("Opponent turn");
         }
-
-
-
         this.playerNumber = playerNumber;
 
     }
@@ -32,7 +29,7 @@ public class NetworkManager extends Manager{
     @Override
     public int getNbBoatToPlace()
     {
-        if (playerNumber == 1 )
+        if (playerNumber == 1 ) // player 1 always move first so we need to return the size minus 1
         {
             return boatToPlace.size()-1;
         }
@@ -46,12 +43,12 @@ public class NetworkManager extends Manager{
 
     public void otherPlayerPlaceBoat(int x , int y, boolean horizontal)
     {
-        if (partOfGame == ComputerManager.jeu.place && boatToPlace.size() >0 && !playerTurn)
+        if (partOfGame == ComputerManager.jeu.place && boatToPlace.size() >0 && !playerTurn) // Check it is the other player turn to place boats
         {
-            boolean result = otherPlayerBoard.placeShip(x,y,boatToPlace.get(0),horizontal,true);
+            boolean result = otherPlayerBoard.placeShip(x,y,boatToPlace.get(0),horizontal,false); // Place the ship
             if (result)
             {
-                Platform.runLater(new Runnable() {
+                Platform.runLater(new Runnable() { // Not in the fx thread
                     @Override
                     public void run() {
                         setTexte1("Your turn");
@@ -59,11 +56,11 @@ public class NetworkManager extends Manager{
                 });
 
                 playerTurn = true;
-                if (playerNumber == 1)
+                if (playerNumber == 1) // Remove it is the last player to lace the boat
                     boatToPlace.remove(0);
                 if(boatToPlace.size()<=0)
                 {
-                    partOfGame= ComputerManager.jeu.joue;
+                    partOfGame= ComputerManager.jeu.joue; // Change th part of the game when all boats are placed
                 }
             }
         }
@@ -72,10 +69,10 @@ public class NetworkManager extends Manager{
 
     public void placeMyBoat(int x , int y, boolean horizontal)
     {
-        if (partOfGame == ComputerManager.jeu.place && boatToPlace.size() >0 && playerTurn)
+        if (partOfGame == ComputerManager.jeu.place && boatToPlace.size() >0 && playerTurn)// Check it is the  player turn to place boats
         {
             boolean result = myBoard.placeShip(x,y,boatToPlace.get(0),horizontal,true);
-            if (result)
+            if (result) // if the boats has been placed
             {
                 setTexte1("Opponent turn");
                 playerTurn = false;
@@ -102,11 +99,13 @@ public class NetworkManager extends Manager{
     }
 
 
-    public void iShoot(int x, int y)
+    public void iShoot(int x, int y) // Player shoot
     {
         if (partOfGame == ComputerManager.jeu.joue && playerTurn)
         {
-            ComputerManager.shootResult sc = otherPlayerBoard.shoot(x,y);
+            ComputerManager.shootResult sc = otherPlayerBoard.shoot(x,y); // Try to shoot
+
+            // Display result on the screen
             if (sc == ComputerManager.shootResult.miss)
             {
                 playerTurn = false;
@@ -127,7 +126,7 @@ public class NetworkManager extends Manager{
     }
     public void otherPlayerShoot(int x, int y)
     {
-        if (partOfGame == ComputerManager.jeu.joue && !playerTurn)
+        if (partOfGame == ComputerManager.jeu.joue && !playerTurn) // If other player turn to shoot
         {
             ComputerManager.shootResult sc = myBoard.shoot(x,y);
             if (sc == ComputerManager.shootResult.miss)
@@ -167,7 +166,7 @@ public class NetworkManager extends Manager{
     public void erreurConnexion()
     {
         setTexte1("Connexion lost");
-    }
+    } // Display connection error message
 
 
 }

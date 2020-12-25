@@ -9,37 +9,37 @@
     <children>
         <HBox prefHeight="100.0" prefWidth="200.0">
             <children>
-                <VBox prefHeight="812.0" prefWidth="230.0">
+                <VBox HBox.hgrow="ALWAYS">
                     <children>
                         <Label text="Opponent grid">
                             <font>
                                 <Font name="Calibri" size="32.0" />
                             </font>
                         </Label>
-                        <GridPane fx:id="computerGrid" gridLinesVisible="true" onMousePressed="#clickComputerGrid" style="-fx-background-color: #60acee;">
+                        <GridPane fx:id="computerGrid" gridLinesVisible="true" onMousePressed="#clickComputerGrid" style="-fx-background-color: #60acee;" VBox.vgrow="ALWAYS">
                             <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
+                                <ColumnConstraints hgrow="ALWAYS" maxWidth="50" minWidth="30" />
+                                <ColumnConstraints hgrow="ALWAYS" maxWidth="50" minWidth="30" />
+                                <ColumnConstraints hgrow="ALWAYS" maxWidth="50" minWidth="30" />
+                                <ColumnConstraints hgrow="ALWAYS" maxWidth="50" minWidth="30" />
+                                <ColumnConstraints hgrow="ALWAYS" maxWidth="50" minWidth="30" />
+                                <ColumnConstraints hgrow="ALWAYS" maxWidth="50" minWidth="30" />
+                                <ColumnConstraints hgrow="ALWAYS" maxWidth="50" minWidth="30" />
+                                <ColumnConstraints hgrow="ALWAYS" maxWidth="50" minWidth="30" />
+                                <ColumnConstraints hgrow="ALWAYS" maxWidth="50" minWidth="30" />
+                                <ColumnConstraints hgrow="ALWAYS" maxWidth="50" minWidth="30" />
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="50" minHeight="30" vgrow="SOMETIMES" />
+                                <RowConstraints maxHeight="50" minHeight="30" vgrow="ALWAYS" />
+                                <RowConstraints maxHeight="50" minHeight="30" vgrow="ALWAYS" />
+                                <RowConstraints maxHeight="50" minHeight="30" vgrow="ALWAYS" />
+                                <RowConstraints maxHeight="50" minHeight="30" vgrow="ALWAYS" />
+                                <RowConstraints maxHeight="50" minHeight="30" vgrow="ALWAYS" />
+                                <RowConstraints maxHeight="50" minHeight="30" vgrow="ALWAYS" />
+                                <RowConstraints maxHeight="50" minHeight="30" vgrow="ALWAYS" />
+                                <RowConstraints maxHeight="50" minHeight="30" vgrow="ALWAYS" />
+                                <RowConstraints maxHeight="50" minHeight="30" vgrow="ALWAYS" />
+                                <RowConstraints maxHeight="50" minHeight="30" vgrow="ALWAYS" />
                             </rowConstraints>
                             <VBox.margin>
                                 <Insets bottom="50.0" />
@@ -50,7 +50,8 @@
                             <font>
                                 <Font name="Calibri" size="32.0" />
                             </font></Label>
-                        <GridPane fx:id="playerGrid" gridLinesVisible="true" onMousePressed="#clickPlayerGrid" style="-fx-background-color: #60acee;">
+
+                        <GridPane fx:id="playerGrid" gridLinesVisible="true" onMousePressed="#clickPlayerGrid" style="-fx-background-color: #60acee;" onMouseMoved="#movedMouseOverPlayerGrid">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
@@ -64,12 +65,12 @@
                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints maxHeight="50.0" minHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="50.0" minHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="50.0" minHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="50.0" minHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="50.0" minHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="50.0" minHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints maxHeight="50.0" minHeight="30.0" vgrow="ALWAYS" />
+                                <RowConstraints maxHeight="50.0" minHeight="30.0" vgrow="ALWAYS" />
+                                <RowConstraints maxHeight="50.0" minHeight="30.0" vgrow="ALWAYS" />
+                                <RowConstraints maxHeight="50.0" minHeight="30.0" vgrow="ALWAYS" />
+                                <RowConstraints maxHeight="50.0" minHeight="30.0" vgrow="ALWAYS" />
+                                <RowConstraints maxHeight="50.0" minHeight="30.0" vgrow="ALWAYS" />
                                 <RowConstraints maxHeight="50.0" minHeight="30.0" vgrow="SOMETIMES" />
                                 <RowConstraints maxHeight="50.0" minHeight="30.0" vgrow="SOMETIMES" />
                                 <RowConstraints maxHeight="50.0" minHeight="30.0" vgrow="SOMETIMES" />
@@ -103,7 +104,7 @@
                                    </font>
                                 </Label>
 
-                                <Button fx:id="restartButton" onMousePressed="#restartAGame" text="Main menu" visible="false">
+                                <Button fx:id="restartButton" onMousePressed="#mainMenu" text="Main menu" visible="false">
                                     <font>
                                         <Font size="16.0" />
                                     </font></Button>
