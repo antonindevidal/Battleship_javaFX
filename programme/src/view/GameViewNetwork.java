@@ -78,9 +78,10 @@ public class GameViewNetwork implements Initializable { // One of the two contro
     private void screenClick(MouseEvent mouseEvent) {
         if (mouseEvent.isSecondaryButtonDown()) // Change the orientation variable when you right click
         {
-            previsualisation.refreshPrevisualisation(lastX,lastY);
             game.setHorizontal(!game.isHorizontal());
         }
+        previsualisation.refreshPrevisualisation(lastX,lastY);
+
     }
     public void setC(Client c) { // Set a client because its the view for network
         this.c = c;

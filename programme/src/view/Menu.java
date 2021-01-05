@@ -27,6 +27,7 @@ import java.net.*;
 import java.security.spec.ECField;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
+import java.util.regex.Pattern;
 
 public class Menu implements Initializable {
 
@@ -124,13 +125,26 @@ public class Menu implements Initializable {
 
     public void clickJoinButton(ActionEvent actionEvent) {
         String code = joinIp.getText();
-        // Code: first two numbers are the end of the ip address and the others are the port of the server
+        String[] codeSliced;
+        try
+        {
+            codeSliced = code.split(Pattern.quote("."));
+            if(codeSliced.length != 3 )
+            {
+                throw new Exception();
+            }
 
-        String ip = "192.168.1."+code.substring(0,2); // First two numbers -> end of ip address
+        }catch (Exception e)
+        {
+            setErrorMessage("Invalid code, must be an integer");
+            return;
+        }
+
+        String ip = "192.168."+codeSliced[0]+"."+codeSliced[1]; // First two numbers -> end of ip address
         Client c = null;
         int port;
         try {
-            port = Integer.parseInt(code.substring(2)); //get the port from the code
+            port = Integer.parseInt(codeSliced[2]); //get the port from the code
         }catch (Exception e)
         {
             setErrorMessage("Invalid code, must be an integer");
@@ -171,8 +185,9 @@ public class Menu implements Initializable {
         }
 
 
-        String ipSliced = ip.substring(10); // get the two last number of our ip to ccreate the game code
-        String title = "Battleship Code: "+ipSliced+""+port; // Code to join the server is in the window title
+        String[] ipSliced = ip.split(Pattern.quote(".")); // get the two last number of our ip to ccreate the game code
+
+        String title = "Battleship Code: "+ipSliced[ipSliced.length-2]+"."+ipSliced[ipSliced.length-1]+"."+port; // Code to join the server is in the window title
         loadNetworkView(title,actionEvent,c); // Load the view
     }
 
