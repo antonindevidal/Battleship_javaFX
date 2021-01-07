@@ -1,4 +1,4 @@
-package game;
+package view;
 
 import game.Manager.Manager;
 import javafx.collections.ObservableList;

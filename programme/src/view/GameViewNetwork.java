@@ -1,10 +1,9 @@
-package controller;
+package view;
 
 import game.Board;
 import game.Manager.ComputerManager;
 import game.Manager.Manager;
 import game.Manager.NetworkManager;
-import game.Previsualisation;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

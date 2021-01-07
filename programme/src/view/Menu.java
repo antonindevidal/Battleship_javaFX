@@ -1,4 +1,4 @@
-package controller;
+package view;
 
 
 
@@ -122,8 +122,8 @@ public class Menu implements Initializable {
         }
     }
 
-
-    public void clickJoinButton(ActionEvent actionEvent) {
+    @FXML
+    private void clickJoinButton(ActionEvent actionEvent) {
         String code = joinIp.getText();
         String[] codeSliced;
         try
@@ -164,7 +164,9 @@ public class Menu implements Initializable {
         loadNetworkView("Battleship",actionEvent,c); // Load the view
     }
 
-    public void clickCreateServer(ActionEvent actionEvent) {
+
+    @FXML
+    private void clickCreateServer(ActionEvent actionEvent) {
         Client c = null;
 
         Thread t = new Thread(new Runnable() {

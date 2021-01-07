@@ -1,11 +1,10 @@
-package controller;
+package view;
 
 import game.Board;
 import game.Computer.ComputerEasy;
 import game.Computer.ComputerNormal;
 import game.Manager.ComputerManager;
 import game.Manager.Manager;
-import game.Previsualisation;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;

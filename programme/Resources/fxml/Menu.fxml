@@ -2,10 +2,11 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="457.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Menu">
+<AnchorPane prefHeight="413.0" prefWidth="429.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Menu">
    <children>
       <BorderPane AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
          <top>
@@ -45,18 +46,19 @@
             </VBox>
          </center>
          <bottom>
-            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="TOP_CENTER">
+            <VBox prefHeight="150.0" prefWidth="100.0" BorderPane.alignment="TOP_CENTER">
                <children>
-                  <Label text="Create local game" />
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
+                        <Label text="Create local game: " />
                         <Button fx:id="createServer" mnemonicParsing="false" onAction="#clickCreateServer" text="Create" />
                      </children>
                   </HBox>
-                  <Label text="Join a local game" />
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label text="Code " textAlignment="CENTER" wrapText="true" />
+                        <Label text="Join a local game: ">
+                           <tooltip><Tooltip text="The game code is situated on the top of the other player window" /></tooltip>
+                        </Label>
                         <TextField fx:id="joinIp" />
                         <Label>
                            <HBox.margin>
@@ -66,16 +68,11 @@
                         <Button fx:id="joinButton" mnemonicParsing="false" onAction="#clickJoinButton" text="Join" />
                      </children>
                   </HBox>
-                  <Label alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER" textFill="RED" fx:id="erreur">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <Label text="Le code pour rejoindre un serveur est situé en haut de la fenêtre du créateur du serveur" wrapText="true" />
                </children>
             </VBox>
          </bottom>
       </BorderPane>
+
    </children>
 
 </AnchorPane>

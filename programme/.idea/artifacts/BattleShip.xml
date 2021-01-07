@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="BattleShip">
+    <output-path>$PROJECT_DIR$/out/artifacts/BattleShip</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="launch.Launch" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="title" value="Battleship" />
+        <option name="vendor" value="DEVIDAL Antonin" />
+        <option name="version" value="1.1" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="testJavafx.jar">
+        <element id="module-output" name="testJavafx" />
+      </element>
+    </root>
+  </artifact>
+</component>
