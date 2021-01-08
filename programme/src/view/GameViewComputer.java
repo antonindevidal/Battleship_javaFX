@@ -67,13 +67,13 @@ public class GameViewComputer implements Initializable {
         bindGrid(playerGrid, game.getMyBoard());
         bindGrid(computerGrid, game.getOtherPlayerBoard());
         orientation.textProperty().bindBidirectional(game.orientationPProperty());
-        game.setRestartbutton(restartButton);
 
     }
 
     public GameViewComputer() {
         super();
     }
+
 
     public void setDifficulty(String difficulty) {
         switch (difficulty) {
@@ -98,6 +98,10 @@ public class GameViewComputer implements Initializable {
             game.setHorizontal(!game.isHorizontal());
         }
         previsualisation.refreshPrevisualisation(lastX, lastY);
+    }
+    public void setRestartButtonVisible()
+    {
+        restartButton.setVisible(true);
     }
 
 
@@ -126,7 +130,10 @@ public class GameViewComputer implements Initializable {
                     while (!game.isPlayerTurn()) {
                         game.computerShoot();
                         System.out.println();
-                        game.isEnding();
+                        if(game.isEnding())
+                        {
+                            setRestartButtonVisible();
+                        }
                     }
                 }
             };
@@ -138,7 +145,11 @@ public class GameViewComputer implements Initializable {
 
             threadComputer.start();
 
-            game.isEnding();
+            if(game.isEnding())
+            {
+                setRestartButtonVisible();
+            }
+
 
         }
 

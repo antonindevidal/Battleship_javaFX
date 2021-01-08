@@ -60,6 +60,7 @@ public class ComputerManager extends Manager{
                     break;
                 case alreadyHit:
                     setTexte2("You've already hit this case");
+                    break;
                 case miss:
                     playerTurn = false;
                     setTexte1("Opponent turn");

@@ -82,12 +82,18 @@ public class GameViewNetwork implements Initializable { // One of the two contro
         previsualisation.refreshPrevisualisation(lastX,lastY);
 
     }
+    public void setRestartButtonVisible()
+    {
+        restartButton.setVisible(true);
+    }
+
+
     public void setC(Client c) { // Set a client because its the view for network
         this.c = c;
 
         c.receiveCoordinates(); // Start looking for messages from a ServerConnection
         game = c.getGame();
-        game.setRestartbutton(restartButton); // Set a restart button to display when a game end
+         // Set a restart button to display when a game end
 
         // Bind the two grid to the gridPane
         bindGrid(playerGrid,c.getGame().getMyBoard());

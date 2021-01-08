@@ -3,6 +3,7 @@ package network;
 import game.Manager.NetworkManager;
 import game.NetworkPackageCoordinates;
 import javafx.application.Platform;
+import view.GameViewNetwork;
 
 import java.io.*;
 import java.net.Socket;
@@ -25,6 +26,7 @@ public class Client {
 
     private int playerId;
     private NetworkManager game;
+    private GameViewNetwork gv;
 
     public DataInputStream getInput() {
         return input;
@@ -38,12 +40,15 @@ public class Client {
         return game;
     }
 
+    public void setGv(GameViewNetwork gv) {
+        this.gv = gv;
+    }
 
     public int getPlayerId() {
         return playerId;
     }
 
-    public Client(String address, int port) throws IOException { //throw an IOException -> can't connect to server
+    public Client(String address, int port ) throws IOException { //throw an IOException -> can't connect to server
 
         ipAdress = address;
         this.port = port;
@@ -152,7 +157,7 @@ public class Client {
                     @Override
                     public void run() {
                         game.erreurConnexion(); // Display error message
-                        game.setRestartbuttonVisible(true); //  Set menu button visible
+                        gv.setRestartButtonVisible();//  Set menu button visible
                     }
                 });
             }

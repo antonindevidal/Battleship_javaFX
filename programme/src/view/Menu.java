@@ -67,10 +67,12 @@ public class Menu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         RBfacile.setToggleGroup(difficulte); // Set toogles button in the same group
         RBmoyen.setToggleGroup(difficulte);
 
         playButton.textProperty().bindBidirectional(buttonText);// Bind messages
+
         erreur.textProperty().bindBidirectional(errorMessage);
         ip="";
 
@@ -190,6 +192,7 @@ public class Menu implements Initializable {
         String[] ipSliced = ip.split(Pattern.quote(".")); // get the two last number of our ip to ccreate the game code
 
         String title = "Battleship Code: "+ipSliced[ipSliced.length-2]+"."+ipSliced[ipSliced.length-1]+"."+port; // Code to join the server is in the window title
+
         loadNetworkView(title,actionEvent,c); // Load the view
     }
 
@@ -210,7 +213,7 @@ public class Menu implements Initializable {
             gv = loader.getController();
 
             gv.setC(c);
-
+            c.setGv(gv);
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() { // When the user close the game window
                 @Override
                 public void handle(WindowEvent windowEvent) {

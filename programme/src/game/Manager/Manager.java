@@ -23,7 +23,6 @@ public class Manager {
     protected boolean playerTurn = true;
     protected List<Integer> boatToPlace=new ArrayList<Integer>();
 
-    protected Button restartbutton;
 
     public boolean isHorizontal() {
         return horizontal;
@@ -63,14 +62,7 @@ public class Manager {
     }
 
 
-    public void setRestartbutton(Button restartbutton) {
-        this.restartbutton = restartbutton;
 
-    }
-    public void setRestartbuttonVisible(Boolean visible) {
-        this.restartbutton.setVisible(visible);
-
-    }
     public int getNbBoatToPlace()
     {
         return boatToPlace.size();
@@ -115,7 +107,6 @@ public class Manager {
                 @Override
                 public void run() {
                     setTexte1("Opponent won");
-                    restartbutton.setVisible(true);
                 }
             });
             partOfGame = ComputerManager.jeu.fin;
@@ -127,7 +118,6 @@ public class Manager {
                 @Override
                 public void run() {
                     setTexte1("You win");
-                    restartbutton.setVisible(true);
                 }
             });
             partOfGame = ComputerManager.jeu.fin;
