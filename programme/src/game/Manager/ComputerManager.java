@@ -1,9 +1,8 @@
 package game.Manager;
 
 
-import game.Board;
-import game.Computer.Computer;
-import game.Computer.ComputerEasy;
+import game.computer.Computer;
+import game.computer.ComputerEasy;
 import javafx.application.Platform;
 
 public class ComputerManager extends Manager{

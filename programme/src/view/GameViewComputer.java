@@ -1,12 +1,10 @@
 package view;
 
 import game.Board;
-import game.Computer.ComputerEasy;
-import game.Computer.ComputerNormal;
+import game.computer.ComputerEasy;
+import game.computer.ComputerNormal;
 import game.Manager.ComputerManager;
 import game.Manager.Manager;
-import javafx.application.Platform;
-import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +14,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -24,10 +21,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import static java.lang.Math.floor;
@@ -61,7 +55,7 @@ public class GameViewComputer implements Initializable {
         hints.textProperty().bindBidirectional(game.texte2Property());
         setBoards();
 
-        previsualisation.createPrevisualisation(5);
+        previsualisation.createPrevisualisation();
 
 
         bindGrid(playerGrid, game.getMyBoard());
@@ -114,7 +108,7 @@ public class GameViewComputer implements Initializable {
             game.placeBoats(x, y, game.isHorizontal());
 
             if (game.getNbBoatToPlace() <= 0) {
-                previsualisation.destroyPrevisualisation(5);
+                previsualisation.destroyPrevisualisation();
                 dialogu.setStyle("-fx-font: 24 arial;");
             }
         }

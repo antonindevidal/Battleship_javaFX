@@ -1,7 +1,7 @@
 package network;
 
 import game.Manager.NetworkManager;
-import game.NetworkPackageCoordinates;
+import network.NetworkPackageCoordinates;
 import javafx.application.Platform;
 import view.GameViewNetwork;
 
@@ -28,13 +28,7 @@ public class Client {
     private NetworkManager game;
     private GameViewNetwork gv;
 
-    public DataInputStream getInput() {
-        return input;
-    }
 
-    public DataOutputStream getOutput() {
-        return output;
-    }
 
     public NetworkManager getGame() {
         return game;
@@ -44,9 +38,6 @@ public class Client {
         this.gv = gv;
     }
 
-    public int getPlayerId() {
-        return playerId;
-    }
 
     public Client(String address, int port ) throws IOException { //throw an IOException -> can't connect to server
 
@@ -71,34 +62,6 @@ public class Client {
     }
 
 
-
-
-
-    ///
-    // Send coordinates with standard input
-    // coordinates must be on this pattern: "x y true/false" and x and y must be beetween 0 and 9 included
-    public void sendCoordinates() {
-        Scanner scanner = new Scanner(System.in);
-
-        while (true) {
-            try {
-                String str = scanner.nextLine(); // Scan the standard input
-                String[] splited = str.split("\\s+"); // Split the message in 3 with spaces
-
-                if (splited.length == 3) {
-                    NetworkPackageCoordinates c = new NetworkPackageCoordinates(Integer.parseInt(splited[0]), Integer.parseInt(splited[1]), Boolean.parseBoolean(splited[2]));
-                    game.placeMyBoat(c.getX(),c.getY(),c.isHorizontal());
-
-                    objOutput.writeObject(c);
-                    objOutput.flush();
-                }
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
 
     //Send coordinates  other player

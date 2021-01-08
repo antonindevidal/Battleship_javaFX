@@ -17,6 +17,7 @@ public class Previsualisation {
     private ArrayList<ImageView> previsualisation = new ArrayList<>();
     private GridPane gp;
     private Manager game;
+    private static final int NBCASES = 5;
 
     private boolean destroyed = false;
 
@@ -26,11 +27,11 @@ public class Previsualisation {
         this.game = game;
     }
 
-    public void createPrevisualisation(int nb)
+    public void createPrevisualisation()
     {
         if(destroyed)
             return;
-        for(int i = 0; i<nb; i++)
+        for(int i = 0; i<NBCASES; i++)
         {
             ImageView imageView = new ImageView("/images/boatChestWhite.png");
             imageView.setFitHeight(30);
@@ -40,9 +41,9 @@ public class Previsualisation {
         }
     }
 
-    public void destroyPrevisualisation(int nb)
+    public void destroyPrevisualisation()
     {
-        for(int i=0; i<nb;i++)
+        for(int i=0; i<NBCASES;i++)
         {
             StackPane n =(StackPane)previsualisation.get(i).getParent();
             if (n!=null)

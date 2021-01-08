@@ -6,13 +6,11 @@ import java.net.Socket;
 
 public class Server {
 
-    private String ipAdress ="localhost";
-    private int port = 4444;
+
     private ServerSocket ss;
 
     private int nbPlayer = 0;
-    private ServerConnection player1;
-    private ServerConnection player2;
+
 
     public int getServerPort()
     {
@@ -23,7 +21,6 @@ public class Server {
     {
 
         try {
-            this.port = port;
             ss = new ServerSocket(port);
 
         }catch (IOException e)
@@ -35,6 +32,8 @@ public class Server {
 
     public void ClientConnection()
     {
+        ServerConnection player1 = null;
+        ServerConnection player2 = null;
         while (nbPlayer < 2) // Waiting for 2 players connected
         {
             try {
@@ -57,9 +56,10 @@ public class Server {
             }
 
         }
-
-        player1.setOtherPlayer(player2);
-        player2.setOtherPlayer(player1);
+        if (player1 !=null  && player2 != null) {
+            player1.setOtherPlayer(player2);
+            player2.setOtherPlayer(player1);
+        }
     }
 
 

@@ -100,7 +100,7 @@ public class GameViewNetwork implements Initializable { // One of the two contro
         bindGrid(computerGrid,c.getGame().getOtherPlayerBoard());
 
         previsualisation = new Previsualisation(playerGrid,game);
-        previsualisation.createPrevisualisation(5);
+        previsualisation.createPrevisualisation();
         // Bind manager text to the labels
         dialogu.textProperty().bindBidirectional(game.texte1Property());
         hints.textProperty().bindBidirectional(game.texte2Property());
@@ -122,7 +122,7 @@ public class GameViewNetwork implements Initializable { // One of the two contro
 
             System.out.println(game.getNbBoatToPlace());
             if (game.getNbBoatToPlace() ==0)
-                previsualisation.destroyPrevisualisation(5);
+                previsualisation.destroyPrevisualisation();
         }
 
     }

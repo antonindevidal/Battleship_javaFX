@@ -1,13 +1,12 @@
 package network;
 
-import game.NetworkPackageCoordinates;
+import network.NetworkPackageCoordinates;
 
 import java.io.*;
 import java.net.Socket;
 
 public class ServerConnection implements Runnable{
 
-    private Socket socket;
     private DataInputStream input;
     private DataOutputStream output;
 
@@ -21,7 +20,6 @@ public class ServerConnection implements Runnable{
 
 
     public ServerConnection(Socket socket, int playerId) {
-        this.socket = socket;
         this.playerId = playerId;
 
         try {

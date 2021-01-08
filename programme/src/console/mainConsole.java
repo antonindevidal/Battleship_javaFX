@@ -1,6 +1,6 @@
 package console;
 
-import game.NetworkPackageCoordinates;
+import network.NetworkPackageCoordinates;
 
 import java.util.Scanner;
 

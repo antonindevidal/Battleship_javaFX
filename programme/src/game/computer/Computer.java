@@ -1,4 +1,4 @@
-package game.Computer;
+package game.computer;
 
 import game.Board;
 import game.Manager.ComputerManager;
