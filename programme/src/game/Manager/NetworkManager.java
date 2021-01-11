@@ -77,7 +77,9 @@ public class NetworkManager extends Manager{
                 setTexte1("Opponent turn");
                 playerTurn = false;
                 if (playerNumber == 2)
+                {
                     boatToPlace.remove(0);
+                }
 
 
                 if(boatToPlace.size()<=0)
