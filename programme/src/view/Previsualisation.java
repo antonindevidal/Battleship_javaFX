@@ -11,7 +11,8 @@ import javafx.scene.layout.StackPane;
 
 import java.util.ArrayList;
 import java.util.List;
-
+///
+/// the aim of this class is to see where the player place his boats
 public class Previsualisation {
 
     private ArrayList<ImageView> previsualisation = new ArrayList<>();
