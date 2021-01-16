@@ -116,12 +116,9 @@ public class Client {
                 }
                 //End of connexion
                 canSendMessage = false;
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
+                Platform.runLater(() -> {
                         game.erreurConnexion(); // Display error message
                         gv.setRestartButtonVisible();//  Set menu button visible
-                    }
                 });
             }
         });

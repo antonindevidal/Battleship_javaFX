@@ -71,8 +71,6 @@ public class Menu implements Initializable {
         RBfacile.setToggleGroup(difficulte); // Set toogles button in the same group
         RBmoyen.setToggleGroup(difficulte);
 
-        playButton.textProperty().bindBidirectional(buttonText);// Bind messages
-
         erreur.textProperty().bindBidirectional(errorMessage);
         ip="";
 
@@ -85,18 +83,6 @@ public class Menu implements Initializable {
         }
 
 
-
-        difficulte.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {  // Listen when change the radioButton
-            @Override
-            public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
-                // Has selection.
-                if (difficulte.getSelectedToggle() != null) {
-                    RadioButton rb = (RadioButton)difficulte.getSelectedToggle();
-
-                    setButtonText(rb.getText());
-                }
-            }
-        });
     }
 
     @FXML

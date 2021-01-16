@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="fenetre" onMousePressed="#screenClick" prefHeight="700.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="fenetre" onMousePressed="#screenClick" prefHeight="700.0" stylesheets="/style/style.css" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <HBox prefHeight="100.0" prefWidth="200.0">
             <children>
@@ -104,7 +104,7 @@
                                    </font>
                                 </Label>
 
-                                <Button fx:id="restartButton" onMousePressed="#mainMenu" text="Main menu" visible="false">
+                                <Button fx:id="restartButton" onMousePressed="#mainMenu" text="Main menu" visible="false" styleClass="mainButton">
                                     <font>
                                         <Font size="16.0" />
                                     </font></Button>

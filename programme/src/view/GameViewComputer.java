@@ -109,7 +109,7 @@ public class GameViewComputer implements Initializable {
 
             if (game.getNbBoatToPlace() <= 0) {
                 previsualisation.destroyPrevisualisation();
-                dialogu.setStyle("-fx-font: 24 arial;");
+                dialogu.setStyle("-fx-font: 24 Verdana;");
             }
         }
 

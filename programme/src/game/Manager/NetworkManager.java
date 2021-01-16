@@ -48,12 +48,7 @@ public class NetworkManager extends Manager{
             boolean result = otherPlayerBoard.placeShip(x,y,boatToPlace.get(0),horizontal,false); // Place the ship
             if (result)
             {
-                Platform.runLater(new Runnable() { // Not in the fx thread
-                    @Override
-                    public void run() {
-                        setTexte1("Your turn");
-                    }
-                });
+                Platform.runLater(() -> setTexte1("Your turn"));
 
                 playerTurn = true;
                 if (playerNumber == 1) // Remove it is the last player to lace the boat
@@ -132,33 +127,16 @@ public class NetworkManager extends Manager{
             if (sc == ComputerManager.shootResult.miss)
             {
                 playerTurn = true;
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        setTexte1("Your turn");
-                        setTexte2("Opponent missed");
-
-                    }
-                });
+                Platform.runLater(() ->{ setTexte1("Your turn"); setTexte2("Opponent missed");});
 
             }
             else if (sc == shootResult.hit)
             {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        setTexte2("You've been hit");
-                    }
-                });
+                Platform.runLater(() -> setTexte2("You've been hit"));
             }
             else if (sc == shootResult.sink)
             {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        setTexte2("One of your boats have been sinked");
-                    }
-                });
+                Platform.runLater(() -> setTexte2("One of your boats have been sinked"));
             }
         }
     }

@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="413.0" prefWidth="429.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.Menu">
+<AnchorPane prefHeight="413.0" prefWidth="429.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.Menu" stylesheets="/style/style.css" styleClass="main_body">
    <children>
       <BorderPane AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
          <top>
-            <Label text="Battleship" BorderPane.alignment="CENTER">
+            <Label text="Battleship" BorderPane.alignment="CENTER" styleClass="title">
                <font>
                   <Font name="Roboto" size="40.0" />
                </font>
@@ -36,7 +36,7 @@
                         </RadioButton>
                      </children>
                   </HBox>
-                  <Button fx:id="playButton" mnemonicParsing="false" onAction="#boutonClick" text="PLAY" textAlignment="CENTER">
+                  <Button fx:id="playButton" mnemonicParsing="false" onAction="#boutonClick" text="${difficulte.selectedToggle.text}" textAlignment="CENTER" styleClass="mainButton">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -59,7 +59,7 @@
                            <tooltip><Tooltip text="The game code is situated on the top of the other player window" /></tooltip>
                         </Label>
                         <TextField fx:id="joinIp" />
-                        <Button fx:id="joinButton" mnemonicParsing="false" onAction="#clickJoinButton" text="Join" />
+                        <Button fx:id="joinButton" mnemonicParsing="false" onAction="#clickJoinButton" text="Join"/>
                      </children>
                   </HBox>
                   <Label fx:id="erreur">

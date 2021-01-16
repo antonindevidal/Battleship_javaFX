@@ -1,0 +1,26 @@
+
+.main_body{
+    -fx-background-color: #9db9ee;
+}
+.button {
+
+    -fx-background-color: #bbc1c1;
+    -fx-font-family: Verdana;
+}
+
+.button:hover {
+    -fx-background-color: #6c7c7c;
+}
+
+.mainButton{
+    -fx-font-size: 24;
+}
+.label{
+    -fx-font-family: Verdana;
+    -fx-font-smoothing-type: gray;
+}
+
+.title{
+    -fx-font-weight: bold;
+    -fx-font-smoothing-type: gray;
+}

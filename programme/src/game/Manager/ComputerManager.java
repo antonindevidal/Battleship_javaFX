@@ -87,30 +87,16 @@ public class ComputerManager extends Manager{
         switch (shootResult) // Set messages to display later because not in the javafx thread
         {
             case hit:
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        setTexte2("You've been hit");
-                    }
-                });
+                Platform.runLater(() -> setTexte2("You've been hit"));
                 break;
             case miss:
                 playerTurn = true;
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
+                Platform.runLater(() ->{
                         setTexte1("Your turn");
-                        setTexte2("Opponent missed");
-                    }
-                });
+                        setTexte2("Opponent missed"); });
                 break;
             case sink:
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        setTexte2("One of your boats have been sinked");
-                    }
-                });
+                Platform.runLater(() ->{ setTexte2("One of your boats have been sinked"); });
                 break;
         }
 

@@ -103,23 +103,13 @@ public class Manager {
 
         if(myBoard.hasLost())
         {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    setTexte1("Opponent won");
-                }
-            });
+            Platform.runLater(() ->setTexte1("Opponent won"));
             partOfGame = ComputerManager.jeu.fin;
             return true;
         }
         else if(otherPlayerBoard.hasLost())
         {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    setTexte1("You win");
-                }
-            });
+            Platform.runLater(() ->setTexte1("You win"));
             partOfGame = ComputerManager.jeu.fin;
 
             return true;
