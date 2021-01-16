@@ -120,7 +120,6 @@ public class GameViewNetwork implements Initializable { // One of the two contro
 
             previsualisation.refreshPrevisualisation(x,y);
 
-            System.out.println(game.getNbBoatToPlace());
             if (game.getNbBoatToPlace() ==0)
                 previsualisation.destroyPrevisualisation();
         }
@@ -136,7 +135,10 @@ public class GameViewNetwork implements Initializable { // One of the two contro
 
             c.sendCoordinates(x,y,game.isHorizontal()); // Send the coords to the other player
             game.iShoot(x,y); // Shoot
-            game.isEnding(); // Check if end of the game
+            if(game.isEnding()) // Check if end of the game
+            {
+                setRestartButtonVisible();
+            }
         }
     }
 
@@ -187,17 +189,18 @@ public class GameViewNetwork implements Initializable { // One of the two contro
     }
     @FXML
     private void movedMouseOverPlayerGrid(MouseEvent mouseEvent) {
+        // get coordinates of the mouse relative to the grid
         int x = (int) floor(mouseEvent.getX() / computerGrid.getHeight() * 10);
         int y = (int) floor(mouseEvent.getY() / computerGrid.getWidth() * 10);
 
-        if ((x == lastX && y == lastY) || game.getPartOfGame() != Manager.jeu.place)
+        if ((x == lastX && y == lastY) || game.getPartOfGame() != Manager.jeu.place) //check if the mouse is in the same cell
             return;
         lastY = y;
         lastX = x;
 
-        if (x >= 10) x = 9;
+        if (x >= 10) x = 9; // Avoid out of range errors
         if (y >= 10) y = 9;
-        previsualisation.refreshPrevisualisation(x, y);
+        previsualisation.refreshPrevisualisation(x, y); // Set the previsualisation
 
 
     }

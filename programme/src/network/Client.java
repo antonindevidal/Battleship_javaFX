@@ -109,7 +109,12 @@ public class Client {
                             // Call game manager to perform action
                             game.otherPlayerPlaceBoat(npc.getX(),npc.getY(),npc.isHorizontal());
                             game.otherPlayerShoot(npc.getX(),npc.getY());
-                            game.isEnding();
+                            if(game.isEnding())
+                            {
+                                gv.setRestartButtonVisible();
+
+                            }
+
                         }
 
                     }

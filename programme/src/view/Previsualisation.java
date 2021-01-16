@@ -11,7 +11,8 @@ import javafx.scene.layout.StackPane;
 
 import java.util.ArrayList;
 import java.util.List;
-
+///
+/// the aim of this class is to see where the player place his boats
 public class Previsualisation {
 
     private ArrayList<ImageView> previsualisation = new ArrayList<>();
@@ -31,7 +32,7 @@ public class Previsualisation {
     {
         if(destroyed)
             return;
-        for(int i = 0; i<NBCASES; i++)
+        for(int i = 0; i<NBCASES; i++) // Create all images view
         {
             ImageView imageView = new ImageView("/images/boatChestWhite.png");
             imageView.setFitHeight(30);
@@ -41,7 +42,7 @@ public class Previsualisation {
         }
     }
 
-    public void destroyPrevisualisation()
+    public void destroyPrevisualisation() // Destroy images view
     {
         for(int i=0; i<NBCASES;i++)
         {
@@ -56,7 +57,7 @@ public class Previsualisation {
 
     public void refreshPrevisualisation(int x, int y )
     {
-        if (game.getPartOfGame() != Manager.jeu.place || destroyed)
+        if (game.getPartOfGame() != Manager.jeu.place || destroyed)// avoid errors
             return;
         ObservableList<Node> children = gp.getChildren();
         List<Integer> btp = game.getBoatToPlace();
@@ -88,7 +89,7 @@ public class Previsualisation {
                 }
 
                 ColorAdjust ca = new ColorAdjust();
-                if (!isOk)
+                if (!isOk) // If the boat cant be placed, boat is red
                 {
 
                     ca.setHue(0); // red color
@@ -96,7 +97,7 @@ public class Previsualisation {
                     ca.setContrast(10);
 
                 }
-                else
+                else // If can place boat, boat is green
                 {
                     ca.setHue(0.66);/// green color
                     ca.setSaturation(10);
@@ -112,20 +113,19 @@ public class Previsualisation {
 
                     if(game.isHorizontal())
                         rotate = rotate + 180;
-                    previsualisation.get(i).setImage(new Image("/images/frontBoatWhite.png"));// On place un des bord du bateau
+                    previsualisation.get(i).setImage(new Image("/images/frontBoatWhite.png"));// One side of the boat
                 }
                 else if(i == btp.get(0)-1)
                 {
                     if(!game.isHorizontal())
                         rotate = rotate + 180;
-
-                    previsualisation.get(i).setImage(new Image("/images/frontBoatWhite.png")); // On met l'autre bord du bateau
+                    previsualisation.get(i).setImage(new Image("/images/frontBoatWhite.png")); // Other side of the boat
                 }
                 else
                 {
-                    previsualisation.get(i).setImage(new Image("/images/boatChestWhite.png"));// On met l'image de corp du bateau
+                    previsualisation.get(i).setImage(new Image("/images/boatChestWhite.png"));// Boat chest
                 }
-                previsualisation.get(i).setRotate(rotate);
+                previsualisation.get(i).setRotate(rotate); // Set rotation of the boat
 
                 stackPane.getChildren().add(previsualisation.get(i));
             }
