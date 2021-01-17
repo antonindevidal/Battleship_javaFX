@@ -1,10 +1,14 @@
 package view;
 
+import com.sun.javafx.scene.layout.region.Margins;
 import game.Board;
 import game.computer.ComputerEasy;
 import game.computer.ComputerNormal;
 import game.Manager.ComputerManager;
 import game.Manager.Manager;
+import javafx.beans.binding.Binding;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +24,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -52,9 +57,11 @@ public class GameViewComputer implements Initializable {
         previsualisation= new Previsualisation(playerGrid,game);
 
         // Bind the labels
-        dialogu.textProperty().bindBidirectional(game.texte1Property());
-        hints.textProperty().bindBidirectional(game.texte2Property());
-        orientation.textProperty().bindBidirectional(game.orientationPProperty());
+
+        dialogu.textProperty().bind(game.texte1Property());
+
+        hints.textProperty().bind(game.texte2Property());
+        orientation.textProperty().bind(Bindings.format("Orientation: %s \n(right click to change)",game.orientationPProperty()));
 
         // Creates all stackPanels and imagesView for the grids
         setBoards();
@@ -114,11 +121,9 @@ public class GameViewComputer implements Initializable {
 
             if (game.getNbBoatToPlace() <= 0) { // If there are no more boat to place
                 previsualisation.destroyPrevisualisation();
-<<<<<<< HEAD
+
                 dialogu.setStyle("-fx-font: 24 Verdana;");
-=======
-                dialogu.setStyle("-fx-font: 24 arial;"); // Change the font size
->>>>>>> 0ef6537f7969cd44b3d84f377acf61e4ca7112f0
+
             }
         }
 
@@ -165,8 +170,16 @@ public class GameViewComputer implements Initializable {
             for (int y = 0; y < 10; y++) {
                 StackPane stackPane = (StackPane) children.get(y * 10 + x + 1);
                 ImageView imageView = (ImageView) stackPane.getChildren().get(0);
-                imageView.imageProperty().bindBidirectional(b.getCell(x, y).imgProperty());
-                imageView.rotateProperty().bindBidirectional(b.getCell(x, y).imageRotationProperty());
+
+                StringConverter<Image> sc = new StringConverter<Image>() {
+                    @Override
+                    public String toString(Image o) { return null; }
+                    @Override
+                    public Image fromString(String s) { return new Image(s); }
+                };
+                Bindings.bindBidirectional(b.getCell(x,y).boatImageProperty(),imageView.imageProperty(),sc);
+
+                imageView.rotateProperty().bind(b.getCell(x, y).imageRotationProperty());
             }
         }
     }

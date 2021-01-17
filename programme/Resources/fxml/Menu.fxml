@@ -37,9 +37,6 @@
                      </children>
                   </HBox>
                   <Button fx:id="playButton" mnemonicParsing="false" onAction="#boutonClick" text="${difficulte.selectedToggle.text}" textAlignment="CENTER" styleClass="mainButton">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
                   </Button>
                </children>
             </VBox>

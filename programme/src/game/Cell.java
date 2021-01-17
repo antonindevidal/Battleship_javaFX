@@ -1,38 +1,23 @@
 package game;
 
 import game.Manager.ComputerManager;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.scene.image.Image;
 
 public class Cell {
     private boolean hit; // Vrai si la cellule à déja été touchée
     private Ship ship; // Le bateau associé à la case ou null si il n'y en a pas
-    private String boatImage = null; // Image pour la cellule
 
     private IntegerProperty imageRotation = new SimpleIntegerProperty();
         public int getImageRotation() { return imageRotation.get(); }
         public IntegerProperty imageRotationProperty() { return imageRotation; }
         public void setImageRotation(int imageRotation) { this.imageRotation.set(imageRotation); }
 
-    private ObjectProperty<Image> img = new SimpleObjectProperty<Image>();
-        public Image getImg() { return img.get(); }
-        public ObjectProperty<Image> imgProperty() { return img; }
-        public void setImg(String img) { this.img.set(new Image(img)); }
 
-    public String getBoatImage() {
-        return boatImage;
-    }
-
-
-    public void setBoatImage(String boatImage) {
-            this.setImg(boatImage);
-        this.boatImage = boatImage;
-    }
-
-
+    private StringProperty boatImage = new SimpleStringProperty();
+        public String getBoatImage() { return boatImage.get(); }
+        public StringProperty boatImageProperty() { return boatImage; }
+        public void setBoatImage(String boatImage) { this.boatImage.set(boatImage); }
 
     public boolean isHit() {
         return hit;

@@ -4,6 +4,7 @@ import game.Board;
 import game.Manager.ComputerManager;
 import game.Manager.Manager;
 import game.Manager.NetworkManager;
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.util.StringConverter;
 import network.Client;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -67,8 +69,17 @@ public class GameViewNetwork implements Initializable { // One of the two contro
             {
                 StackPane stackPane = (StackPane) children.get(y * 10 + x + 1);
                 ImageView imageView = (ImageView) stackPane.getChildren().get(0);
-                imageView.imageProperty().bindBidirectional(b.getCell(x, y).imgProperty());
-                imageView.rotateProperty().bindBidirectional(b.getCell(x, y).imageRotationProperty());
+
+                StringConverter<Image> sc = new StringConverter<Image>() {
+                    @Override
+                    public String toString(Image o) { return null; }
+                    @Override
+                    public Image fromString(String s) { return new Image(s); }
+                };
+
+                Bindings.bindBidirectional(b.getCell(x,y).boatImageProperty(),imageView.imageProperty(),sc);
+
+                imageView.rotateProperty().bind(b.getCell(x, y).imageRotationProperty());
             }
         }
     }
@@ -88,6 +99,9 @@ public class GameViewNetwork implements Initializable { // One of the two contro
     }
 
 
+    /**
+     * @param c
+     */
     public void setC(Client c) { // Set a client because its the view for network
         this.c = c;
 
@@ -102,9 +116,9 @@ public class GameViewNetwork implements Initializable { // One of the two contro
         previsualisation = new Previsualisation(playerGrid,game);
         previsualisation.createPrevisualisation();
         // Bind manager text to the labels
-        dialogu.textProperty().bindBidirectional(game.texte1Property());
-        hints.textProperty().bindBidirectional(game.texte2Property());
-        orientation.textProperty().bindBidirectional(game.orientationPProperty());
+        dialogu.textProperty().bind(game.texte1Property());
+        hints.textProperty().bind(game.texte2Property());
+        orientation.textProperty().bind(Bindings.format("Orientation: %s \n(right click to change)",game.orientationPProperty()));
     }
 
     @FXML

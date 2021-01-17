@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class Board {
     //  Map représentant les images utilisées sur les plateaux
-    public static final Map<String,String> imagesBateaux= new HashMap<String, String>() {{
+    public static final Map<String,String> IMAGESBATEAUX= new HashMap<String, String>() {{
         put("front","/images/frontBoat.png");   // Coté de bateau
         put("body","/images/boatChest.png");    // Corp du bateau
         put("target","/images/target.png");     // Quand le bateau est touché
@@ -200,7 +200,7 @@ public class Board {
     }
     private void setImage(int x, int y, String img)
     {
-        gridList.get(y).get(x).setBoatImage(imagesBateaux.get(img));
+        gridList.get(y).get(x).setBoatImage(IMAGESBATEAUX.get(img));
     }
 
 

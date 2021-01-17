@@ -37,10 +37,10 @@ public class Manager {
         this.horizontal = horizontal;
         if (isHorizontal())
         {
-            setOrientationP("Orientation: Horizontal\n(right click to change)");
+            setOrientationP("Horizontal");
         }
         else
-            setOrientationP("Orientation: Vertical\n (right click to change)");
+            setOrientationP("Vertical");
     }
 
 
@@ -81,7 +81,7 @@ public class Manager {
         public StringProperty texte2Property() { return texte2; }
         public void setTexte2(String texte2) { this.texte2.set(texte2); }
 
-    private StringProperty orientationP = new SimpleStringProperty("Orientation: Horizontal\n(right click to change)");
+    private StringProperty orientationP = new SimpleStringProperty("Horizontal");
         public String getOrientationP() { return orientationP.get(); }
         public StringProperty orientationPProperty() { return orientationP; }
         public void setOrientationP(String orientationP) { this.orientationP.set(orientationP); }
