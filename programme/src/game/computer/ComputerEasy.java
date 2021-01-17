@@ -3,6 +3,7 @@ package game.computer;
 import game.Board;
 import game.Manager.ComputerManager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -11,7 +12,7 @@ import java.util.Random;
 
   Place ses bateaux aléatoirement et tire aléatoirement
  */
-public class ComputerEasy extends Computer {
+public class ComputerEasy extends Computer implements Serializable {
 
     @Override
     public void placeBoats(Board board) {

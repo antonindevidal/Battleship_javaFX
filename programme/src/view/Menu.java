@@ -2,6 +2,9 @@ package view;
 
 
 
+import game.Manager.ComputerManager;
+import game.serialization.NormalGameSerialization;
+import game.serialization.Serialization;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -16,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import network.Client;
@@ -23,6 +27,7 @@ import network.Server;
 
 import javax.swing.plaf.nimbus.State;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.*;
 import java.security.spec.ECField;
 import java.util.ResourceBundle;
@@ -88,26 +93,12 @@ public class Menu implements Initializable {
     @FXML
     private void boutonClick(ActionEvent actionEvent) {
         RadioButton rb = (RadioButton)difficulte.getSelectedToggle(); // get the selected difficulty
+        GameViewComputer gvc = new GameViewComputer(); // Create a controller
+        loadClassicView(actionEvent,gvc);
+
+        gvc.setDifficulty(rb.getText() ); // set the computer difficulty
 
 
-
-        try {
-            GameViewComputer gvc = new GameViewComputer(); // Create a controller
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameViewV2.fxml"));
-            Stage stage = new Stage();
-            stage.setTitle("Battleship");
-            loader.setController(gvc); // Because we use different controller on the same view, we must set one
-            Scene sc = new Scene(loader.load());
-            stage.getIcons().add(new Image("images/ph.gif"));
-            stage.setScene(sc);
-            stage.show();
-            stage.setHeight(sc.getHeight());
-            stage.setWidth(sc.getWidth());
-            closeThisWindow(actionEvent);
-            gvc.setDifficulty(rb.getText() ); // set the computer difficulty
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @FXML
@@ -214,10 +205,43 @@ public class Menu implements Initializable {
         }
     }
 
+    private void loadClassicView(ActionEvent actionEvent,GameViewComputer gvc) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameViewV2.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Battleship");
+            loader.setController(gvc); // Because we use different controller on the same view, we must set one
+            Scene sc = new Scene(loader.load());
+            stage.getIcons().add(new Image("images/ph.gif"));
+            stage.setScene(sc);
+            stage.show();
+            stage.setHeight(sc.getHeight());
+            stage.setWidth(sc.getWidth());
+            closeThisWindow(actionEvent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        }
+
     private void closeThisWindow(ActionEvent actionEvent) // Close the current window
     {
         Stage s = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();
         s.close();
     }
 
+    @FXML
+    private void clickLoadGame(ActionEvent actionEvent) {
+        Serialization serialization = new NormalGameSerialization();
+        ComputerManager cm =new ComputerManager();
+        try {
+            cm = serialization.load();
+        }catch (Exception e)
+        {
+            setErrorMessage(e.getMessage());
+            return;
+        }
+
+        GameViewComputer gvc = new GameViewComputer(cm); // Create a controller
+        loadClassicView(actionEvent,gvc);
+    }
 }

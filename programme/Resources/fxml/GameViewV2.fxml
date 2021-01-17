@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="fenetre" onMousePressed="#screenClick" prefHeight="700.0" stylesheets="/style/style.css" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="fenetre" onMousePressed="#screenClick" prefHeight="700.0" prefWidth="500.0" stylesheets="/style/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <HBox prefHeight="100.0" prefWidth="200.0">
             <children>
@@ -51,7 +51,7 @@
                                 <Font name="Calibri" size="32.0" />
                             </font></Label>
 
-                        <GridPane fx:id="playerGrid" gridLinesVisible="true" onMousePressed="#clickPlayerGrid" style="-fx-background-color: #60acee;" onMouseMoved="#movedMouseOverPlayerGrid">
+                        <GridPane fx:id="playerGrid" gridLinesVisible="true" onMouseMoved="#movedMouseOverPlayerGrid" onMousePressed="#clickPlayerGrid" style="-fx-background-color: #60acee;">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="50" minWidth="30" />
@@ -90,6 +90,7 @@
                     <center>
                         <VBox alignment="CENTER">
                             <children>
+                        <Button mnemonicParsing="false" text="Save" onMousePressed="#clickSaveButton" />
                                 <Label fx:id="hints" prefHeight="118.0" prefWidth="200.0" text="Place your boats on the grid. 5 boats left" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
                                     <font>
                                         <Font size="16.0" />
@@ -104,7 +105,7 @@
                                    </font>
                                 </Label>
 
-                                <Button fx:id="restartButton" onMousePressed="#mainMenu" text="Main menu" visible="false" styleClass="mainButton">
+                                <Button fx:id="restartButton" onMousePressed="#mainMenu" styleClass="mainButton" text="Main menu" visible="false">
                                     <font>
                                         <Font size="16.0" />
                                     </font></Button>

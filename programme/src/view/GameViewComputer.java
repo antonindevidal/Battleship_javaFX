@@ -2,10 +2,13 @@ package view;
 
 import com.sun.javafx.scene.layout.region.Margins;
 import game.Board;
+import game.Cell;
 import game.computer.ComputerEasy;
 import game.computer.ComputerNormal;
 import game.Manager.ComputerManager;
 import game.Manager.Manager;
+import game.serialization.NormalGameSerialization;
+import game.serialization.Serialization;
 import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
@@ -48,7 +51,7 @@ public class GameViewComputer implements Initializable {
     private Previsualisation previsualisation;
 
 
-    private ComputerManager game = new ComputerManager();
+    private ComputerManager game ;
 
     private int lastX = -1, lastY = -1;
 
@@ -72,10 +75,18 @@ public class GameViewComputer implements Initializable {
         bindGrid(playerGrid, game.getMyBoard());
         bindGrid(computerGrid, game.getOtherPlayerBoard());
 
+
     }
+
 
     public GameViewComputer() {
         super();
+        game = new ComputerManager();
+    }
+    public GameViewComputer(ComputerManager cm)
+    {
+        game = cm;
+
     }
 
     // Set the difficulty of the game
@@ -161,6 +172,7 @@ public class GameViewComputer implements Initializable {
 
         }
 
+
     }
 
     /// For  a grid, it binds an imageView and the rotation of the image view for every cell
@@ -171,14 +183,9 @@ public class GameViewComputer implements Initializable {
                 StackPane stackPane = (StackPane) children.get(y * 10 + x + 1);
                 ImageView imageView = (ImageView) stackPane.getChildren().get(0);
 
-                StringConverter<Image> sc = new StringConverter<Image>() {
-                    @Override
-                    public String toString(Image o) { return null; }
-                    @Override
-                    public Image fromString(String s) { return new Image(s); }
-                };
-                Bindings.bindBidirectional(b.getCell(x,y).boatImageProperty(),imageView.imageProperty(),sc);
 
+                final Cell c = b.getCell(x,y);
+                imageView.imageProperty().bind(Bindings.createObjectBinding(() ->{ if(c.getBoatImage() ==null) return null;return new Image(c.getBoatImage()); } ,c.boatImageProperty()));
                 imageView.rotateProperty().bind(b.getCell(x, y).imageRotationProperty());
             }
         }
@@ -243,6 +250,14 @@ public class GameViewComputer implements Initializable {
         previsualisation.refreshPrevisualisation(x, y); // Set the previsualisation
 
 
+    }
+    @FXML
+    private void clickSaveButton(MouseEvent mouseEvent)
+    {
+        Serialization s = new NormalGameSerialization();
+
+        s.save(game);
+        mainMenu(mouseEvent);
     }
 
 

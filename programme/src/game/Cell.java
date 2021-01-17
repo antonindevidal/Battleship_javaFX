@@ -4,20 +4,29 @@ import game.Manager.ComputerManager;
 import javafx.beans.property.*;
 import javafx.scene.image.Image;
 
-public class Cell {
+import java.io.Serializable;
+
+public class Cell implements Serializable {
     private boolean hit; // Vrai si la cellule à déja été touchée
     private Ship ship; // Le bateau associé à la case ou null si il n'y en a pas
 
-    private IntegerProperty imageRotation = new SimpleIntegerProperty();
+    private transient IntegerProperty imageRotation = new SimpleIntegerProperty();
         public int getImageRotation() { return imageRotation.get(); }
         public IntegerProperty imageRotationProperty() { return imageRotation; }
-        public void setImageRotation(int imageRotation) { this.imageRotation.set(imageRotation); }
+        public void setImageRotation(int imageRotation) { this.imageRotation.set(imageRotation); this.imageRotationSer = imageRotation; }
 
 
-    private StringProperty boatImage = new SimpleStringProperty();
+    private transient StringProperty boatImage = new SimpleStringProperty();
         public String getBoatImage() { return boatImage.get(); }
         public StringProperty boatImageProperty() { return boatImage; }
-        public void setBoatImage(String boatImage) { this.boatImage.set(boatImage); }
+        public void setBoatImage(String boatImage) { this.boatImage.set(boatImage); this.boatImageSer=boatImage; }
+
+    private String boatImageSer;
+    private int imageRotationSer;
+
+    public String getBoatImageSer() { return boatImageSer; }
+
+    public int getImageRotationSer() { return imageRotationSer; }
 
     public boolean isHit() {
         return hit;

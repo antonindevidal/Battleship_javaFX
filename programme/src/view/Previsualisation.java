@@ -9,11 +9,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 ///
 /// the aim of this class is to see where the player place his boats
-public class Previsualisation {
+public class Previsualisation implements Serializable {
 
     private ArrayList<ImageView> previsualisation = new ArrayList<>();
     private GridPane gp;
@@ -22,12 +23,14 @@ public class Previsualisation {
 
     private boolean destroyed = false;
 
+    public ArrayList<ImageView> getPrevisualisation() { return previsualisation;}
+
+    public boolean isDestroyed() { return destroyed; }
 
     public Previsualisation(GridPane gp, Manager game) {
         this.gp = gp;
         this.game = game;
     }
-
     public void createPrevisualisation()
     {
         if(destroyed)
@@ -41,6 +44,7 @@ public class Previsualisation {
 
         }
     }
+
 
     public void destroyPrevisualisation() // Destroy images view
     {

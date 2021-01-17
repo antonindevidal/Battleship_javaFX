@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="413.0" prefWidth="429.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.Menu" stylesheets="/style/style.css" styleClass="main_body">
+<AnchorPane prefHeight="413.0" prefWidth="429.0" styleClass="main_body" stylesheets="/style/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.Menu">
    <children>
       <BorderPane AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
          <top>
-            <Label text="Battleship" BorderPane.alignment="CENTER" styleClass="title">
+            <Label styleClass="title" text="Battleship" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Roboto" size="40.0" />
                </font>
@@ -36,8 +36,12 @@
                         </RadioButton>
                      </children>
                   </HBox>
-                  <Button fx:id="playButton" mnemonicParsing="false" onAction="#boutonClick" text="${difficulte.selectedToggle.text}" textAlignment="CENTER" styleClass="mainButton">
+                  <Button fx:id="playButton" mnemonicParsing="false" onAction="#boutonClick" styleClass="mainButton" text="${difficulte.selectedToggle.text}" textAlignment="CENTER">
                   </Button>
+                  <Button mnemonicParsing="false" onAction="#clickLoadGame" text="Load saved game">
+                     <VBox.margin>
+                        <Insets top="15.0" />
+                     </VBox.margin></Button>
                </children>
             </VBox>
          </center>
@@ -56,7 +60,7 @@
                            <tooltip><Tooltip text="The game code is situated on the top of the other player window" /></tooltip>
                         </Label>
                         <TextField fx:id="joinIp" />
-                        <Button fx:id="joinButton" mnemonicParsing="false" onAction="#clickJoinButton" text="Join"/>
+                        <Button fx:id="joinButton" mnemonicParsing="false" onAction="#clickJoinButton" text="Join" />
                      </children>
                   </HBox>
                   <Label fx:id="erreur">

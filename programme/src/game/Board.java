@@ -4,6 +4,7 @@ import game.Manager.ComputerManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,9 +14,9 @@ import java.util.Map;
     Classe représentant un plateau de jeux
  */
 
-public class Board {
+public class Board  implements Serializable {
     //  Map représentant les images utilisées sur les plateaux
-    public static final Map<String,String> IMAGESBATEAUX= new HashMap<String, String>() {{
+    public transient static final Map<String,String> IMAGESBATEAUX= new HashMap<String, String>() {{
         put("front","/images/frontBoat.png");   // Coté de bateau
         put("body","/images/boatChest.png");    // Corp du bateau
         put("target","/images/target.png");     // Quand le bateau est touché
@@ -28,11 +29,7 @@ public class Board {
     private List<List<Cell>> gridList  =new ArrayList<>();
 
     private int nbShip; //Nombre de bateaux restant sur la grille
-    private ObservableList<String> imagesLinks = FXCollections.observableArrayList();
 
-    public ObservableList<String> getImagesLinks() {
-        return imagesLinks;
-    }
 
     public List<List<Cell>> getGrid() { return gridList; }
 
@@ -47,18 +44,19 @@ public class Board {
                 gridList.get(y).add(new Cell());
             }
         }
-        for(int y=0; y<10;y++)
-        {
-            for(int x=0; x<10;x++)
-            {
-                imagesLinks.add(gridList.get(y).get(x).getBoatImage());
-            }
-        }
+
     }
 
     public Cell getCell(int x, int y) // retourne une cellule pour des coordonnés
     {
         return gridList.get(y).get(x);
+    }
+    public void setCell(int x,int y,Cell c)
+    {
+        List<Cell> ac = gridList.get(y);
+        ac.set(x,c);
+
+
     }
     public boolean hasLost() // Retourne si le plateau à perdu
     {

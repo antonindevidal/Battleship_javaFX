@@ -6,10 +6,11 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Button;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Manager {
+public class Manager  implements Serializable {
 
 
 
@@ -71,17 +72,17 @@ public class Manager {
 
 
     // all the text to display (bind in the controller)
-    protected StringProperty texte1 = new SimpleStringProperty();
+    protected transient StringProperty texte1 = new SimpleStringProperty();
         public String getTexte1() { return texte1.get(); }
         public StringProperty texte1Property() { return texte1; }
         public void setTexte1(String texte1) { this.texte1.set(texte1); }
 
-    protected StringProperty texte2 = new SimpleStringProperty("Place your boats on the grid. 5 boats left");
+    protected transient StringProperty texte2 = new SimpleStringProperty("Place your boats on the grid. 5 boats left");
         public String getTexte2() { return texte2.get(); }
         public StringProperty texte2Property() { return texte2; }
         public void setTexte2(String texte2) { this.texte2.set(texte2); }
 
-    private StringProperty orientationP = new SimpleStringProperty("Horizontal");
+    protected transient StringProperty orientationP = new SimpleStringProperty("Horizontal");
         public String getOrientationP() { return orientationP.get(); }
         public StringProperty orientationPProperty() { return orientationP; }
         public void setOrientationP(String orientationP) { this.orientationP.set(orientationP); }

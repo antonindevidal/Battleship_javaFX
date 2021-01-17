@@ -1,12 +1,17 @@
 package game.Manager;
 
 
+import game.Cell;
+import game.Ship;
 import game.computer.Computer;
 import game.computer.ComputerEasy;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 
-public class ComputerManager extends Manager{
+import java.io.Serializable;
 
+public class ComputerManager extends Manager implements Serializable {
+    private static final long serialVersionUID = 6529685098267757690L;
 
     private Computer  computer;
 
@@ -99,13 +104,45 @@ public class ComputerManager extends Manager{
                 Platform.runLater(() ->{ setTexte2("One of your boats have been sinked"); });
                 break;
         }
-
-
-
-
     }
 
+    public void setProperties()
+    {
+        texte1 = new SimpleStringProperty();
+        texte2 = new SimpleStringProperty();
+        orientationP = new SimpleStringProperty();
+        setTexte1("");
+        setTexte2("");
+        if(horizontal)
+            setOrientationP("Horizontal");
+        else
+            setOrientationP("Vertical");
 
+        for(int i = 0;i<10; i++)
+        {
+            for(int j = 0;j<10; j++)
+            {
+                Cell c1 = getMyBoard().getCell(i,j);
+                Cell c2 = getOtherPlayerBoard().getCell(i,j);
+
+                getMyBoard().setCell(i,j,new Cell());
+                getOtherPlayerBoard().setCell(i,j,new Cell());
+                getMyBoard().getCell(i,j).setBoatImage(c1.getBoatImageSer());
+                getOtherPlayerBoard().getCell(i,j).setBoatImage(c2.getBoatImageSer());
+                getMyBoard().getCell(i,j).setImageRotation(c1.getImageRotationSer());
+                getOtherPlayerBoard().getCell(i,j).setImageRotation(c2.getImageRotationSer());
+
+
+                getMyBoard().getCell(i,j).setShip(c1.getShip());
+                getOtherPlayerBoard().getCell(i,j).setShip(c2.getShip());
+
+                if(c1.isHit())
+                    getMyBoard().getCell(i,j).shoot();
+                if(c2.isHit())
+                    getOtherPlayerBoard().getCell(i,j).shoot();
+            }
+        }
+    }
 
 
 }
