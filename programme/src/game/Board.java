@@ -14,8 +14,14 @@ import java.util.Map;
     Classe représentant un plateau de jeux
  */
 
+/**
+ * Board represent a player grid in the game
+ */
 public class Board  implements Serializable {
     //  Map représentant les images utilisées sur les plateaux
+    /**
+     * all images used to display
+     */
     public transient static final Map<String,String> IMAGESBATEAUX= new HashMap<String, String>() {{
         put("front","/images/frontBoat.png");   // Coté de bateau
         put("body","/images/boatChest.png");    // Corp du bateau
@@ -23,9 +29,15 @@ public class Board  implements Serializable {
         put("redCross","/images/redCross.png"); // Quand on loupe un tire
     }};
 
+    /**
+     * size of a grid
+     */
     public static final int gridSize = 10; //Taille de la grille
 
 
+    /**
+     * List where all cells are stored
+     */
     private List<List<Cell>> gridList  =new ArrayList<>();
 
     private int nbShip; //Nombre de bateaux restant sur la grille
@@ -58,11 +70,20 @@ public class Board  implements Serializable {
 
 
     }
+
+    /**
+     * @return false if there are no boats left
+     */
     public boolean hasLost() // Retourne si le plateau à perdu
     {
         return nbShip<=0;
     }
 
+    /**
+     * @param x coordinate
+     * @param y coordinate
+     * @return  result of the shoot
+     */
     public ComputerManager.shootResult shoot(int x, int y) // Tire  à partir de coordonnés
     {
         ComputerManager.shootResult sR =gridList.get(y).get(x).shoot(); //Tire sur la cellule
@@ -82,6 +103,11 @@ public class Board  implements Serializable {
         return sR;
     }
 
+    /**
+     * @param x coordinate
+     * @param y coordinate
+     * @return  true if all cells around these coordinates are free(no boats)
+     */
     private boolean checkCellsAround(int x,int y) // Retourne vrai si les cases autour des coordonnés donnés son vide ou en dehors des limites
     {
         if (x <10 && y<10 &&!gridList.get(y).get(x).hasShip() )
@@ -100,22 +126,13 @@ public class Board  implements Serializable {
     }
 
 
-    public ObservableList<String> getImages()
-    {
-        ObservableList<String> imagesLinks = FXCollections.observableArrayList();
-
-        for(int y=0; y<10;y++)
-        {
-            for(int x=0; x<10;x++)
-            {
-                imagesLinks.add(gridList.get(y).get(x).getBoatImage());
-            }
-        }
-
-        return  imagesLinks;
-
-    }
-
+    /**
+     * @param x coordinate
+     * @param y coordinate
+     * @param size  size of the boat to place
+     * @param horizontal if the boat is horizonatl or not
+     * @return  true if it can place the ship
+     */
     public boolean canPlaceShip(int x,int y,int size,boolean horizontal)// Retourne vrai si on peut placer un bateau sur la case
     {
         if (horizontal)
@@ -136,6 +153,15 @@ public class Board  implements Serializable {
         return true;
 
     }
+
+    /**
+     * @param x coordinate
+     * @param y coordinate
+     * @param size  size of the boat to place
+     * @param horizontal    if the boat is horizonatl or not
+     * @param showBoat true if  want toshow the boat images on the screen
+     * @return true if the boat has been placed correctly
+     */
     public boolean placeShip(int x,int y,int size,boolean horizontal,boolean showBoat) // Placer un bateau en fonction des coordonés et de l'orientation
     {
         if (canPlaceShip(x,y,size,horizontal)) // Si on peut placer le bateau
@@ -196,6 +222,12 @@ public class Board  implements Serializable {
         }
         return false;
     }
+
+    /**
+     * @param x coordinate
+     * @param y coordinate
+     * @param img name of the image to use
+     */
     private void setImage(int x, int y, String img)
     {
         gridList.get(y).get(x).setBoatImage(IMAGESBATEAUX.get(img));

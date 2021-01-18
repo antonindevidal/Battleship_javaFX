@@ -5,20 +5,47 @@ import network.NetworkPackageCoordinates;
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * manage connections with a client and another ServerConnection
+ */
 public class ServerConnection implements Runnable{
 
+    /**
+     * Input of data from a client
+     */
     private DataInputStream input;
+
+    /**
+     * Output of data from a client
+     */
     private DataOutputStream output;
 
-
+    /**
+     * Output of an object from a client
+     */
     private ObjectOutputStream objOutput;
+
+    /**
+     * Input of an object from a client
+     */
     private ObjectInputStream objInput;
 
+    /**
+     * id of the player it communicate with
+     */
     private int playerId;
 
+    /**
+     * ServerConnection of the other player
+     */
     private ServerConnection otherPlayer;
 
 
+    /**
+     * Constructor
+     * @param socket socket of the server
+     * @param playerId  id of the player it communicate with
+     */
     public ServerConnection(Socket socket, int playerId) {
         this.playerId = playerId;
 
@@ -38,6 +65,9 @@ public class ServerConnection implements Runnable{
         otherPlayer = sc;
     }
 
+    /**
+     * Read from his objInput and send to the other ServerConnection
+     */
     @Override
     public void run()  {
         try {
@@ -55,6 +85,7 @@ public class ServerConnection implements Runnable{
 
                 try {
                     c = (NetworkPackageCoordinates) objInput.readObject(); // Try to read on his object input what the client sent
+                    System.out.println("oui");
                 } catch (IOException | ClassNotFoundException e) {
                     System.out.println("ServerConnection can't read in his object input");
                     break;
@@ -74,7 +105,10 @@ public class ServerConnection implements Runnable{
     }
 
 
-
+    /**
+     * Send coordinate to the other player
+     * @param c object to send
+     */
     private void sendCoordinatesToOtherPlayer(NetworkPackageCoordinates c)
     {
         try {
@@ -86,6 +120,10 @@ public class ServerConnection implements Runnable{
         }
 
     }
+
+    /**
+     * End connection and send signal to client
+     */
     private void endClient()
     {
         try {

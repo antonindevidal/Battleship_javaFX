@@ -7,13 +7,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-/*
- Classe pour ordinateur facile.
 
-  Place ses bateaux aléatoirement et tire aléatoirement
+/**
+ * Extend abstract class Computer
+ *
+ * Easy version of a computer
  */
 public class ComputerEasy extends Computer implements Serializable {
 
+    /**
+     * Place boat randomly on the board
+     * @param board board to place boats onto
+     */
     @Override
     public void placeBoats(Board board) {
         Random r = new Random();
@@ -49,6 +54,11 @@ public class ComputerEasy extends Computer implements Serializable {
     }
 
 
+    /**
+     * shoot randomly on the board
+     * @param board board to shoot on
+     * @return result of the shoot
+     */
     @Override
     public ComputerManager.shootResult shoot(Board board) {
         Random r = new Random();

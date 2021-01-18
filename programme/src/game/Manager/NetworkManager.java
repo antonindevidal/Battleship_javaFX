@@ -2,13 +2,22 @@ package game.Manager;
 
 import javafx.application.Platform;
 
+
+/**
+ * Manager of a network game
+ */
 public class NetworkManager extends Manager{
 
+    /**
+     * Player number
+     */
     private int playerNumber;
 
 
-
-
+    /**
+     * constructor
+     * @param playerNumber number of the player
+     */
     public NetworkManager(int playerNumber) {
         super();
 
@@ -26,6 +35,10 @@ public class NetworkManager extends Manager{
 
     }
 
+    /**
+     *
+     * @return return the number remaining of boat to place
+     */
     @Override
     public int getNbBoatToPlace()
     {
@@ -38,9 +51,12 @@ public class NetworkManager extends Manager{
     }
 
 
-
-
-
+    /**
+     * Other player place a boat
+     * @param x coordinate
+     * @param y coordinate
+     * @param horizontal true if the boat is placed horizontally
+     */
     public void otherPlayerPlaceBoat(int x , int y, boolean horizontal)
     {
         if (partOfGame == ComputerManager.jeu.place && boatToPlace.size() >0 && !playerTurn) // Check it is the other player turn to place boats
@@ -62,6 +78,12 @@ public class NetworkManager extends Manager{
 
     }
 
+    /**
+     * ¨Player place a boat
+     * @param x coordinate
+     * @param y coordinate
+     * @param horizontal true if the boat is placed horizontally
+     */
     public void placeMyBoat(int x , int y, boolean horizontal)
     {
         if (partOfGame == ComputerManager.jeu.place && boatToPlace.size() >0 && playerTurn)// Check it is the  player turn to place boats
@@ -95,7 +117,11 @@ public class NetworkManager extends Manager{
 
     }
 
-
+    /**
+     * Player shoot
+     * @param x coordinate
+     * @param y coordinate
+     */
     public void iShoot(int x, int y) // Player shoot
     {
         if (partOfGame == ComputerManager.jeu.joue && playerTurn)
@@ -121,6 +147,12 @@ public class NetworkManager extends Manager{
             }
         }
     }
+
+    /**
+     * Other player shoot
+     * @param x coordinate
+     * @param y coordinate
+     */
     public void otherPlayerShoot(int x, int y)
     {
         if (partOfGame == ComputerManager.jeu.joue && !playerTurn) // If other player turn to shoot
@@ -143,6 +175,9 @@ public class NetworkManager extends Manager{
         }
     }
 
+    /**
+     * display an error message
+     */
     public void erreurConnexion()
     {
         setTexte1("Connexion lost");

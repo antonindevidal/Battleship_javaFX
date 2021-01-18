@@ -8,7 +8,16 @@ import view.Previsualisation;
 import javax.swing.*;
 import java.io.*;
 
+
+/**
+ * Class used for serialization
+ */
 public class NormalGameSerialization extends Serialization {
+
+    /**
+     * Save on file save.save the computerManager
+     * @param cm computer manager to save
+     */
     @Override
     public void save(ComputerManager cm) {
 
@@ -25,8 +34,12 @@ public class NormalGameSerialization extends Serialization {
 
     }
 
+    /**
+     * @return game loaded
+     * @throws Exception if load fail or file doesn't exist
+     */
     @Override
-    public ComputerManager load() throws Exception{
+    public ComputerManager load() throws Exception {
         ComputerManager computerManager = null;
         try {
             FileInputStream fileIn = new FileInputStream("save.save");

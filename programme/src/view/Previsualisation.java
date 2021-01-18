@@ -12,25 +12,56 @@ import javafx.scene.layout.StackPane;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * See where the player place his boats ( in green if he can, in red if he can't place
+ */
 ///
 /// the aim of this class is to see where the player place his boats
 public class Previsualisation implements Serializable {
 
+    /**
+     * List of image view to display on a grid
+     */
     private ArrayList<ImageView> previsualisation = new ArrayList<>();
+
+    /**
+     *  GridPane where it diplay the previsualisation
+     */
     private GridPane gp;
+
+    /**
+     * Manager of the curent game
+     */
     private Manager game;
+
+    /**
+     * Number of imageView to create =5 because longest boat is 5
+     */
     private static final int NBCASES = 5;
 
+    /**
+     * true if it is destroyed
+     */
     private boolean destroyed = false;
 
     public ArrayList<ImageView> getPrevisualisation() { return previsualisation;}
 
     public boolean isDestroyed() { return destroyed; }
 
+    /**
+     * Constructoe
+     * @param gp  grip pane where the previsualization is display
+     * @param game  manager of the current game
+     */
     public Previsualisation(GridPane gp, Manager game) {
         this.gp = gp;
         this.game = game;
     }
+
+    /**
+     * Creation of the previsualisation
+     */
     public void createPrevisualisation()
     {
         if(destroyed)
@@ -46,6 +77,9 @@ public class Previsualisation implements Serializable {
     }
 
 
+    /**
+     * Destroy the previsualisation
+     */
     public void destroyPrevisualisation() // Destroy images view
     {
         for(int i=0; i<NBCASES;i++)
@@ -59,6 +93,11 @@ public class Previsualisation implements Serializable {
         destroyed = true;
     }
 
+    /**
+     * Refresh the previsaliation to dislay to the coordinates
+     * @param x cordinate
+     * @param y coordinate
+     */
     public void refreshPrevisualisation(int x, int y )
     {
         if (game.getPartOfGame() != Manager.jeu.place || destroyed)// avoid errors

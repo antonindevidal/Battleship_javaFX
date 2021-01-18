@@ -10,13 +10,22 @@ import javafx.beans.property.SimpleStringProperty;
 
 import java.io.Serializable;
 
+/**
+ * Manager of a game against computer
+ */
 public class ComputerManager extends Manager implements Serializable {
     private static final long serialVersionUID = 6529685098267757690L;
 
+    /**
+     * Game computer
+     */
     private Computer  computer;
 
     public void setComputer(Computer computer) { this.computer = computer; }
 
+    /**
+     * Constructor
+     */
     public ComputerManager() {
         super();
 
@@ -24,12 +33,23 @@ public class ComputerManager extends Manager implements Serializable {
         computer.placeBoats(otherPlayerBoard); // Let the computer place his boats
 
     }
+
+    /**
+     * Constructor with a computer
+     * @param c computer for the game
+     */
     public ComputerManager(Computer c) {
         this();
         computer = c;
 
     }
 
+    /**
+     * place a boat for player
+     * @param x coordinate to place the boat
+     * @param y coordinate to place the boat
+     * @param horizontal true if the boat is placed horizontally
+     */
     public void placeBoats(int x, int y,boolean horizontal) // Player place boats
     {
         if (partOfGame ==jeu.place && boatToPlace.size()>0)
@@ -50,6 +70,13 @@ public class ComputerManager extends Manager implements Serializable {
 
         }
     }
+
+    /**
+     * player shoot on a cell
+     * @param x coordinate
+     * @param y coordinate
+     * @return result of the shoot
+     */
     public shootResult playerShoot(int x,int y)
     {
         shootResult shootResult =null;
@@ -79,6 +106,9 @@ public class ComputerManager extends Manager implements Serializable {
 
     }
 
+    /**
+     * Computer shoot
+     */
     public void computerShoot() {
         try {
             Thread.sleep(1000); // Computer sleep to pretend thinking
@@ -106,6 +136,9 @@ public class ComputerManager extends Manager implements Serializable {
         }
     }
 
+    /**
+     * Set all properties after deserialisation without properties
+     */
     public void setProperties()
     {
         texte1 = new SimpleStringProperty();

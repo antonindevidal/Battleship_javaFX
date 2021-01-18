@@ -34,25 +34,54 @@ import java.util.ResourceBundle;
 
 import static java.lang.Math.floor;
 
+/**
+ * Controller for GameViewV2 and  game against computer
+ */
 public class GameViewComputer implements Initializable {
+    /**
+     * grid at the bottom on the view
+     */
     @FXML
     private GridPane playerGrid;
+    /**
+     * grid at the top on the view
+     */
     @FXML
     private GridPane computerGrid;
+    /**
+     * label that display hints
+     */
     @FXML
     private Label hints;
+    /**
+     * Label that display some infomatioons
+     */
     @FXML
     private Label dialogu;
+    /**
+     * Diplay the orientation of the boat ot place
+     */
     @FXML
     private Label orientation;
+    /**
+     * button used to go back to the menu
+     */
     @FXML
     private Button restartButton;
 
+    /**
+     * previsualize boats when placed
+     */
     private Previsualisation previsualisation;
 
-
+    /**
+     * manager of the game
+     */
     private ComputerManager game ;
 
+    /**
+     * Where the mouse was on the playerGrid
+     */
     private int lastX = -1, lastY = -1;
 
     @Override
@@ -78,18 +107,26 @@ public class GameViewComputer implements Initializable {
 
     }
 
-
+    /**
+     * Constuctor for a new game
+     */
     public GameViewComputer() {
-        super();
         game = new ComputerManager();
     }
+
+    /**
+     * Constructor when player load a previous game
+     * @param cm    Manager loaded
+     */
     public GameViewComputer(ComputerManager cm)
     {
         game = cm;
-
     }
 
-    // Set the difficulty of the game
+    /**
+     * Set the difficulty of the computer
+     * @param difficulty difficulty of the computer
+     */
     public void setDifficulty(String difficulty) {
         switch (difficulty) {
             case "Facile":
@@ -107,6 +144,10 @@ public class GameViewComputer implements Initializable {
         }
     }
 
+    /**
+     * When player click on the the window
+     * @param mouseEvent
+     */
     @FXML
     private void screenClick(MouseEvent mouseEvent) {
         if (mouseEvent.isSecondaryButtonDown()) {
@@ -114,12 +155,20 @@ public class GameViewComputer implements Initializable {
         }
         previsualisation.refreshPrevisualisation(lastX, lastY);// Refresh the previsalisation to show the the new orientation
     }
+
+    /**
+     * Set the restart button visible
+     */
     public void setRestartButtonVisible()
     {
         restartButton.setVisible(true);
     }
 
 
+    /**
+     * Click on playerGrid
+     * @param mouseEvent
+     */
     @FXML
     private void clickPlayerGrid(MouseEvent mouseEvent) { // Bottom Grid click
         if (game.getPartOfGame() == ComputerManager.jeu.place && mouseEvent.isPrimaryButtonDown()) { // Check condition to place a boat
@@ -141,6 +190,10 @@ public class GameViewComputer implements Initializable {
 
     }
 
+    /**
+     * Click on the computerGrid
+     * @param mouseEvent
+     */
     @FXML
     private void clickComputerGrid(MouseEvent mouseEvent) {
         if (game.getPartOfGame() == ComputerManager.jeu.joue && game.isPlayerTurn()) { // Check condition to shoot
@@ -175,7 +228,11 @@ public class GameViewComputer implements Initializable {
 
     }
 
-    /// For  a grid, it binds an imageView and the rotation of the image view for every cell
+    /**
+     * For  a grid, it binds an imageView and the rotation of the image view for every cell
+     * @param gp gridPane to bind
+     * @param b board to bind with the grid pane
+     */
     private void bindGrid(GridPane gp, Board b) {
         ObservableList<Node> children = gp.getChildren();
         for (int x = 0; x < 10; x++) {
@@ -191,6 +248,9 @@ public class GameViewComputer implements Initializable {
         }
     }
 
+    /**
+     * Prepare boards for a game
+     */
     private void setBoards() {
         /// In every cell in the two grid, it creates a stack pane and an imageView
         for (int i = 0; i < 10; i++) {
@@ -214,6 +274,10 @@ public class GameViewComputer implements Initializable {
         }
     }
 
+    /**
+     * Go back to the main menu
+     * @param mouseEvent
+     */
     @FXML
     private void mainMenu(MouseEvent mouseEvent) {
         // Go back to the main menu
@@ -234,6 +298,10 @@ public class GameViewComputer implements Initializable {
         }
     }
 
+    /**
+     * When mouse move over the playerGrid
+     * @param mouseEvent
+     */
     @FXML
     private void movedMouseOverPlayerGrid(MouseEvent mouseEvent) {
         // get coordinates of the mouse relative to the grid
@@ -251,6 +319,11 @@ public class GameViewComputer implements Initializable {
 
 
     }
+
+    /**
+     * click on save button -> save the current game
+     * @param mouseEvent
+     */
     @FXML
     private void clickSaveButton(MouseEvent mouseEvent)
     {

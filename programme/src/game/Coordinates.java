@@ -2,8 +2,18 @@ package game;
 
 import java.io.Serializable;
 
+/**
+ * Coordinates
+ */
 public class Coordinates implements Serializable {
+
+    /**
+     * x
+     */
     private int x;
+    /**
+     * y
+     */
     private int y;
 
     public int getX() {
@@ -22,10 +32,19 @@ public class Coordinates implements Serializable {
         this.y = y;
     }
 
+    /**
+     * constructor
+     * @param x coordinate
+     * @param y coordinate
+     */
     public Coordinates(int x, int y) {
         this.x = x;
         this.y = y;
     }
+
+    /**
+     * constructor
+     */
     public Coordinates() {
         this.x = 0;
         this.y = 0;

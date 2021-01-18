@@ -90,7 +90,7 @@
                     <center>
                         <VBox alignment="CENTER">
                             <children>
-                        <Button mnemonicParsing="false" text="Save" onMousePressed="#clickSaveButton" />
+                        <Button mnemonicParsing="false" text="Save" onMousePressed="#clickSaveButton" fx:id="saveButton"/>
                                 <Label fx:id="hints" prefHeight="118.0" prefWidth="200.0" text="Place your boats on the grid. 5 boats left" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
                                     <font>
                                         <Font size="16.0" />

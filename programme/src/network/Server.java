@@ -4,11 +4,20 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * network server, initialize all communication with client
+ */
 public class Server {
 
 
+    /**
+     * Server socket
+     */
     private ServerSocket ss;
 
+    /**
+     * Number of player connected
+     */
     private int nbPlayer = 0;
 
 
@@ -17,11 +26,15 @@ public class Server {
         return ss.getLocalPort();
     }
 
+    /**
+     * constructor
+     * @param port port of the server
+     */
     public Server(int port)
     {
 
         try {
-            ss = new ServerSocket(port);
+            ss = new ServerSocket(port); // create a socket
 
         }catch (IOException e)
         {
@@ -30,6 +43,9 @@ public class Server {
     }
 
 
+    /**
+     * Create 2 connection with client to begin a game
+     */
     public void ClientConnection()
     {
         ServerConnection player1 = null;

@@ -4,6 +4,8 @@ import game.Board;
 import game.Manager.ComputerManager;
 import game.Manager.Manager;
 import game.Manager.NetworkManager;
+import game.serialization.NormalGameSerialization;
+import game.serialization.Serialization;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -28,38 +30,81 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static java.lang.Math.floor;
-
+/**
+ * Controller for GameViewV2 and  game against another player
+ */
 public class GameViewNetwork implements Initializable { // One of the two controller for GameViewV2.fxml
 
+    /**
+     * grid at the bottom on the view
+     */
     @FXML
     private GridPane playerGrid;
+    /**
+     * grid at the top on the view
+     */
     @FXML
     private GridPane computerGrid;
+    /**
+     * label that display hints
+     */
     @FXML
     private Label hints;
+    /**
+     * Label that display some infomatioons
+     */
     @FXML
     private Label dialogu;
+    /**
+     * Diplay the orientation of the boat ot place
+     */
     @FXML
     private Label orientation;
+    /**
+     * button used to go back to the menu
+     */
     @FXML
     private Button restartButton;
 
+    /**
+     * previsualize boats when placed
+     */
+    private Previsualisation previsualisation;
+
+    /**
+     * Button used to save the game
+     */
+    @FXML
+    private Button saveButton;
+    /**
+     * Where the mouse was on the playerGrid
+     */
     private int lastX=-1,lastY=-1;
 
+    /**
+     * Client for the player
+     */
     private Client c;
+    /**
+     * Manager for the game
+     */
     private NetworkManager game;
 
-    private Previsualisation previsualisation;
 
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setBoards();
+        saveButton.setVisible(false); // disable the button to save the game
     }
 
     public NetworkManager getGame() {
         return game;
     }
-
+    /**
+     * For  a grid, it binds an imageView and the rotation of the image view for every cell
+     * @param gp gridPane to bind
+     * @param b board to bind with the grid pane
+     */
     private void bindGrid(GridPane gp, Board b) // Bind all the images on a board to the gridPane to display them when they change
     {
         ObservableList<Node> children = gp.getChildren();
@@ -84,6 +129,11 @@ public class GameViewNetwork implements Initializable { // One of the two contro
         }
     }
 
+
+    /**
+     * When player click on the the window
+     * @param mouseEvent
+     */
     @FXML
     private void screenClick(MouseEvent mouseEvent) {
         if (mouseEvent.isSecondaryButtonDown()) // Change the orientation variable when you right click
@@ -100,7 +150,8 @@ public class GameViewNetwork implements Initializable { // One of the two contro
 
 
     /**
-     * @param c
+     * Set the client for the game
+     * @param c Client to set
      */
     public void setC(Client c) { // Set a client because its the view for network
         this.c = c;
@@ -121,6 +172,10 @@ public class GameViewNetwork implements Initializable { // One of the two contro
         orientation.textProperty().bind(Bindings.format("Orientation: %s \n(right click to change)",game.orientationPProperty()));
     }
 
+    /**
+     * Click on playerGrid
+     * @param mouseEvent
+     */
     @FXML
     private void clickPlayerGrid(MouseEvent mouseEvent) { // Click on the bottom grid
         if( game.getPartOfGame()== ComputerManager.jeu.place && mouseEvent.isPrimaryButtonDown()) // Check if can place boats
@@ -139,6 +194,11 @@ public class GameViewNetwork implements Initializable { // One of the two contro
         }
 
     }
+
+    /**
+     * Click on the computerGrid
+     * @param mouseEvent
+     */
     @FXML
     private void clickComputerGrid(MouseEvent mouseEvent) { // Click on the to grid
         if (game.getPartOfGame() == ComputerManager.jeu.joue && game.isPlayerTurn()) // Check if time to shoot
@@ -156,6 +216,10 @@ public class GameViewNetwork implements Initializable { // One of the two contro
         }
     }
 
+    /**
+     * Go back to the main menu
+     * @param mouseEvent
+     */
     @FXML
     private void mainMenu(MouseEvent mouseEvent) { // Go back to the menu
         try
@@ -178,6 +242,10 @@ public class GameViewNetwork implements Initializable { // One of the two contro
         }
     }
 
+
+    /**
+     * Prepare boards for a game
+     */
     private void setBoards()
     {
         //Set an ImageView to all the grid cells (not on the fxml because there are 200 cells)
@@ -201,6 +269,10 @@ public class GameViewNetwork implements Initializable { // One of the two contro
             }
         }
     }
+    /**
+     * When mouse move over the playerGrid
+     * @param mouseEvent
+     */
     @FXML
     private void movedMouseOverPlayerGrid(MouseEvent mouseEvent) {
         // get coordinates of the mouse relative to the grid
@@ -219,6 +291,14 @@ public class GameViewNetwork implements Initializable { // One of the two contro
 
     }
 
+    /**
+     * The button is disable but must have a method because the ide is not happy
+     * @param mouseEvent
+     */
+    @FXML
+    private void clickSaveButton(MouseEvent mouseEvent)
+    {
+    }
 
 
 }

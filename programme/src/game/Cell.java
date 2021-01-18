@@ -6,22 +6,45 @@ import javafx.scene.image.Image;
 
 import java.io.Serializable;
 
+/**
+ * Represent a cell of a board
+ */
 public class Cell implements Serializable {
-    private boolean hit; // Vrai si la cellule à déja été touchée
-    private Ship ship; // Le bateau associé à la case ou null si il n'y en a pas
 
+    /**
+     * true if the boat has already been hit
+     */
+    private boolean hit;
+
+    /**
+     * ship associated to this cell (null if no boat)
+     */
+    private Ship ship;
+
+    /**
+     * Property of the rotation of the image
+     */
     private transient IntegerProperty imageRotation = new SimpleIntegerProperty();
         public int getImageRotation() { return imageRotation.get(); }
         public IntegerProperty imageRotationProperty() { return imageRotation; }
         public void setImageRotation(int imageRotation) { this.imageRotation.set(imageRotation); this.imageRotationSer = imageRotation; }
 
 
+    /**
+     * Property Image of the cell
+     */
     private transient StringProperty boatImage = new SimpleStringProperty();
         public String getBoatImage() { return boatImage.get(); }
         public StringProperty boatImageProperty() { return boatImage; }
         public void setBoatImage(String boatImage) { this.boatImage.set(boatImage); this.boatImageSer=boatImage; }
 
+    /**
+     * boat image for serialization
+     */
     private String boatImageSer;
+    /**
+     * boat rotation for imageRotation
+     */
     private int imageRotationSer;
 
     public String getBoatImageSer() { return boatImageSer; }
@@ -46,12 +69,18 @@ public class Cell implements Serializable {
     }
 
 
+    /**
+     * constructor
+     */
     public Cell() {
         this.hit = false;
         this.ship = null;
     }
 
-
+    /**
+     * shoot on the cell
+     * @return result of the shoot
+     */
     public ComputerManager.shootResult shoot()
     {
         if (isHit())// Si la cellule a déjà été touchée

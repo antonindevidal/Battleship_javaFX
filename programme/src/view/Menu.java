@@ -36,44 +36,67 @@ import java.util.regex.Pattern;
 
 public class Menu implements Initializable {
 
+    /**
+     * TextField for the code of the network Game
+     */
     @FXML
     private TextField joinIp;
+
+    /**
+     *Button to join a network game
+     */
     @FXML
     private Button joinButton;
+
+    /**
+     * RadioButton for normal Difficulty
+     */
     @FXML
     private RadioButton RBmoyen;
+    /**
+     * RadioButton for easy Difficulty
+     */
     @FXML
     private RadioButton RBfacile;
+
+    /**
+     * Button to start a game against computer
+     */
     @FXML
     private Button playButton;
+
+    /**
+     * Label to display errors
+     */
     @FXML
     private Label erreur;
 
+    /**
+     * Toggle group for the difficulty
+     */
     @FXML
     private ToggleGroup difficulte;
 
+    /**
+     * Local ip of the player
+     */
     private String ip;
 
-    private Server serveur;
 
+    /**
+     * Property for the error message
+     */
     private StringProperty errorMessage = new SimpleStringProperty("");
         public String getErrorMessage() { return errorMessage.get(); }
         public StringProperty errorMessageProperty() { return errorMessage; }
         public void setErrorMessage(String errorMessage) { this.errorMessage.set(errorMessage); }
-
-    private StringProperty buttonText = new SimpleStringProperty("Play");
-        public String getButtonText() { return buttonText.get(); }
-        public StringProperty buttonTextProperty() { return buttonText; }
-        public void setButtonText(String buttonText) { this.buttonText.set(buttonText); }
-
 
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        RBfacile.setToggleGroup(difficulte); // Set toogles button in the same group
+        RBfacile.setToggleGroup(difficulte);
         RBmoyen.setToggleGroup(difficulte);
 
         erreur.textProperty().bindBidirectional(errorMessage);
@@ -90,6 +113,10 @@ public class Menu implements Initializable {
 
     }
 
+    /**
+     * Click on the button to create game against computer
+     * @param actionEvent
+     */
     @FXML
     private void boutonClick(ActionEvent actionEvent) {
         RadioButton rb = (RadioButton)difficulte.getSelectedToggle(); // get the selected difficulty
@@ -101,6 +128,10 @@ public class Menu implements Initializable {
 
     }
 
+    /**
+     * Join a network game with the code on the textfield
+     * @param actionEvent
+     */
     @FXML
     private void clickJoinButton(ActionEvent actionEvent) {
         String code = joinIp.getText();
@@ -144,17 +175,21 @@ public class Menu implements Initializable {
     }
 
 
+    /**
+     * Create a network game
+     * @param actionEvent
+     */
     @FXML
     private void clickCreateServer(ActionEvent actionEvent) {
         Client c = null;
-
+        Server serveur = new Server(0);// 0 checks for a free port and create a local server on the user computer
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 serveur.ClientConnection(); // Run the method that wait for clients
             }
         });
-        serveur = new Server(0); // 0 checks for a free port and create a local server on the user computer
+
         int port = serveur.getServerPort();
         t.start();
         try {
@@ -173,6 +208,12 @@ public class Menu implements Initializable {
         loadNetworkView(title,actionEvent,c); // Load the view
     }
 
+    /**
+     * Load the network view
+     * @param title     title of the window
+     * @param actionEvent
+     * @param c client to set to the controller
+     */
     private void loadNetworkView(String title, ActionEvent actionEvent,Client c) { // Load the view with the network controller to play on LAN
         try {
             GameViewNetwork gv = new GameViewNetwork();
@@ -205,6 +246,11 @@ public class Menu implements Initializable {
         }
     }
 
+    /**
+     * Load game window for game against computer
+     * @param actionEvent
+     * @param gvc   controller to set to the view
+     */
     private void loadClassicView(ActionEvent actionEvent,GameViewComputer gvc) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameViewV2.fxml"));
@@ -223,12 +269,20 @@ public class Menu implements Initializable {
         }
         }
 
+    /**
+     * Close the window
+     * @param actionEvent
+     */
     private void closeThisWindow(ActionEvent actionEvent) // Close the current window
     {
         Stage s = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();
         s.close();
     }
 
+    /**
+     * Click on button to load a game then load saved game
+     * @param actionEvent
+     */
     @FXML
     private void clickLoadGame(ActionEvent actionEvent) {
         Serialization serialization = new NormalGameSerialization();

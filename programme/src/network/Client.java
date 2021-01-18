@@ -9,23 +9,48 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
+/**
+ * Client side of a netxork game, every player has a Client
+ */
 public class Client {
 
+    /**
+     * Socket connected to a ServerConnection
+     */
     private Socket socket;
-    private String ipAdress = "localhost";
 
+    /**
+     * Input of data from serverConnection
+     */
     private DataInputStream input;
+    /**
+     * Output of data from serverConnection
+     */
     private DataOutputStream output;
 
-    private int port;
-
+    /**
+     * Input of an object from serverConnection
+     */
     private ObjectInputStream objInput;
+
+    /**
+     * Output of an object from serverConnection
+     */
     private ObjectOutputStream objOutput;
 
+    /**
+     * true if the client can send a message trough an output
+     */
     private boolean canSendMessage = true;
 
-    private int playerId;
+    /**
+     * Manager of the current game
+     */
     private NetworkManager game;
+
+    /**
+     * controller of the gameView
+     */
     private GameViewNetwork gv;
 
 
@@ -39,13 +64,17 @@ public class Client {
     }
 
 
+    /**
+     * Constructor
+     * @param address address of the server(ip)
+     * @param port  port of the server
+     * @throws IOException throw if there is a problem to instantiate the client
+     */
     public Client(String address, int port ) throws IOException { //throw an IOException -> can't connect to server
-
-        ipAdress = address;
-        this.port = port;
+        int playerId;
 
 
-        socket = new Socket(ipAdress, port); // socket to connect with client
+        socket = new Socket(address, port); // socket to connect with client
 
         // Create all input and output to talk
         input = new DataInputStream(socket.getInputStream());
@@ -62,9 +91,12 @@ public class Client {
     }
 
 
-
-
-    //Send coordinates  other player
+    /**
+     * Send a NetworkPackageCoordinates to the serverConnection
+     * @param x x coordinate to send
+     * @param y y coordinate to send
+     * @param horizontal orientation of the boat ( true if horizontal)
+     */
     public void sendCoordinates(int x, int y, boolean horizontal)
     {
         if (!canSendMessage) // cant send message
@@ -82,6 +114,9 @@ public class Client {
         }
     }
 
+    /**
+     * Receive coordinates from the serverConnection -  run in a separate thread
+     */
     public void receiveCoordinates() {
         Thread t = new Thread(new Runnable() {
             @Override

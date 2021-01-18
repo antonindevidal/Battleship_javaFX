@@ -10,19 +10,77 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Manager of a game
+ */
 public class Manager  implements Serializable {
 
 
-
+    /**
+     * part of the game
+     */
     public enum jeu{place,joue,fin}
+
+    /**
+     * Result possible of a shoot
+     */
     public enum shootResult{miss,hit,sink,alreadyHit}
 
 
+    /**
+     * current part of the game
+     */
     protected ComputerManager.jeu partOfGame= ComputerManager.jeu.place;
-    protected Board myBoard,otherPlayerBoard;
+
+    /**
+     * Board of the player
+     */
+    protected Board myBoard;
+
+    /**
+     * Board of the other player/computer
+     */
+    protected Board otherPlayerBoard;
+
+    /**
+     * true if the state of orientation is horzontal
+     */
     protected boolean horizontal = true;
+
+    /**
+     * true if it's the player turn
+     */
     protected boolean playerTurn = true;
+
+
+    /**
+     * List of the boat to place
+     */
     protected List<Integer> boatToPlace=new ArrayList<Integer>();
+
+    /**
+     * property of a text to display
+     */
+    protected transient StringProperty texte1 = new SimpleStringProperty();
+        public String getTexte1() { return texte1.get(); }
+        public StringProperty texte1Property() { return texte1; }
+        public void setTexte1(String texte1) { this.texte1.set(texte1); }
+
+    /**
+     * property of a text to display
+     */
+    protected transient StringProperty texte2 = new SimpleStringProperty("Place your boats on the grid. 5 boats left");
+        public String getTexte2() { return texte2.get(); }
+        public StringProperty texte2Property() { return texte2; }
+        public void setTexte2(String texte2) { this.texte2.set(texte2); }
+
+    /**
+     * property of the orientation of the boat
+     */
+    protected transient StringProperty orientationP = new SimpleStringProperty("Horizontal");
+        public String getOrientationP() { return orientationP.get(); }
+        public StringProperty orientationPProperty() { return orientationP; }
+        public void setOrientationP(String orientationP) { this.orientationP.set(orientationP); }
 
 
     public boolean isHorizontal() {
@@ -33,7 +91,10 @@ public class Manager  implements Serializable {
         return partOfGame;
     }
 
-    // Set if the boat is placed horizontaly or not and display that
+    /**
+     * set orientation of the boat
+     * @param horizontal true if horizontal / false if vertical
+     */
     public void setHorizontal(boolean horizontal) {
         this.horizontal = horizontal;
         if (isHorizontal())
@@ -70,23 +131,9 @@ public class Manager  implements Serializable {
     }
 
 
-
-    // all the text to display (bind in the controller)
-    protected transient StringProperty texte1 = new SimpleStringProperty();
-        public String getTexte1() { return texte1.get(); }
-        public StringProperty texte1Property() { return texte1; }
-        public void setTexte1(String texte1) { this.texte1.set(texte1); }
-
-    protected transient StringProperty texte2 = new SimpleStringProperty("Place your boats on the grid. 5 boats left");
-        public String getTexte2() { return texte2.get(); }
-        public StringProperty texte2Property() { return texte2; }
-        public void setTexte2(String texte2) { this.texte2.set(texte2); }
-
-    protected transient StringProperty orientationP = new SimpleStringProperty("Horizontal");
-        public String getOrientationP() { return orientationP.get(); }
-        public StringProperty orientationPProperty() { return orientationP; }
-        public void setOrientationP(String orientationP) { this.orientationP.set(orientationP); }
-
+    /**
+     * constructor
+     */
     public Manager() {
         this.myBoard = new Board();
         this.otherPlayerBoard = new Board(); // Add all boats to place on the board (maybe there is a better way to do it...)
@@ -98,7 +145,10 @@ public class Manager  implements Serializable {
     }
 
 
-
+    /**
+     * Check if the game ended
+     * @return true if game has ended / false if game is ongoing
+     */
     public boolean isEnding()// Check if one of the player has lost
     {
 

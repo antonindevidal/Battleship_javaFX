@@ -8,27 +8,50 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/*
-    Ordinateur de niveau normal
-
-    Place ses bateaux alétoirement
-
-    Tire de façon aléatoire jusqu'à toucher un bateau
-    Si il touche un bateau alors il va "réfléchir" pour le couler et recommencer à tirer aléatoirement
+/**
+ * Extend abstract class Computer
+ *
+ * Normal version of a computer
  */
 public class ComputerNormal extends Computer {
-    private enum orientation{vertical,horizontal,neSaisPas}  // énumération des orientatoins possibles des bateaux
 
-    private Coordinates lastShoot =new Coordinates(),lastHit=new Coordinates(), boatFirstPos=new Coordinates(); // Différents coordonnés qui servent de mémoire des dernières actions
+    /**
+     * possible orientation of a boat
+     */
+    private enum orientation{vertical,horizontal,neSaisPas}
 
-    private ComputerManager.shootResult lastShootResult = ComputerManager.shootResult.miss; // Dernier résultat de tire
-    private boolean hasATarget; // vrai si l'ordinateur à une cible
-    private boolean findOnPositive =true; // vrai si l'on doit chercher le bateau dans les positifs
-    private orientation boatOrientation=orientation.neSaisPas; // Orientation du bateau que l'ordinateur à pour cible
+    /**
+     * some coordinates used as memory for last shoot
+     */
+    private Coordinates lastShoot =new Coordinates(),lastHit=new Coordinates(), boatFirstPos=new Coordinates();
+
+    /**
+     * Result of the last shoot
+     */
+    private ComputerManager.shootResult lastShootResult = ComputerManager.shootResult.miss;
+
+    /**
+     * true if the it has a target
+     */
+    private boolean hasATarget;
+
+    /**
+     * true if this has to find a boat on positive
+     */
+    private boolean findOnPositive =true;
+
+    /**
+     * orientation of the targeted boat
+     */
+    private orientation boatOrientation=orientation.neSaisPas;
 
 
+    /**
+     * Place boat randomly on the board
+     * @param board board to place boats onto
+     */
     @Override
-    public void placeBoats(Board board) { // On place le bateau de la même façon que pour l'ordinateur facile
+    public void placeBoats(Board board) {
         Random r = new Random();
         int x,y;
         hasATarget=false;
@@ -55,6 +78,15 @@ public class ComputerNormal extends Computer {
         }
     }
 
+    /**
+     * shoot cleverly on the board
+     *
+     * - if it has no target, shoot randomly
+     *
+     * - if has a target, look for the rest of the boat, find the orientation of the boat and shoot on this boat until it sink
+     * @param board board to shoot on
+     * @return result of the shoot
+     */
     @Override
     public ComputerManager.shootResult shoot(Board board) {
 
@@ -101,6 +133,11 @@ public class ComputerNormal extends Computer {
         return lastShootResult;
     }
 
+    /**
+     * Shoot randomly
+     * @param board board to shoot on
+     * @return
+     */
     private ComputerManager.shootResult randShoot(Board board) // Tire aléatoire
     {
         Random r = new Random();
@@ -120,6 +157,12 @@ public class ComputerNormal extends Computer {
         return sR;
     }
 
+    /**
+     * Shoot randomly on an adjacent cell
+     * @param board board to shoot on
+     * @param x x coordinate of the cell
+     * @param y y coordinate of the cell
+     */
     private void adjaShoot(Board board, int x, int y) // Tire autour de la case
     {
         Random r = new Random();
@@ -156,6 +199,13 @@ public class ComputerNormal extends Computer {
         lastShootResult=sR;
     }
 
+    /**
+     * Check if all cells around are shoot
+     * @param board board to test
+     * @param x x coordinate of the cell
+     * @param y y coordinate of the cell
+     * @return true if all cells around have been shoot
+     */
     private boolean allAdjacentHit(Board board, int x, int y)
     {
         if (board.getCell(x+1,y).isHit() &&board.getCell(x-1,y).isHit() &&board.getCell(x,y+1).isHit() &&board.getCell(x,y-1).isHit() )
@@ -178,6 +228,9 @@ public class ComputerNormal extends Computer {
         boatFirstPos.setY(y);
     }
 
+    /**
+     * Guess orientation of the boat targeted with the two last shoot
+     */
     private void guessOrientation()
     {
         int paddingX,paddingY;
@@ -204,6 +257,10 @@ public class ComputerNormal extends Computer {
         }
     }
 
+    /**
+     * Shoot horizontally on the board on the targeted boat
+     * @param board board to shoot on
+     */
     private void shootHorizontal(Board board)
     {
         int nextX = lastHit.getX() ;
@@ -237,7 +294,10 @@ public class ComputerNormal extends Computer {
         lastShootResult = board.shoot(nextX,lastHit.getY());
         setLastShoot(nextX,lastHit.getY());
     }
-
+    /**
+     * Shoot vertically on the board on the targeted boat
+     * @param board board to shoot on
+     */
     private void shootVertical(Board board)
     {
         int nextY = lastHit.getY() ;
