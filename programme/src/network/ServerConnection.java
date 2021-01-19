@@ -85,7 +85,6 @@ public class ServerConnection implements Runnable{
 
                 try {
                     c = (NetworkPackageCoordinates) objInput.readObject(); // Try to read on his object input what the client sent
-                    System.out.println("oui");
                 } catch (IOException | ClassNotFoundException e) {
                     System.out.println("ServerConnection can't read in his object input");
                     break;

@@ -93,6 +93,7 @@ public class GameViewComputer implements Initializable {
         dialogu.textProperty().bind(game.texte1Property());
 
         hints.textProperty().bind(game.texte2Property());
+
         orientation.textProperty().bind(Bindings.format("Orientation: %s \n(right click to change)",game.orientationPProperty()));
 
         // Creates all stackPanels and imagesView for the grids
@@ -242,7 +243,14 @@ public class GameViewComputer implements Initializable {
 
 
                 final Cell c = b.getCell(x,y);
-                imageView.imageProperty().bind(Bindings.createObjectBinding(() ->{ if(c.getBoatImage() ==null) return null;return new Image(c.getBoatImage()); } ,c.boatImageProperty()));
+                imageView.imageProperty().bind(Bindings.createObjectBinding(() ->
+                    {
+                        if(c.getBoatImage() ==null)
+                            return null;
+                        return new Image(c.getBoatImage());
+                    } ,c.boatImageProperty()));
+
+
                 imageView.rotateProperty().bind(b.getCell(x, y).imageRotationProperty());
             }
         }
@@ -313,8 +321,7 @@ public class GameViewComputer implements Initializable {
         lastY = y;
         lastX = x;
 
-        if (x >= 10) x = 9; // Avoid out of range errors
-        if (y >= 10) y = 9;
+
         previsualisation.refreshPrevisualisation(x, y); // Set the previsualisation
 
 
