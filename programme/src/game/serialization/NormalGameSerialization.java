@@ -1,11 +1,8 @@
 package game.serialization;
 
 
-import game.Manager.ComputerManager;
-import game.computer.Computer;
-import view.Previsualisation;
+import game.manager.ComputerManager;
 
-import javax.swing.*;
 import java.io.*;
 
 

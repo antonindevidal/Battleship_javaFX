@@ -1,10 +1,9 @@
-package game.Manager;
+package game.manager;
 
 import game.Board;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.scene.control.Button;
 
 import java.io.Serializable;
 import java.util.ArrayList;

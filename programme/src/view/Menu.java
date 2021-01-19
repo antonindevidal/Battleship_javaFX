@@ -2,14 +2,12 @@ package view;
 
 
 
-import game.Manager.ComputerManager;
+import game.manager.ComputerManager;
 import game.serialization.NormalGameSerialization;
 import game.serialization.Serialization;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,19 +17,14 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import network.Client;
 import network.Server;
 
-import javax.swing.plaf.nimbus.State;
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.*;
-import java.security.spec.ECField;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
 import java.util.regex.Pattern;
 
 public class Menu implements Initializable {

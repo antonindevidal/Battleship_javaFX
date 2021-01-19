@@ -2,7 +2,7 @@ package game.computer;
 
 import game.Board;
 import game.Coordinates;
-import game.Manager.ComputerManager;
+import game.manager.ComputerManager;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,11 +1,9 @@
 package view;
 
 import game.Board;
-import game.Manager.ComputerManager;
-import game.Manager.Manager;
-import game.Manager.NetworkManager;
-import game.serialization.NormalGameSerialization;
-import game.serialization.Serialization;
+import game.manager.ComputerManager;
+import game.manager.Manager;
+import game.manager.NetworkManager;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,7 +18,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import javafx.util.StringConverter;
 import network.Client;
 import javafx.scene.input.MouseEvent;
@@ -181,8 +178,8 @@ public class GameViewNetwork implements Initializable { // One of the two contro
         if( game.getPartOfGame()== ComputerManager.jeu.place && mouseEvent.isPrimaryButtonDown()) // Check if can place boats
         {
             // Get coordinates from the click
-            int x= (int)floor(mouseEvent.getX()/playerGrid.getHeight()*10);
-            int y= (int)floor(mouseEvent.getY()/playerGrid.getWidth()*10);
+            int x= getXcoord(mouseEvent,playerGrid);
+            int y= getYcoord(mouseEvent,playerGrid);
 
             c.sendCoordinates(x,y,game.isHorizontal()); // Send the coords to the other player
             game.placeMyBoat(x,y, game.isHorizontal()); // Try to place the boat
@@ -204,8 +201,8 @@ public class GameViewNetwork implements Initializable { // One of the two contro
         if (game.getPartOfGame() == ComputerManager.jeu.joue && game.isPlayerTurn()) // Check if time to shoot
         {
             // Get coordinates from the click
-            int x= (int)floor(mouseEvent.getX()/computerGrid.getHeight()*10);
-            int y= (int)floor(mouseEvent.getY()/computerGrid.getWidth()*10);
+            int x= getXcoord(mouseEvent,computerGrid);
+            int y= getYcoord(mouseEvent,computerGrid);
 
             c.sendCoordinates(x,y,game.isHorizontal()); // Send the coords to the other player
             game.iShoot(x,y); // Shoot
@@ -214,6 +211,36 @@ public class GameViewNetwork implements Initializable { // One of the two contro
                 setRestartButtonVisible();
             }
         }
+    }
+
+
+    /**
+     * Get the case where the mouse is on a grid
+     * @param mouseEvent
+     * @param gp grid where we get the coordinates
+     * @return the case number where the mouse is
+     */
+    private int getYcoord(MouseEvent mouseEvent, GridPane gp)
+    {
+        int y= (int)floor(mouseEvent.getY()/gp.getWidth()*10);
+        if (y >= 10) y = 9;
+        else if (y < 0) y=0;
+        return y;
+    }
+
+
+    /**
+     * Get the case where the mouse is on a grid
+     * @param mouseEvent
+     * @param gp grid where we get the coordinates
+     * @return the case number where the mouse is
+     */
+    private int getXcoord(MouseEvent mouseEvent, GridPane gp)
+    {
+        int x= (int)floor(mouseEvent.getX()/gp.getHeight()*10);
+        if (x >= 10) x = 9;
+        else if (x < 0) x=0;
+        return x;
     }
 
     /**
@@ -276,8 +303,8 @@ public class GameViewNetwork implements Initializable { // One of the two contro
     @FXML
     private void movedMouseOverPlayerGrid(MouseEvent mouseEvent) {
         // get coordinates of the mouse relative to the grid
-        int x = (int) floor(mouseEvent.getX() / computerGrid.getHeight() * 10);
-        int y = (int) floor(mouseEvent.getY() / computerGrid.getWidth() * 10);
+        int x = getXcoord(mouseEvent,computerGrid);
+        int y = getYcoord(mouseEvent,computerGrid);
 
         if ((x == lastX && y == lastY) || game.getPartOfGame() != Manager.jeu.place) //check if the mouse is in the same cell
             return;

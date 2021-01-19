@@ -1,4 +1,4 @@
-package game.Manager;
+package game.manager;
 
 import javafx.application.Platform;
 

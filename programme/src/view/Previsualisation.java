@@ -1,6 +1,6 @@
 package view;
 
-import game.Manager.Manager;
+import game.manager.Manager;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
@@ -100,10 +100,6 @@ public class Previsualisation implements Serializable {
      */
     public void refreshPrevisualisation(int x, int y )
     {
-        if (x >= 10) x = 9; // Avoid out of range errors
-        if (y >= 10) y = 9;
-        if (x < 0) x=0;
-        if (y < 0) y=0;
 
         if (game.getPartOfGame() != Manager.jeu.place || destroyed)// avoid errors
             return;

@@ -1,8 +1,6 @@
 package game;
 
-import game.Manager.ComputerManager;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import game.manager.ComputerManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;

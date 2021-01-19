@@ -1,17 +1,14 @@
 package view;
 
-import com.sun.javafx.scene.layout.region.Margins;
 import game.Board;
 import game.Cell;
 import game.computer.ComputerEasy;
 import game.computer.ComputerNormal;
-import game.Manager.ComputerManager;
-import game.Manager.Manager;
+import game.manager.ComputerManager;
+import game.manager.Manager;
 import game.serialization.NormalGameSerialization;
 import game.serialization.Serialization;
-import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +24,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -175,8 +171,8 @@ public class GameViewComputer implements Initializable {
         if (game.getPartOfGame() == ComputerManager.jeu.place && mouseEvent.isPrimaryButtonDown()) { // Check condition to place a boat
 
             // get coordinates of the mouse relative to the grid
-            int x = (int) floor(mouseEvent.getX() / playerGrid.getHeight() * 10);
-            int y = (int) floor(mouseEvent.getY() / playerGrid.getWidth() * 10);
+            int x = getXcoord(mouseEvent,playerGrid);
+            int y = getYcoord(mouseEvent,playerGrid);
 
             game.placeBoats(x, y, game.isHorizontal()); //Place the boat
 
@@ -210,8 +206,8 @@ public class GameViewComputer implements Initializable {
                 }
             };
             // get coordinates of the mouse relative to the grid
-            int x = (int) floor(mouseEvent.getX() / computerGrid.getHeight() * 10);
-            int y = (int) floor(mouseEvent.getY() / computerGrid.getWidth() * 10);
+            int x = getXcoord(mouseEvent,computerGrid);
+            int y = getYcoord(mouseEvent,computerGrid);
 
             Manager.shootResult sR = game.playerShoot(x, y); // Player try to shoot
 
@@ -313,8 +309,8 @@ public class GameViewComputer implements Initializable {
     @FXML
     private void movedMouseOverPlayerGrid(MouseEvent mouseEvent) {
         // get coordinates of the mouse relative to the grid
-        int x = (int) floor(mouseEvent.getX() / computerGrid.getHeight() * 10);
-        int y = (int) floor(mouseEvent.getY() / computerGrid.getWidth() * 10);
+        int x = getXcoord(mouseEvent,computerGrid);
+        int y = getYcoord(mouseEvent,computerGrid);
 
         if ((x == lastX && y == lastY) || game.getPartOfGame() != Manager.jeu.place) //check if the mouse is in the same cell
             return;
@@ -338,6 +334,34 @@ public class GameViewComputer implements Initializable {
 
         s.save(game);
         mainMenu(mouseEvent);
+    }
+    /**
+     * Get the case where the mouse is on a grid
+     * @param mouseEvent
+     * @param gp grid where we get the coordinates
+     * @return the case number where the mouse is
+     */
+    private int getYcoord(MouseEvent mouseEvent, GridPane gp)
+    {
+        int y= (int)floor(mouseEvent.getY()/gp.getWidth()*10);
+        if (y >= 10) y = 9;
+        else if (y < 0) y=0;
+        return y;
+    }
+
+
+    /**
+     * Get the case where the mouse is on a grid
+     * @param mouseEvent
+     * @param gp grid where we get the coordinates
+     * @return the case number where the mouse is
+     */
+    private int getXcoord(MouseEvent mouseEvent, GridPane gp)
+    {
+        int x= (int)floor(mouseEvent.getX()/gp.getHeight()*10);
+        if (x >= 10) x = 9;
+        else if (x < 0) x=0;
+        return x;
     }
 
 

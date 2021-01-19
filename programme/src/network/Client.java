@@ -1,13 +1,11 @@
 package network;
 
-import game.Manager.NetworkManager;
-import network.NetworkPackageCoordinates;
+import game.manager.NetworkManager;
 import javafx.application.Platform;
 import view.GameViewNetwork;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
 
 /**
  * Client side of a netxork game, every player has a Client

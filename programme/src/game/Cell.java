@@ -1,8 +1,7 @@
 package game;
 
-import game.Manager.ComputerManager;
+import game.manager.ComputerManager;
 import javafx.beans.property.*;
-import javafx.scene.image.Image;
 
 import java.io.Serializable;
 

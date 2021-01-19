@@ -1,8 +1,7 @@
-package game.Manager;
+package game.manager;
 
 
 import game.Cell;
-import game.Ship;
 import game.computer.Computer;
 import game.computer.ComputerEasy;
 import javafx.application.Platform;

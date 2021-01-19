@@ -1,7 +1,7 @@
 package game.computer;
 
 import game.Board;
-import game.Manager.ComputerManager;
+import game.manager.ComputerManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;

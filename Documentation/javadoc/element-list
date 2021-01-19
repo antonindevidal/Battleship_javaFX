@@ -1,7 +1,7 @@
 console
 game
 game.computer
-game.Manager
+game.manager
 game.serialization
 launch
 network

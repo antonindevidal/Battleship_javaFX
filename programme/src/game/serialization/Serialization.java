@@ -1,8 +1,6 @@
 package game.serialization;
 
-import game.Manager.ComputerManager;
-import game.computer.Computer;
-import view.Previsualisation;
+import game.manager.ComputerManager;
 
 /**
  * Abstract class used for serialization
